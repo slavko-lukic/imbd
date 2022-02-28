@@ -37,6 +37,8 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = imbd/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = imbd/main.m; sourceTree = "<group>"; };
 		1D0AE47A65C8663E3B452821 /* Pods-imbd-imbdTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-imbd-imbdTests.release.xcconfig"; path = "Target Support Files/Pods-imbd-imbdTests/Pods-imbd-imbdTests.release.xcconfig"; sourceTree = "<group>"; };
+		24C41D4927CD165D00CBE3D8 /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
+		24C41D4A27CD165D00CBE3D8 /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		6423831EA8574132BED9D8CC /* libPods-imbd.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-imbd.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C97AB639B58BBB4B15BBE30 /* Pods-imbd-imbdTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-imbd-imbdTests.debug.xcconfig"; path = "Target Support Files/Pods-imbd-imbdTests/Pods-imbd-imbdTests.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = imbd/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 		13B07FAE1A68108700A75B9A /* imbd */ = {
 			isa = PBXGroup;
 			children = (
+				24C41D4827CD157A00CBE3D8 /* Fonts */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -94,6 +97,15 @@
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
 			name = imbd;
+			sourceTree = "<group>";
+		};
+		24C41D4827CD157A00CBE3D8 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				24C41D4A27CD165D00CBE3D8 /* FontAwesome.ttf */,
+				24C41D4927CD165D00CBE3D8 /* Ionicons.ttf */,
+			);
+			name = Fonts;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
@@ -145,7 +157,6 @@
 				6C97AB639B58BBB4B15BBE30 /* Pods-imbd-imbdTests.debug.xcconfig */,
 				1D0AE47A65C8663E3B452821 /* Pods-imbd-imbdTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
