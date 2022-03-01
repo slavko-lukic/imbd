@@ -4,4 +4,6 @@ export default {
   SURFACE: 'rgb(28,28,30)',
   WHITE: 'rgb(254,254,254)',
   GREY: 'rgb(144,143,148)',
+
+  SURFACE_80: 'rgba(28,28,30, 0.8)',
 };

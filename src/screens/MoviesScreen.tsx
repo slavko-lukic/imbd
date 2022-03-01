@@ -11,6 +11,7 @@ import MainHeader from '../components/MainHeader';
 import colors from '../constants/colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {MovieListTypes} from '../enums/movieListTypes';
+import MovieCard from '../components/MovieCard';
 
 const MoviesScreen = () => {
   const [currentList, setCurrentList] = useState<
@@ -77,7 +78,9 @@ const MoviesScreen = () => {
         leftButton={listControl}
         leftButtonOnPress={headerLeftButtonHandler}
       />
-      <Text style={{color: 'white'}}>This is Movies Screen.</Text>
+      <MovieCard />
+      <MovieCard />
+      <MovieCard />
     </SafeAreaView>
   );
 };
