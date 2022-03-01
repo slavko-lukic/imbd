@@ -10,6 +10,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import MainHeader from '../components/MainHeader';
 import colors from '../constants/colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {MovieListTypes} from '../enums/movieListTypes';
 
 const MoviesScreen = () => {
   const [currentList, setCurrentList] = useState<
@@ -37,14 +38,16 @@ const MoviesScreen = () => {
     </Animated.View>
   );
 
-  const nextState = (): 'watchlist' | 'watched' | 'suggestions' => {
+  const nextState = (): MovieListTypes => {
     switch (currentList) {
-      case 'suggestions':
-        return 'watched';
-      case 'watched':
-        return 'watchlist';
-      case 'watchlist':
-        return 'suggestions';
+      case MovieListTypes.WATCHED:
+        return MovieListTypes.WATCHLIST;
+      case MovieListTypes.WATCHLIST:
+        return MovieListTypes.SUGGESTIONS;
+      case MovieListTypes.SUGGESTIONS:
+        return MovieListTypes.WATCHED;
+      default:
+        return MovieListTypes.SUGGESTIONS;
     }
   };
 
@@ -74,7 +77,7 @@ const MoviesScreen = () => {
         leftButton={listControl}
         leftButtonOnPress={headerLeftButtonHandler}
       />
-      <Text>This is Movies Screen.</Text>
+      <Text style={{color: 'white'}}>This is Movies Screen.</Text>
     </SafeAreaView>
   );
 };

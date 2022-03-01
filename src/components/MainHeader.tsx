@@ -44,15 +44,14 @@ export default MainHeader;
 const styles = StyleSheet.create({
   headerContainer: {
     backgroundColor: colors.SURFACE,
-    height: HEADER_HEIGHT + getStatusBarHeight(),
     width: '100%',
-
-    position: 'absolute',
-    top: 0,
-    zIndex: 999,
   },
   statusBar: {
+    position: 'absolute',
+    top: -getStatusBarHeight(),
     height: getStatusBarHeight(),
+    width: '100%',
+    backgroundColor: colors.SURFACE,
   },
   mainWrapper: {
     height: HEADER_HEIGHT,
