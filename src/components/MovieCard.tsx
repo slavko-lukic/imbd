@@ -1,18 +1,25 @@
-import React from 'react';
+import React, {FC} from 'react';
 import {ImageBackground, StyleSheet, Text, View} from 'react-native';
 import colors from '../constants/colors';
+import {Movie} from '../models/movie';
 
-const MovieCard = () => {
+interface MovieCardProps {
+  movie: Movie;
+}
+
+const MovieCard: FC<MovieCardProps> = ({movie}) => {
   return (
     <View style={styles.card}>
       <ImageBackground
         style={styles.image}
         resizeMode={'cover'}
         source={{
-          uri: 'https://cdn.hbogo.eu/images/9CA62D3F-DBF7-441F-B7B0-94DB59257015/1280_720.jpg',
+          uri: `https://image.tmdb.org/t/p/original${movie.backdrop_path}`,
         }}>
         <View style={styles.details}>
-          <Text style={{color: 'white', fontSize: 24}}>Tenet</Text>
+          <Text numberOfLines={1} style={{color: 'white', fontSize: 22}}>
+            {movie.original_title}
+          </Text>
         </View>
       </ImageBackground>
     </View>
@@ -25,7 +32,7 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.SURFACE,
     height: 180,
-    borderRadius: 20,
+    borderRadius: 5,
     overflow: 'hidden',
     marginHorizontal: 20,
     marginTop: 15,

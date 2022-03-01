@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Text, View} from 'react-native';
+import {ListRenderItem, ScrollView, Text, View} from 'react-native';
 import Animated, {
   runOnJS,
   useAnimatedStyle,
@@ -12,6 +12,9 @@ import colors from '../constants/colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {MovieListTypes} from '../enums/movieListTypes';
 import MovieCard from '../components/MovieCard';
+import {SUGGESTED_MOVIES, WATCHED_MOVIES, WATCHLIST} from '../mock/movies_mock';
+import {Movie} from '../models/movie';
+import {FlatList} from 'react-native-gesture-handler';
 
 const MoviesScreen = () => {
   const [currentList, setCurrentList] = useState<
@@ -70,6 +73,23 @@ const MoviesScreen = () => {
     });
   }, [currentList]);
 
+  const renderItem: ListRenderItem<Movie> = ({item}) => (
+    <MovieCard movie={item} />
+  );
+
+  const getMovieList = () => {
+    switch (currentList) {
+      case MovieListTypes.WATCHED:
+        return WATCHED_MOVIES;
+      case MovieListTypes.WATCHLIST:
+        return WATCHLIST;
+      case MovieListTypes.SUGGESTIONS:
+        return SUGGESTED_MOVIES;
+      default:
+        return SUGGESTED_MOVIES;
+    }
+  };
+
   return (
     <SafeAreaView
       edges={['top']}
@@ -78,9 +98,7 @@ const MoviesScreen = () => {
         leftButton={listControl}
         leftButtonOnPress={headerLeftButtonHandler}
       />
-      <MovieCard />
-      <MovieCard />
-      <MovieCard />
+      <FlatList data={getMovieList()} renderItem={renderItem} />
     </SafeAreaView>
   );
 };
