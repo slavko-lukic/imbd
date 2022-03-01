@@ -1,38 +1,25 @@
 import React, {FC} from 'react';
-import {StatusBar, StyleSheet, TouchableOpacity, View} from 'react-native';
-
+import {StatusBar, StyleSheet, View} from 'react-native';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import colors from '../constants/colors';
+import {HEADER_HEIGHT} from '../constants/dimensions';
 
 interface MainHeaderProps {
   leftButton?: JSX.Element;
   rightButton?: JSX.Element;
-  leftButtonOnPress?: () => void;
-  rightButtonOnPress?: () => void;
 }
 
-const HEADER_HEIGHT = 60;
-
-const MainHeader: FC<MainHeaderProps> = ({
-  leftButton,
-  rightButton,
-  leftButtonOnPress,
-  rightButtonOnPress,
-}) => {
+const MainHeader: FC<MainHeaderProps> = ({leftButton, rightButton}) => {
   return (
     <View style={styles.headerContainer}>
       <StatusBar barStyle={'light-content'} />
       <View style={styles.statusBar} />
       <View style={styles.mainWrapper}>
         <View style={styles.leftPart}>
-          <TouchableOpacity onPress={leftButtonOnPress}>
-            {leftButton}
-          </TouchableOpacity>
+          <View>{leftButton}</View>
         </View>
         <View style={styles.rightPart}>
-          <TouchableOpacity onPress={rightButtonOnPress}>
-            {rightButton}
-          </TouchableOpacity>
+          <View>{rightButton}</View>
         </View>
       </View>
     </View>

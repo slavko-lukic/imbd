@@ -1,21 +1,61 @@
-import React from 'react';
+import React, {FC, useEffect} from 'react';
 import {ImageBackground, StyleSheet, Text, View} from 'react-native';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withDelay,
+  withSpring,
+  WithSpringConfig,
+} from 'react-native-reanimated';
+import {IMAGE_BASE_URL} from '../constants/api';
 import colors from '../constants/colors';
+import {Movie} from '../models/movie';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+interface MovieCardProps {
+  movie: Movie;
+  index: number;
+}
 
-const MovieCard = () => {
+const MovieCard: FC<MovieCardProps> = ({movie, index}) => {
+  const movieCardX = useSharedValue(1200);
+
+  const springAnimationConfig: WithSpringConfig = {
+    damping: 5,
+    mass: 0.5,
+    stiffness: 30,
+    overshootClamping: false,
+  };
+
+  const delayedAnimation: number = withSpring(0, springAnimationConfig);
+
+  const movieCardAnimatedStyle = useAnimatedStyle(() => {
+    return {transform: [{translateX: movieCardX.value}]};
+  }, []);
+
+  useEffect(() => {
+    movieCardX.value = withDelay(index * 50, delayedAnimation);
+  }, []);
+
   return (
-    <View style={styles.card}>
+    <Animated.View style={[styles.card, movieCardAnimatedStyle]}>
       <ImageBackground
         style={styles.image}
         resizeMode={'cover'}
         source={{
-          uri: 'https://cdn.hbogo.eu/images/9CA62D3F-DBF7-441F-B7B0-94DB59257015/1280_720.jpg',
+          uri: IMAGE_BASE_URL + movie.backdrop_path,
         }}>
         <View style={styles.details}>
-          <Text style={{color: 'white', fontSize: 24}}>Tenet</Text>
+          <View style={styles.titleContainer}>
+            <Text numberOfLines={1} style={{color: 'white', fontSize: 22}}>
+              {movie.original_title}
+            </Text>
+          </View>
+          <View style={styles.heartContainer}>
+            <Ionicons name="heart-outline" size={24} color={colors.WHITE} />
+          </View>
         </View>
       </ImageBackground>
-    </View>
+    </Animated.View>
   );
 };
 
@@ -25,7 +65,7 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.SURFACE,
     height: 180,
-    borderRadius: 20,
+    borderRadius: 5,
     overflow: 'hidden',
     marginHorizontal: 20,
     marginTop: 15,
@@ -41,6 +81,17 @@ const styles = StyleSheet.create({
 
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  titleContainer: {
+    height: '100%',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+  },
+  heartContainer: {
+    height: '100%',
+    justifyContent: 'center',
     alignItems: 'center',
   },
 });
