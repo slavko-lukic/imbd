@@ -1,18 +1,18 @@
 import {StackScreenProps} from '@react-navigation/stack';
 import React, {FC} from 'react';
-import {View} from 'react-native';
+import {Text, View} from 'react-native';
 import {AppRoute} from '../enums/routes';
 import {SettingsStackNavigatorParams} from '../navigation/SettingsNavigator';
 
 type SettingsScreenProps = StackScreenProps<
   SettingsStackNavigatorParams,
-  AppRoute.SETTINGS
+  AppRoute.SETTINGS_HOME
 >;
 
 const SettingsScreen: FC<SettingsScreenProps> = () => {
   return (
     <View style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
-      Settings screen
+      <Text>Settings screen</Text>
     </View>
   );
 };

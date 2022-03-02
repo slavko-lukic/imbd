@@ -44,7 +44,7 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
   }, []);
 
   const goToSettings = () => {
-    // navigation.navigate(AppRoute.SETTINGS);
+    navigation.navigate(AppRoute.SETTINGS);
   };
 
   const headerLeftButton: JSX.Element = (
