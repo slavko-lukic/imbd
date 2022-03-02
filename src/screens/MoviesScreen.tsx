@@ -11,31 +11,24 @@ import {FlatList} from 'react-native-gesture-handler';
 import MovieListSelectorButton from '../components/MovieListSelectorButton';
 
 const MoviesScreen = () => {
-  const [displayedList, setDisplayedList] = useState<MovieListTypes>(
-    MovieListTypes.SUGGESTIONS,
-  );
   const [listData, setListData] = useState<Movie[]>(SUGGESTED_MOVIES);
 
   const renderItem: ListRenderItem<Movie> = ({item, index}) => (
     <MovieCard movie={item} index={index} />
   );
 
-  const onSwitchListHandler = () => {
+  const listDataUpdateHandler = (displayedList: MovieListTypes) => {
     switch (displayedList) {
-      case MovieListTypes.WATCHED:
-        setDisplayedList(MovieListTypes.WATCHLIST);
+      case MovieListTypes.WATCHLIST:
         setListData(WATCHLIST);
         break;
-      case MovieListTypes.WATCHLIST:
-        setDisplayedList(MovieListTypes.SUGGESTIONS);
+      case MovieListTypes.SUGGESTIONS:
         setListData(SUGGESTED_MOVIES);
         break;
-      case MovieListTypes.SUGGESTIONS:
-        setDisplayedList(MovieListTypes.WATCHED);
+      case MovieListTypes.WATCHED:
         setListData(WATCHED_MOVIES);
         break;
       default:
-        setDisplayedList(MovieListTypes.SUGGESTIONS);
         setListData(SUGGESTED_MOVIES);
         break;
     }
@@ -47,10 +40,7 @@ const MoviesScreen = () => {
       style={{backgroundColor: colors.BACKGROUND, flex: 1, height: '100%'}}>
       <MainHeader
         leftButton={
-          <MovieListSelectorButton
-            switchList={onSwitchListHandler}
-            selectedList={displayedList}
-          />
+          <MovieListSelectorButton updateListData={listDataUpdateHandler} />
         }
       />
       <FlatList data={listData} renderItem={renderItem} />

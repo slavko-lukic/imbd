@@ -3,7 +3,6 @@ import {ImageBackground, StyleSheet, Text, View} from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
-  withDelay,
   withSpring,
   WithSpringConfig,
 } from 'react-native-reanimated';
@@ -17,23 +16,25 @@ interface MovieCardProps {
 }
 
 const MovieCard: FC<MovieCardProps> = ({movie, index}) => {
-  const movieCardX = useSharedValue(1200);
+  const movieCardY = useSharedValue(-((index + 1) * 1200));
 
   const springAnimationConfig: WithSpringConfig = {
-    damping: 5,
-    mass: 0.5,
-    stiffness: 30,
+    damping: 15,
+    mass: 1,
+    stiffness: 100,
     overshootClamping: false,
+    restSpeedThreshold: 0.001,
+    restDisplacementThreshold: 0.001,
   };
 
-  const delayedAnimation: number = withSpring(0, springAnimationConfig);
+  const springAnimation: number = withSpring(0, springAnimationConfig);
 
   const movieCardAnimatedStyle = useAnimatedStyle(() => {
-    return {transform: [{translateX: movieCardX.value}]};
+    return {transform: [{translateY: movieCardY.value}]};
   }, []);
 
   useEffect(() => {
-    movieCardX.value = withDelay(index * 50, delayedAnimation);
+    movieCardY.value = springAnimation;
   }, []);
 
   return (
@@ -93,5 +94,6 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
+    paddingLeft: 5,
   },
 });

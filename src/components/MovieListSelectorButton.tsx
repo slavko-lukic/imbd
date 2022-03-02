@@ -1,4 +1,4 @@
-import React, {FC, useEffect} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {Pressable, StyleSheet, Text} from 'react-native';
 import Animated, {
   runOnJS,
@@ -12,35 +12,57 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {MovieListTypes} from '../enums/movieListTypes';
 
 interface MovieListSelectorButtonProps {
-  selectedList: MovieListTypes;
-  switchList: () => void;
+  updateListData: (displayedList: MovieListTypes) => void;
 }
 
 const MovieListSelectorButton: FC<MovieListSelectorButtonProps> = ({
-  selectedList,
-  switchList,
+  updateListData,
 }) => {
+  const [displayedList, setDisplayedList] = useState<MovieListTypes>(
+    MovieListTypes.SUGGESTIONS,
+  );
+
   const positionX = useSharedValue(0);
 
   const animatedStyle = useAnimatedStyle(() => {
     return {transform: [{translateX: positionX.value}]};
   }, []);
 
+  const showNextList = () => {
+    switch (displayedList) {
+      case MovieListTypes.WATCHED:
+        setDisplayedList(MovieListTypes.WATCHLIST);
+        break;
+      case MovieListTypes.WATCHLIST:
+        setDisplayedList(MovieListTypes.SUGGESTIONS);
+        break;
+      case MovieListTypes.SUGGESTIONS:
+        setDisplayedList(MovieListTypes.WATCHED);
+        break;
+      default:
+        setDisplayedList(MovieListTypes.SUGGESTIONS);
+        break;
+    }
+  };
+
   const onPressHandler = () => {
-    positionX.value = withTiming(-200, {duration: 140}, isFinished => {
-      if (isFinished) runOnJS(switchList)();
+    positionX.value = withTiming(-200, {duration: 240}, isFinished => {
+      if (isFinished) {
+        runOnJS(showNextList)();
+      }
     });
   };
 
   useEffect(() => {
-    positionX.value = withDelay(500, withTiming(0, {duration: 140}));
-  }, [selectedList]);
+    updateListData(displayedList);
+    positionX.value = withDelay(100, withTiming(0, {duration: 240}));
+  }, [displayedList]);
 
   return (
     <Animated.View style={[animatedStyle]}>
       <Pressable onPress={onPressHandler} style={styles.button}>
         <Text style={{color: colors.BACKGROUND, fontSize: 14}}>
-          {selectedList}
+          {displayedList}
         </Text>
         <Ionicons size={16} color={colors.BACKGROUND} name="caret-back-sharp" />
       </Pressable>
