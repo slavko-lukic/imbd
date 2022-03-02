@@ -4,7 +4,6 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withDelay,
-  withSequence,
   withTiming,
 } from 'react-native-reanimated';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -26,8 +25,8 @@ const SettingsGroupItem: FC<SettingsGroupItemProps> = ({
   const positionY = useSharedValue(-50);
 
   useEffect(() => {
-    opacity.value = withDelay(index * 50, withTiming(1, {duration: 500}));
-    positionY.value = withDelay(index * 50, withTiming(0, {duration: 500}));
+    opacity.value = withDelay(index * 80, withTiming(1, {duration: 600}));
+    positionY.value = withDelay(index * 80, withTiming(0, {duration: 600}));
   }, []);
 
   const animatedStyle = useAnimatedStyle(() => {

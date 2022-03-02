@@ -21,8 +21,8 @@ export default SettingsGroup;
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 40,
+    marginTop: 30,
     borderBottomColor: colors.GREY,
-    borderBottomWidth: 1,
+    borderBottomWidth: 0.5,
   },
 });

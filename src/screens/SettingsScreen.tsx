@@ -21,7 +21,6 @@ const SettingsScreen: FC<SettingsScreenProps> = ({navigation}) => {
   const generalSettingsItems: SettingsItem[] = [
     {settingName: 'Select theme', icon: 'color-palette'},
     {settingName: 'Configure beer', icon: 'beer'},
-
     {settingName: 'Saturn options', icon: 'planet'},
     {settingName: 'Pizza setup', icon: 'pizza'},
   ];
@@ -40,7 +39,7 @@ const SettingsScreen: FC<SettingsScreenProps> = ({navigation}) => {
     navigation.goBack();
   };
 
-  const mapSettingsListToCards = (settingsList: SettingsItem[]) => {
+  const mapSettingsListToUI = (settingsList: SettingsItem[]) => {
     return settingsList.map((settingsItem: SettingsItem, index: number) => (
       <SettingsGroupItem
         settingName={settingsItem.settingName}
@@ -68,11 +67,11 @@ const SettingsScreen: FC<SettingsScreenProps> = ({navigation}) => {
         showsHorizontalScrollIndicator={false}>
         <SettingsGroup
           title="General Settings"
-          items={mapSettingsListToCards(generalSettingsItems)}
+          items={mapSettingsListToUI(generalSettingsItems)}
         />
         <SettingsGroup
           title="Some Other Settings"
-          items={mapSettingsListToCards(someOtherSettingsItems)}
+          items={mapSettingsListToUI(someOtherSettingsItems)}
         />
         <View style={{height: 60}} />
       </ScrollView>

@@ -12,7 +12,7 @@ const SettingsGroupTitle: FC = ({children}) => {
   const opacity = useSharedValue(0);
 
   useEffect(() => {
-    opacity.value = withDelay(700, withTiming(1, {duration: 500}));
+    opacity.value = withDelay(900, withTiming(1, {duration: 500}));
   }, []);
 
   const animatedStyle = useAnimatedStyle(() => {
