@@ -1,4 +1,4 @@
-import {Movie} from '../models/movie';
+import {Movie} from '../models/Movie';
 
 export const SUGGESTED_MOVIES: Movie[] = [
   {

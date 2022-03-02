@@ -9,6 +9,7 @@ import SettingsGroupItem from '../components/SettingsGroupItem';
 import colors from '../constants/colors';
 import {HEADER_ICON_SIZE} from '../constants/dimensions';
 import {AppRoute} from '../enums/routes';
+import {SettingsItem} from '../models/SettingsItem';
 import {SettingsStackNavigatorParams} from '../navigation/SettingsNavigator';
 
 type SettingsScreenProps = StackScreenProps<
@@ -17,8 +18,36 @@ type SettingsScreenProps = StackScreenProps<
 >;
 
 const SettingsScreen: FC<SettingsScreenProps> = ({navigation}) => {
+  const generalSettingsItems: SettingsItem[] = [
+    {settingName: 'Select theme', icon: 'color-palette'},
+    {settingName: 'Configure beer', icon: 'beer'},
+
+    {settingName: 'Saturn options', icon: 'planet'},
+    {settingName: 'Pizza setup', icon: 'pizza'},
+  ];
+
+  const someOtherSettingsItems: SettingsItem[] = [
+    {settingName: 'Upgrade car', icon: 'car-sport'},
+    {settingName: 'Water setup', icon: 'water'},
+    {settingName: 'Firebase setup', icon: 'logo-firebase'},
+    {settingName: 'Play basketball', icon: 'basketball'},
+    {settingName: 'Fly', icon: 'airplane'},
+    {settingName: 'Phone settings', icon: 'phone-portrait'},
+    {settingName: 'Megaphone settings', icon: 'megaphone'},
+  ];
+
   const goBack = () => {
     navigation.goBack();
+  };
+
+  const mapSettingsListToCards = (settingsList: SettingsItem[]) => {
+    return settingsList.map((settingsItem: SettingsItem, index: number) => (
+      <SettingsGroupItem
+        settingName={settingsItem.settingName}
+        icon={settingsItem.icon}
+        index={index}
+      />
+    ));
   };
 
   const headerLeftButton: JSX.Element = (
@@ -39,39 +68,11 @@ const SettingsScreen: FC<SettingsScreenProps> = ({navigation}) => {
         showsHorizontalScrollIndicator={false}>
         <SettingsGroup
           title="General Settings"
-          items={[
-            <SettingsGroupItem
-              settingName="Select theme"
-              icon="color-palette"
-            />,
-            <SettingsGroupItem settingName="Configure beer" icon="beer" />,
-            <SettingsGroupItem
-              settingName="Play basketball"
-              icon="basketball"
-            />,
-            <SettingsGroupItem settingName="Configure pizza" icon="pizza" />,
-          ]}
+          items={mapSettingsListToCards(generalSettingsItems)}
         />
         <SettingsGroup
           title="Some Other Settings"
-          items={[
-            <SettingsGroupItem settingName="Car upgrade" icon="car-sport" />,
-            <SettingsGroupItem settingName="Start water" icon="water" />,
-            <SettingsGroupItem
-              settingName="Firebase setting"
-              icon="logo-firebase"
-            />,
-            <SettingsGroupItem settingName="Fly" icon="airplane" />,
-            <SettingsGroupItem settingName="Go on planet" icon="planet" />,
-            <SettingsGroupItem
-              settingName="Phone settings"
-              icon="phone-portrait"
-            />,
-            <SettingsGroupItem
-              settingName="Megaphone settings"
-              icon="megaphone"
-            />,
-          ]}
+          items={mapSettingsListToCards(someOtherSettingsItems)}
         />
         <View style={{height: 60}} />
       </ScrollView>

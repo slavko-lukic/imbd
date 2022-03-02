@@ -8,7 +8,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import {IMAGE_BASE_URL} from '../constants/api';
 import colors from '../constants/colors';
-import {Movie} from '../models/movie';
+import {Movie} from '../models/Movie';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 interface MovieCardProps {
   movie: Movie;
