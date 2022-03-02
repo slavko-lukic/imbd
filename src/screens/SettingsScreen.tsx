@@ -1,8 +1,9 @@
 import {StackScreenProps} from '@react-navigation/stack';
-import React, {FC} from 'react';
-import {ScrollView, View} from 'react-native';
+import React, {FC, useEffect} from 'react';
+import {Button, ScrollView, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {useDispatch, useSelector} from 'react-redux';
 import MainHeader from '../components/MainHeader';
 import SettingsGroup from '../components/SettingsGroup';
 import SettingsGroupItem from '../components/SettingsGroupItem';
@@ -12,6 +13,8 @@ import {HEADER_ICON_SIZE} from '../constants/dimensions';
 import {AppRoute} from '../enums/routes';
 import {SettingsItem} from '../models/SettingsItem';
 import {SettingsStackNavigatorParams} from '../navigation/SettingsNavigator';
+import {changeColorTheme} from '../store/actions/settingsActions';
+import {RootState} from '../store/storeConfig';
 
 type SettingsScreenProps = StackScreenProps<
   SettingsStackNavigatorParams,
@@ -19,6 +22,10 @@ type SettingsScreenProps = StackScreenProps<
 >;
 
 const SettingsScreen: FC<SettingsScreenProps> = ({navigation}) => {
+  const dispatch = useDispatch();
+
+  const theme = useSelector((state: RootState) => state.settings.colorTheme);
+
   const generalSettingsItems: SettingsItem[] = [
     {settingName: 'Select theme', icon: 'color-palette'},
     {settingName: 'Configure beer', icon: 'beer'},
@@ -39,6 +46,10 @@ const SettingsScreen: FC<SettingsScreenProps> = ({navigation}) => {
   const goBack = () => {
     navigation.goBack();
   };
+
+  useEffect(() => {
+    console.log(theme);
+  }, [theme]);
 
   /**
    *
@@ -68,6 +79,14 @@ const SettingsScreen: FC<SettingsScreenProps> = ({navigation}) => {
       edges={['top']}
       style={{backgroundColor: colors.BACKGROUND, flex: 1, height: '100%'}}>
       <MainHeader leftButton={headerLeftButton} />
+      <Button
+        title={theme == 'dark' ? 'go light' : 'go dark'}
+        onPress={() => {
+          theme == 'dark'
+            ? dispatch(changeColorTheme('light'))
+            : dispatch(changeColorTheme('dark'));
+        }}
+      />
       <ScrollView
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}>
