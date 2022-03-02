@@ -25,12 +25,9 @@ const initialState: SettingsReducerState = {
 const settingsReducer = (state = initialState, action: SettingsAction) => {
   switch (action.type) {
     case SettingsActionsConstants.CHANGE_COLOR_THEME:
-      let colorTheme: ColorTheme;
-      action.colorTheme === 'dark'
-        ? (colorTheme = darkTheme)
-        : (colorTheme = lightTheme);
-
-      return {...state, colorTheme: colorTheme};
+      let colorTheme: ColorTheme =
+        action.colorTheme === 'dark' ? darkTheme : lightTheme;
+      return {...state, colorTheme};
     default:
       return state;
   }
