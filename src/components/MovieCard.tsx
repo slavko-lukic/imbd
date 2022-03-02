@@ -19,7 +19,7 @@ const MovieCard: FC<MovieCardProps> = ({movie, index}) => {
   const movieCardY = useSharedValue(-((index + 1) * 1200));
 
   const springAnimationConfig: WithSpringConfig = {
-    damping: 15,
+    damping: 18,
     mass: 1,
     stiffness: 100,
     overshootClamping: false,

@@ -13,6 +13,7 @@ import {HEADER_ICON_SIZE} from '../constants/dimensions';
 import {AppRoute} from '../enums/routes';
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {BottomTabNavigatorParams} from '../navigation/BottomTabs';
+import VerticalSpacing from '../components/VerticalSpacing';
 
 type MoviesScreenProps = BottomTabScreenProps<
   BottomTabNavigatorParams,
@@ -21,10 +22,6 @@ type MoviesScreenProps = BottomTabScreenProps<
 
 const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
   const [listData, setListData] = useState<Movie[]>(SUGGESTED_MOVIES);
-
-  const renderItem: ListRenderItem<Movie> = ({item, index}) => (
-    <MovieCard movie={item} index={index} />
-  );
 
   const listDataUpdateHandler = useCallback((displayedList: MovieListTypes) => {
     switch (displayedList) {
@@ -47,6 +44,10 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
     navigation.navigate(AppRoute.SETTINGS);
   };
 
+  const renderItem: ListRenderItem<Movie> = ({item, index}) => (
+    <MovieCard movie={item} index={index} />
+  );
+
   const headerLeftButton: JSX.Element = (
     <MovieListSelectorButton updateListData={listDataUpdateHandler} />
   );
@@ -59,6 +60,8 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
     />
   );
 
+  const listFooter = <VerticalSpacing spacing={60} />;
+
   return (
     <SafeAreaView
       edges={['top']}
@@ -67,7 +70,11 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
         leftButton={headerLeftButton}
         rightButton={headerRightButton}
       />
-      <FlatList data={listData} renderItem={renderItem} />
+      <FlatList
+        ListFooterComponent={listFooter}
+        data={listData}
+        renderItem={renderItem}
+      />
     </SafeAreaView>
   );
 };

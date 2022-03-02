@@ -6,6 +6,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MainHeader from '../components/MainHeader';
 import SettingsGroup from '../components/SettingsGroup';
 import SettingsGroupItem from '../components/SettingsGroupItem';
+import VerticalSpacing from '../components/VerticalSpacing';
 import colors from '../constants/colors';
 import {HEADER_ICON_SIZE} from '../constants/dimensions';
 import {AppRoute} from '../enums/routes';
@@ -39,9 +40,14 @@ const SettingsScreen: FC<SettingsScreenProps> = ({navigation}) => {
     navigation.goBack();
   };
 
+  /**
+   *
+   * setting names are used as key in list so they should be unique
+   */
   const mapSettingsListToUI = (settingsList: SettingsItem[]) => {
     return settingsList.map((settingsItem: SettingsItem, index: number) => (
       <SettingsGroupItem
+        key={settingsItem.settingName}
         settingName={settingsItem.settingName}
         icon={settingsItem.icon}
         index={index}
@@ -73,7 +79,7 @@ const SettingsScreen: FC<SettingsScreenProps> = ({navigation}) => {
           title="Some Other Settings"
           items={mapSettingsListToUI(someOtherSettingsItems)}
         />
-        <View style={{height: 60}} />
+        <VerticalSpacing spacing={60} />
       </ScrollView>
     </SafeAreaView>
   );
