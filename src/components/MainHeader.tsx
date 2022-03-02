@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     height: HEADER_HEIGHT,
     flexDirection: 'row',
     borderBottomWidth: 0.5,
-    borderBottomColor: colors.GREY,
+    borderBottomColor: colors.GREY_2,
   },
   leftPart: {
     flex: 1,

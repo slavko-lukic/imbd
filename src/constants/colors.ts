@@ -1,17 +1,12 @@
 export default {
   PRIMARY: 'rgb(14,137,255)',
-  BACKGROUND: 'rgb(0,0,0)',
-  SURFACE: 'rgb(28,28,30)',
+  BLACK: 'rgb(1,1,1)',
   WHITE: 'rgb(254,254,254)',
-  GREY: 'rgb(144,143,148)',
-  LIGHT_GREY: 'rgb(204,203,208)',
-  SURFACE_80: 'rgba(28,28,30, 0.8)',
-
-  BACKGROUND_DARK: 'rgb(0,0,0)',
-  SURFACE_DARK: 'rgb(28,28,30)',
-  ON_SURFACE_DARK: 'rgb(254,254,254)',
-
-  BACKGROUND_LIGHT: 'rgb(255, 255, 255)',
-  SURFACE_LIGHT: 'rgb(230, 230, 230)',
-  ON_SURFACE_LIGHT: 'rgb(1,1,1)',
+  WHITE_DIMMED: 'rgb(240, 240, 240)',
+  GREY_1: 'rgb(28,28,30)',
+  GREY_1_80: 'rgba(28,28,30, 0.8)',
+  GREY_2: 'rgb(144,143,148)',
+  GREY_3: 'rgb(204,203,208)',
+  MONOKAI_DARK: 'rgb(38,50,56)',
+  MONOKAI_DARKER: 'rgb(25,34,39)',
 };

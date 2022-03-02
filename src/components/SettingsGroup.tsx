@@ -22,7 +22,7 @@ export default SettingsGroup;
 const styles = StyleSheet.create({
   container: {
     marginTop: 30,
-    borderBottomColor: colors.GREY,
+    borderBottomColor: colors.GREY_2,
     borderBottomWidth: 0.5,
   },
 });

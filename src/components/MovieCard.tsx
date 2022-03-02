@@ -64,7 +64,6 @@ export default MovieCard;
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: colors.SURFACE,
     height: 180,
     borderRadius: 5,
     overflow: 'hidden',
@@ -77,7 +76,7 @@ const styles = StyleSheet.create({
   },
   details: {
     height: 40,
-    backgroundColor: colors.SURFACE_80,
+    backgroundColor: colors.GREY_1_80,
     paddingHorizontal: 10,
 
     flexDirection: 'row',
