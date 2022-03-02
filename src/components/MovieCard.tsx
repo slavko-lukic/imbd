@@ -8,7 +8,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import {IMAGE_BASE_URL} from '../constants/api';
 import colors from '../constants/colors';
-import {Movie} from '../models/movie';
+import {Movie} from '../models/Movie';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 interface MovieCardProps {
   movie: Movie;
@@ -19,7 +19,7 @@ const MovieCard: FC<MovieCardProps> = ({movie, index}) => {
   const movieCardY = useSharedValue(-((index + 1) * 1200));
 
   const springAnimationConfig: WithSpringConfig = {
-    damping: 15,
+    damping: 18,
     mass: 1,
     stiffness: 100,
     overshootClamping: false,

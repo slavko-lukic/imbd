@@ -13,6 +13,7 @@ import colors from '../constants/colors';
 export type BottomTabNavigatorParams = {
   [AppRoute.MOVIES]: undefined;
   [AppRoute.PROFILE]: undefined;
+  [AppRoute.SETTINGS]: undefined;
 };
 
 const Tabs = createBottomTabNavigator<BottomTabNavigatorParams>();

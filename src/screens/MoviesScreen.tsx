@@ -1,23 +1,29 @@
-import React, {useState} from 'react';
-import {ListRenderItem} from 'react-native';
+import React, {FC, useCallback, useState} from 'react';
+import {FlatList, ListRenderItem} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import MainHeader from '../components/MainHeader';
 import colors from '../constants/colors';
 import {MovieListTypes} from '../enums/movieListTypes';
 import MovieCard from '../components/MovieCard';
 import {SUGGESTED_MOVIES, WATCHED_MOVIES, WATCHLIST} from '../mock/movies_mock';
-import {Movie} from '../models/movie';
-import {FlatList} from 'react-native-gesture-handler';
+import {Movie} from '../models/Movie';
 import MovieListSelectorButton from '../components/MovieListSelectorButton';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import {HEADER_ICON_SIZE} from '../constants/dimensions';
+import {AppRoute} from '../enums/routes';
+import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
+import {BottomTabNavigatorParams} from '../navigation/BottomTabs';
+import VerticalSpacing from '../components/VerticalSpacing';
 
-const MoviesScreen = () => {
+type MoviesScreenProps = BottomTabScreenProps<
+  BottomTabNavigatorParams,
+  AppRoute.MOVIES
+>;
+
+const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
   const [listData, setListData] = useState<Movie[]>(SUGGESTED_MOVIES);
 
-  const renderItem: ListRenderItem<Movie> = ({item, index}) => (
-    <MovieCard movie={item} index={index} />
-  );
-
-  const listDataUpdateHandler = (displayedList: MovieListTypes) => {
+  const listDataUpdateHandler = useCallback((displayedList: MovieListTypes) => {
     switch (displayedList) {
       case MovieListTypes.WATCHLIST:
         setListData(WATCHLIST);
@@ -32,18 +38,43 @@ const MoviesScreen = () => {
         setListData(SUGGESTED_MOVIES);
         break;
     }
+  }, []);
+
+  const goToSettings = () => {
+    navigation.navigate(AppRoute.SETTINGS);
   };
+
+  const renderItem: ListRenderItem<Movie> = ({item, index}) => (
+    <MovieCard movie={item} index={index} />
+  );
+
+  const headerLeftButton: JSX.Element = (
+    <MovieListSelectorButton updateListData={listDataUpdateHandler} />
+  );
+  const headerRightButton: JSX.Element = (
+    <Ionicons
+      name="settings-sharp"
+      color={colors.WHITE}
+      size={HEADER_ICON_SIZE}
+      onPress={goToSettings}
+    />
+  );
+
+  const listFooter = <VerticalSpacing spacing={60} />;
 
   return (
     <SafeAreaView
       edges={['top']}
       style={{backgroundColor: colors.BACKGROUND, flex: 1, height: '100%'}}>
       <MainHeader
-        leftButton={
-          <MovieListSelectorButton updateListData={listDataUpdateHandler} />
-        }
+        leftButton={headerLeftButton}
+        rightButton={headerRightButton}
       />
-      <FlatList data={listData} renderItem={renderItem} />
+      <FlatList
+        ListFooterComponent={listFooter}
+        data={listData}
+        renderItem={renderItem}
+      />
     </SafeAreaView>
   );
 };
