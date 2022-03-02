@@ -80,9 +80,9 @@ const SettingsScreen: FC<SettingsScreenProps> = ({navigation}) => {
       style={{backgroundColor: colors.BACKGROUND, flex: 1, height: '100%'}}>
       <MainHeader leftButton={headerLeftButton} />
       <Button
-        title={theme == 'dark' ? 'go light' : 'go dark'}
+        title={theme.currentTheme == 'dark' ? 'go light' : 'go dark'}
         onPress={() => {
-          theme == 'dark'
+          theme.currentTheme == 'dark'
             ? dispatch(changeColorTheme('light'))
             : dispatch(changeColorTheme('dark'));
         }}
