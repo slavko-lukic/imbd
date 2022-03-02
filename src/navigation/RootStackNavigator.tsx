@@ -1,7 +1,6 @@
 import {
   createStackNavigator,
   StackNavigationOptions,
-  TransitionPresets,
 } from '@react-navigation/stack';
 import {AppRoute} from '../enums/routes';
 import {BottomTabs} from './BottomTabs';
@@ -16,13 +15,12 @@ export type RootStackNavigatorParams = {
 const RootStack = createStackNavigator<RootStackNavigatorParams>();
 
 const RootStackNavigator = () => {
-  const stackGeneralOptions: StackNavigationOptions = {
+  const navigatorOptions: StackNavigationOptions = {
     headerShown: false,
-    ...TransitionPresets.SlideFromRightIOS,
   };
 
   return (
-    <RootStack.Navigator screenOptions={stackGeneralOptions}>
+    <RootStack.Navigator screenOptions={navigatorOptions}>
       <RootStack.Screen name={AppRoute.HOME} component={BottomTabs} />
       <RootStack.Screen
         name={AppRoute.SETTINGS}
