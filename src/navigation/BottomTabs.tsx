@@ -9,6 +9,8 @@ import ProfileScreen from '../screens/ProfileScreen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {RouteProp} from '@react-navigation/native';
 import colors from '../constants/colors';
+import {useSelector} from 'react-redux';
+import {RootState} from '../store/storeConfig';
 
 export type BottomTabNavigatorParams = {
   [AppRoute.MOVIES]: undefined;
@@ -19,6 +21,10 @@ export type BottomTabNavigatorParams = {
 const Tabs = createBottomTabNavigator<BottomTabNavigatorParams>();
 
 export const BottomTabs = (): React.ReactElement => {
+  const colorTheme = useSelector(
+    (state: RootState) => state.settings.colorTheme,
+  );
+
   const bottomTabGeneralOptions: (props: {
     route: RouteProp<BottomTabNavigatorParams, keyof BottomTabNavigatorParams>;
     navigation: any;
@@ -28,10 +34,10 @@ export const BottomTabs = (): React.ReactElement => {
       tabBarShowLabel: false,
       tabBarStyle: {
         height: 100,
-        backgroundColor: colors.SURFACE,
+        backgroundColor: colorTheme.surface,
       },
     }),
-    [],
+    [colorTheme],
   );
 
   const bottomTabMoviesOptions: (props: {
@@ -43,13 +49,13 @@ export const BottomTabs = (): React.ReactElement => {
         return (
           <Ionicons
             size={30}
-            color={focused ? colors.PRIMARY : colors.GREY}
+            color={focused ? colors.PRIMARY : colorTheme.onSurface}
             name="film-outline"
           />
         );
       },
     };
-  }, []);
+  }, [colorTheme]);
 
   const bottomTabProfileOptions: (props: {
     route: RouteProp<BottomTabNavigatorParams, keyof BottomTabNavigatorParams>;
@@ -60,13 +66,13 @@ export const BottomTabs = (): React.ReactElement => {
         return (
           <Ionicons
             size={30}
-            color={focused ? colors.PRIMARY : colors.GREY}
+            color={focused ? colors.PRIMARY : colorTheme.onSurface}
             name="person-outline"
           />
         );
       },
     };
-  }, []);
+  }, [colorTheme]);
 
   return (
     <Tabs.Navigator screenOptions={bottomTabGeneralOptions}>

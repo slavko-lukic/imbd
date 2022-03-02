@@ -6,9 +6,15 @@ import Animated, {
   withDelay,
   withTiming,
 } from 'react-native-reanimated';
+import {useSelector} from 'react-redux';
 import colors from '../constants/colors';
+import {RootState} from '../store/storeConfig';
 
 const SettingsGroupTitle: FC = ({children}) => {
+  const colorTheme = useSelector(
+    (state: RootState) => state.settings.colorTheme,
+  );
+
   const opacity = useSharedValue(0);
 
   useEffect(() => {
@@ -24,7 +30,7 @@ const SettingsGroupTitle: FC = ({children}) => {
       <Text
         numberOfLines={1}
         style={{
-          color: colors.WHITE,
+          color: colorTheme.onSurface,
           fontSize: 22,
           marginHorizontal: 10,
           marginBottom: 10,

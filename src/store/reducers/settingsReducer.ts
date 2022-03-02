@@ -6,16 +6,16 @@ import {SettingsReducerState} from '../../types/reducers/settingsReducerState';
 
 const darkTheme: ColorTheme = {
   currentTheme: 'dark',
-  backgroundColor: colors.BACKGROUND_DARK,
-  surfaceColor: colors.SURFACE_DARK,
-  onSurfaceColor: colors.ON_SURFACE_DARK,
+  background: colors.BACKGROUND_DARK,
+  surface: colors.SURFACE_DARK,
+  onSurface: colors.ON_SURFACE_DARK,
 };
 
 const lightTheme: ColorTheme = {
   currentTheme: 'light',
-  backgroundColor: colors.BACKGROUND_LIGHT,
-  surfaceColor: colors.SURFACE_LIGHT,
-  onSurfaceColor: colors.ON_SURFACE_LIGHT,
+  background: colors.BACKGROUND_LIGHT,
+  surface: colors.SURFACE_LIGHT,
+  onSurface: colors.ON_SURFACE_LIGHT,
 };
 
 const initialState: SettingsReducerState = {

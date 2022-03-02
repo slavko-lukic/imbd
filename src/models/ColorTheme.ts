@@ -1,6 +1,6 @@
 export interface ColorTheme {
   currentTheme: 'dark' | 'light';
-  backgroundColor: string;
-  surfaceColor: string;
-  onSurfaceColor: string;
+  background: string;
+  surface: string;
+  onSurface: string;
 }

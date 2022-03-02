@@ -12,6 +12,6 @@ export default {
   ON_SURFACE_DARK: 'rgb(254,254,254)',
 
   BACKGROUND_LIGHT: 'rgb(255, 255, 255)',
-  SURFACE_LIGHT: 'rgb(217, 217, 217)',
+  SURFACE_LIGHT: 'rgb(230, 230, 230)',
   ON_SURFACE_LIGHT: 'rgb(1,1,1)',
 };

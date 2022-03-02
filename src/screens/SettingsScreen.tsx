@@ -8,7 +8,6 @@ import MainHeader from '../components/MainHeader';
 import SettingsGroup from '../components/SettingsGroup';
 import SettingsGroupItem from '../components/SettingsGroupItem';
 import VerticalSpacing from '../components/VerticalSpacing';
-import colors from '../constants/colors';
 import {HEADER_ICON_SIZE} from '../constants/dimensions';
 import {AppRoute} from '../enums/routes';
 import {SettingsItem} from '../models/SettingsItem';
@@ -23,8 +22,9 @@ type SettingsScreenProps = StackScreenProps<
 
 const SettingsScreen: FC<SettingsScreenProps> = ({navigation}) => {
   const dispatch = useDispatch();
-
-  const theme = useSelector((state: RootState) => state.settings.colorTheme);
+  const colorTheme = useSelector(
+    (state: RootState) => state.settings.colorTheme,
+  );
 
   const generalSettingsItems: SettingsItem[] = [
     {settingName: 'Select theme', icon: 'color-palette'},
@@ -47,10 +47,6 @@ const SettingsScreen: FC<SettingsScreenProps> = ({navigation}) => {
     navigation.goBack();
   };
 
-  useEffect(() => {
-    console.log(theme);
-  }, [theme]);
-
   /**
    *
    * setting names are used as key in list so they should be unique
@@ -69,7 +65,7 @@ const SettingsScreen: FC<SettingsScreenProps> = ({navigation}) => {
   const headerLeftButton: JSX.Element = (
     <Ionicons
       name="arrow-back-sharp"
-      color={colors.WHITE}
+      color={colorTheme.onSurface}
       size={HEADER_ICON_SIZE}
       onPress={goBack}
     />
@@ -77,12 +73,12 @@ const SettingsScreen: FC<SettingsScreenProps> = ({navigation}) => {
   return (
     <SafeAreaView
       edges={['top']}
-      style={{backgroundColor: colors.BACKGROUND, flex: 1, height: '100%'}}>
+      style={{backgroundColor: colorTheme.background, flex: 1, height: '100%'}}>
       <MainHeader leftButton={headerLeftButton} />
       <Button
-        title={theme.currentTheme == 'dark' ? 'go light' : 'go dark'}
+        title={colorTheme.currentTheme == 'dark' ? 'go light' : 'go dark'}
         onPress={() => {
-          theme.currentTheme == 'dark'
+          colorTheme.currentTheme == 'dark'
             ? dispatch(changeColorTheme('light'))
             : dispatch(changeColorTheme('dark'));
         }}

@@ -10,6 +10,8 @@ import Animated, {
 import colors from '../constants/colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {MovieListTypes} from '../enums/movieListTypes';
+import {useSelector} from 'react-redux';
+import {RootState} from '../store/storeConfig';
 
 interface MovieListSelectorButtonProps {
   updateListData: (displayedList: MovieListTypes) => void;
@@ -18,6 +20,10 @@ interface MovieListSelectorButtonProps {
 const MovieListSelectorButton: FC<MovieListSelectorButtonProps> = ({
   updateListData,
 }) => {
+  const colorTheme = useSelector(
+    (state: RootState) => state.settings.colorTheme,
+  );
+
   const [displayedList, setDisplayedList] = useState<MovieListTypes>(
     MovieListTypes.SUGGESTIONS,
   );
@@ -61,10 +67,8 @@ const MovieListSelectorButton: FC<MovieListSelectorButtonProps> = ({
   return (
     <Animated.View style={[animatedStyle]}>
       <Pressable onPress={onPressHandler} style={styles.button}>
-        <Text style={{color: colors.BACKGROUND, fontSize: 14}}>
-          {displayedList}
-        </Text>
-        <Ionicons size={16} color={colors.BACKGROUND} name="caret-back-sharp" />
+        <Text style={{color: colors.WHITE, fontSize: 14}}>{displayedList}</Text>
+        <Ionicons size={16} color={colors.WHITE} name="caret-back-sharp" />
       </Pressable>
     </Animated.View>
   );
@@ -76,7 +80,7 @@ const styles = StyleSheet.create({
   button: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: colors.LIGHT_GREY,
+    backgroundColor: colors.PRIMARY,
     borderRadius: 20,
     paddingHorizontal: 10,
     paddingVertical: 2,
