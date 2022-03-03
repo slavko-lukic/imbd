@@ -1,5 +1,5 @@
 import React, {FC, useCallback, useState} from 'react';
-import {FlatList, ListRenderItem} from 'react-native';
+import {FlatList, ListRenderItem, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import MainHeader from '../components/MainHeader';
 import {MovieListTypes} from '../enums/movieListTypes';
@@ -13,8 +13,7 @@ import {AppRoute} from '../enums/routes';
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {BottomTabNavigatorParams} from '../navigation/BottomTabs';
 import VerticalSpacing from '../components/VerticalSpacing';
-import {useSelector} from 'react-redux';
-import {RootState} from '../store/storeConfig';
+import {useColorTheme} from '../hooks/useColorTheme';
 
 type MoviesScreenProps = BottomTabScreenProps<
   BottomTabNavigatorParams,
@@ -22,9 +21,7 @@ type MoviesScreenProps = BottomTabScreenProps<
 >;
 
 const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
-  const colorTheme = useSelector(
-    (state: RootState) => state.settings.colorTheme,
-  );
+  const {colorTheme, colorThemeBackgroundStyle} = useColorTheme();
 
   const [listData, setListData] = useState<Movie[]>(SUGGESTED_MOVIES);
 
@@ -70,7 +67,7 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
   return (
     <SafeAreaView
       edges={['top']}
-      style={{backgroundColor: colorTheme.background, flex: 1, height: '100%'}}>
+      style={[styles.screenContaner, colorThemeBackgroundStyle]}>
       <MainHeader
         leftButton={headerLeftButton}
         rightButton={headerRightButton}
@@ -85,3 +82,10 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
 };
 
 export default MoviesScreen;
+
+const styles = StyleSheet.create({
+  screenContaner: {
+    flex: 1,
+    height: '100%',
+  },
+});

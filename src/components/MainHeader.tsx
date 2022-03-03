@@ -1,11 +1,10 @@
 import React, {FC} from 'react';
 import {StatusBar, StyleSheet, View} from 'react-native';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
-import {useSelector} from 'react-redux';
 import colors from '../constants/colors';
 import {HEADER_HEIGHT} from '../constants/dimensions';
 import {ColorThemes} from '../enums/colorThemes';
-import {RootState} from '../store/storeConfig';
+import {useColorTheme} from '../hooks/useColorTheme';
 
 interface MainHeaderProps {
   leftButton?: JSX.Element;
@@ -13,13 +12,10 @@ interface MainHeaderProps {
 }
 
 const MainHeader: FC<MainHeaderProps> = ({leftButton, rightButton}) => {
-  const colorTheme = useSelector(
-    (state: RootState) => state.settings.colorTheme,
-  );
+  const {colorTheme, colorThemeSurfaceStyle} = useColorTheme();
 
   return (
-    <View
-      style={[styles.headerContainer, {backgroundColor: colorTheme.surface}]}>
+    <View style={[styles.headerContainer, colorThemeSurfaceStyle]}>
       <StatusBar
         barStyle={
           colorTheme.themeName === ColorThemes.MONOKAI_DARK
@@ -27,7 +23,7 @@ const MainHeader: FC<MainHeaderProps> = ({leftButton, rightButton}) => {
             : 'dark-content'
         }
       />
-      <View style={[styles.statusBar, {backgroundColor: colorTheme.surface}]} />
+      <View style={[styles.statusBar, colorThemeSurfaceStyle]} />
       <View style={styles.mainWrapper}>
         <View style={styles.leftPart}>
           <View>{leftButton}</View>

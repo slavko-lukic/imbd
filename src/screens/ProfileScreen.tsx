@@ -1,15 +1,13 @@
 import React, {FC} from 'react';
-import {Text} from 'react-native';
+import {StyleSheet, Text} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import MainHeader from '../components/MainHeader';
-import colors from '../constants/colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {HEADER_ICON_SIZE} from '../constants/dimensions';
 import {AppRoute} from '../enums/routes';
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {BottomTabNavigatorParams} from '../navigation/BottomTabs';
-import {useSelector} from 'react-redux';
-import {RootState} from '../store/storeConfig';
+import {useColorTheme} from '../hooks/useColorTheme';
 
 type ProfileScreenProps = BottomTabScreenProps<
   BottomTabNavigatorParams,
@@ -17,9 +15,7 @@ type ProfileScreenProps = BottomTabScreenProps<
 >;
 
 const ProfileScreen: FC<ProfileScreenProps> = ({navigation}) => {
-  const colorTheme = useSelector(
-    (state: RootState) => state.settings.colorTheme,
-  );
+  const {colorTheme, colorThemeBackgroundStyle} = useColorTheme();
 
   const goToSettings = () => {
     navigation.navigate(AppRoute.SETTINGS);
@@ -36,7 +32,7 @@ const ProfileScreen: FC<ProfileScreenProps> = ({navigation}) => {
   return (
     <SafeAreaView
       edges={['top']}
-      style={{backgroundColor: colorTheme.background, flex: 1, height: '100%'}}>
+      style={[styles.screenContaner, colorThemeBackgroundStyle]}>
       <MainHeader rightButton={headerRightButton} />
       <Text style={{color: 'red'}}>Profile Screen</Text>
     </SafeAreaView>
@@ -44,3 +40,10 @@ const ProfileScreen: FC<ProfileScreenProps> = ({navigation}) => {
 };
 
 export default ProfileScreen;
+
+const styles = StyleSheet.create({
+  screenContaner: {
+    flex: 1,
+    height: '100%',
+  },
+});

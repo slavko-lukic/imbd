@@ -7,10 +7,9 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {useSelector} from 'react-redux';
 import colors from '../constants/colors';
 import {SETTINGS_ITEM_ICON_SIZE} from '../constants/dimensions';
-import {RootState} from '../store/storeConfig';
+import {useColorTheme} from '../hooks/useColorTheme';
 
 interface SettingsGroupItemProps {
   settingName: string;
@@ -23,9 +22,8 @@ const SettingsGroupItem: FC<SettingsGroupItemProps> = ({
   icon,
   index = 1,
 }) => {
-  const colorTheme = useSelector(
-    (state: RootState) => state.settings.colorTheme,
-  );
+  const {colorTheme, colorThemeSurfaceStyle, colorThemeOnSurfaceStyle} =
+    useColorTheme();
 
   const opacity = useSharedValue(0);
   const positionY = useSharedValue(-50);
@@ -41,11 +39,7 @@ const SettingsGroupItem: FC<SettingsGroupItemProps> = ({
 
   return (
     <Animated.View
-      style={[
-        styles.container,
-        animatedStyle,
-        {backgroundColor: colorTheme.surface},
-      ]}>
+      style={[styles.container, animatedStyle, colorThemeSurfaceStyle]}>
       <Ionicons
         name={icon}
         size={SETTINGS_ITEM_ICON_SIZE}
@@ -53,11 +47,13 @@ const SettingsGroupItem: FC<SettingsGroupItemProps> = ({
       />
       <Text
         numberOfLines={1}
-        style={{
-          color: colorTheme.onSurface,
-          fontSize: 16,
-          marginHorizontal: 10,
-        }}>
+        style={[
+          {
+            fontSize: 16,
+            marginHorizontal: 10,
+          },
+          colorThemeOnSurfaceStyle,
+        ]}>
         {settingName}
       </Text>
     </Animated.View>

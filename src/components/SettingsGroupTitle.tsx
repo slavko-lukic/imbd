@@ -6,13 +6,10 @@ import Animated, {
   withDelay,
   withTiming,
 } from 'react-native-reanimated';
-import {useSelector} from 'react-redux';
-import {RootState} from '../store/storeConfig';
+import {useColorTheme} from '../hooks/useColorTheme';
 
 const SettingsGroupTitle: FC = ({children}) => {
-  const colorTheme = useSelector(
-    (state: RootState) => state.settings.colorTheme,
-  );
+  const {colorThemeOnSurfaceStyle} = useColorTheme();
 
   const opacity = useSharedValue(0);
 
@@ -28,12 +25,14 @@ const SettingsGroupTitle: FC = ({children}) => {
     <Animated.View style={animatedStyle}>
       <Text
         numberOfLines={1}
-        style={{
-          color: colorTheme.onSurface,
-          fontSize: 22,
-          marginHorizontal: 10,
-          marginBottom: 10,
-        }}>
+        style={[
+          {
+            fontSize: 22,
+            marginHorizontal: 10,
+            marginBottom: 10,
+          },
+          colorThemeOnSurfaceStyle,
+        ]}>
         {children}
       </Text>
     </Animated.View>

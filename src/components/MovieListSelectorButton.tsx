@@ -10,8 +10,6 @@ import Animated, {
 import colors from '../constants/colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {MovieListTypes} from '../enums/movieListTypes';
-import {useSelector} from 'react-redux';
-import {RootState} from '../store/storeConfig';
 
 interface MovieListSelectorButtonProps {
   updateListData: (displayedList: MovieListTypes) => void;
@@ -20,10 +18,6 @@ interface MovieListSelectorButtonProps {
 const MovieListSelectorButton: FC<MovieListSelectorButtonProps> = ({
   updateListData,
 }) => {
-  const colorTheme = useSelector(
-    (state: RootState) => state.settings.colorTheme,
-  );
-
   const [displayedList, setDisplayedList] = useState<MovieListTypes>(
     MovieListTypes.SUGGESTIONS,
   );

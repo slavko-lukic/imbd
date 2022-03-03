@@ -9,8 +9,7 @@ import ProfileScreen from '../screens/ProfileScreen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {RouteProp} from '@react-navigation/native';
 import colors from '../constants/colors';
-import {useSelector} from 'react-redux';
-import {RootState} from '../store/storeConfig';
+import {useColorTheme} from '../hooks/useColorTheme';
 
 export type BottomTabNavigatorParams = {
   [AppRoute.MOVIES]: undefined;
@@ -21,9 +20,7 @@ export type BottomTabNavigatorParams = {
 const Tabs = createBottomTabNavigator<BottomTabNavigatorParams>();
 
 export const BottomTabs = (): React.ReactElement => {
-  const colorTheme = useSelector(
-    (state: RootState) => state.settings.colorTheme,
-  );
+  const {colorTheme} = useColorTheme();
 
   const bottomTabGeneralOptions: (props: {
     route: RouteProp<BottomTabNavigatorParams, keyof BottomTabNavigatorParams>;

@@ -1,20 +1,17 @@
 import {StackScreenProps} from '@react-navigation/stack';
-import React, {FC, useEffect} from 'react';
-import {Button, ScrollView, View} from 'react-native';
+import React, {FC} from 'react';
+import {ScrollView, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {useDispatch, useSelector} from 'react-redux';
 import MainHeader from '../components/MainHeader';
 import SettingsGroup from '../components/SettingsGroup';
 import SettingsGroupItem from '../components/SettingsGroupItem';
 import VerticalSpacing from '../components/VerticalSpacing';
 import {HEADER_ICON_SIZE} from '../constants/dimensions';
-import {ColorThemes} from '../enums/colorThemes';
 import {AppRoute} from '../enums/routes';
+import {useColorTheme} from '../hooks/useColorTheme';
 import {SettingsItem} from '../models/SettingsItem';
 import {SettingsStackNavigatorParams} from '../navigation/SettingsNavigator';
-import {changeColorTheme} from '../store/actions/settingsActions';
-import {RootState} from '../store/storeConfig';
 
 type SettingsScreenProps = StackScreenProps<
   SettingsStackNavigatorParams,
@@ -22,10 +19,7 @@ type SettingsScreenProps = StackScreenProps<
 >;
 
 const SettingsScreen: FC<SettingsScreenProps> = ({navigation}) => {
-  const dispatch = useDispatch();
-  const colorTheme = useSelector(
-    (state: RootState) => state.settings.colorTheme,
-  );
+  const {colorTheme, colorThemeBackgroundStyle} = useColorTheme();
 
   const generalSettingsItems: SettingsItem[] = [
     {settingName: 'Select theme', icon: 'color-palette'},
@@ -74,20 +68,8 @@ const SettingsScreen: FC<SettingsScreenProps> = ({navigation}) => {
   return (
     <SafeAreaView
       edges={['top']}
-      style={{backgroundColor: colorTheme.background, flex: 1, height: '100%'}}>
+      style={[styles.screenContainer, colorThemeBackgroundStyle]}>
       <MainHeader leftButton={headerLeftButton} />
-      <Button
-        title={
-          colorTheme.themeName == ColorThemes.MONOKAI_DARK
-            ? 'go light'
-            : 'go dark'
-        }
-        onPress={() => {
-          colorTheme.themeName == ColorThemes.MONOKAI_DARK
-            ? dispatch(changeColorTheme(ColorThemes.CLASSIC_LIGHT))
-            : dispatch(changeColorTheme(ColorThemes.MONOKAI_DARK));
-        }}
-      />
       <ScrollView
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}>
@@ -106,3 +88,10 @@ const SettingsScreen: FC<SettingsScreenProps> = ({navigation}) => {
 };
 
 export default SettingsScreen;
+
+const styles = StyleSheet.create({
+  screenContainer: {
+    flex: 1,
+    height: '100%',
+  },
+});
