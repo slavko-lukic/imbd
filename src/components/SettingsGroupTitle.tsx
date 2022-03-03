@@ -7,7 +7,6 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import {useSelector} from 'react-redux';
-import colors from '../constants/colors';
 import {RootState} from '../store/storeConfig';
 
 const SettingsGroupTitle: FC = ({children}) => {

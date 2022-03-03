@@ -2,7 +2,6 @@ import React, {FC, useCallback, useState} from 'react';
 import {FlatList, ListRenderItem} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import MainHeader from '../components/MainHeader';
-import colors from '../constants/colors';
 import {MovieListTypes} from '../enums/movieListTypes';
 import MovieCard from '../components/MovieCard';
 import {SUGGESTED_MOVIES, WATCHED_MOVIES, WATCHLIST} from '../mock/movies_mock';

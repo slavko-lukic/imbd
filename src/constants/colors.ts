@@ -7,6 +7,6 @@ export default {
   GREY_1_80: 'rgba(28,28,30, 0.8)',
   GREY_2: 'rgb(144,143,148)',
   GREY_3: 'rgb(204,203,208)',
-  MONOKAI_DARK: 'rgb(38,50,56)',
-  MONOKAI_DARKER: 'rgb(25,34,39)',
+  MONOKAI_GREEN: 'rgb(38,50,56)',
+  MONOKAI_GREEN_DARKER: 'rgb(25,34,39)',
 };

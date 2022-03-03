@@ -4,6 +4,7 @@ import {getStatusBarHeight} from 'react-native-status-bar-height';
 import {useSelector} from 'react-redux';
 import colors from '../constants/colors';
 import {HEADER_HEIGHT} from '../constants/dimensions';
+import {ColorThemes} from '../enums/colorThemes';
 import {RootState} from '../store/storeConfig';
 
 interface MainHeaderProps {
@@ -21,7 +22,9 @@ const MainHeader: FC<MainHeaderProps> = ({leftButton, rightButton}) => {
       style={[styles.headerContainer, {backgroundColor: colorTheme.surface}]}>
       <StatusBar
         barStyle={
-          colorTheme.currentTheme === 'dark' ? 'light-content' : 'dark-content'
+          colorTheme.themeName === ColorThemes.MONOKAI_DARK
+            ? 'light-content'
+            : 'dark-content'
         }
       />
       <View style={[styles.statusBar, {backgroundColor: colorTheme.surface}]} />

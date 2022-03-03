@@ -9,6 +9,7 @@ import SettingsGroup from '../components/SettingsGroup';
 import SettingsGroupItem from '../components/SettingsGroupItem';
 import VerticalSpacing from '../components/VerticalSpacing';
 import {HEADER_ICON_SIZE} from '../constants/dimensions';
+import {ColorThemes} from '../enums/colorThemes';
 import {AppRoute} from '../enums/routes';
 import {SettingsItem} from '../models/SettingsItem';
 import {SettingsStackNavigatorParams} from '../navigation/SettingsNavigator';
@@ -76,11 +77,15 @@ const SettingsScreen: FC<SettingsScreenProps> = ({navigation}) => {
       style={{backgroundColor: colorTheme.background, flex: 1, height: '100%'}}>
       <MainHeader leftButton={headerLeftButton} />
       <Button
-        title={colorTheme.currentTheme == 'dark' ? 'go light' : 'go dark'}
+        title={
+          colorTheme.themeName == ColorThemes.MONOKAI_DARK
+            ? 'go light'
+            : 'go dark'
+        }
         onPress={() => {
-          colorTheme.currentTheme == 'dark'
-            ? dispatch(changeColorTheme('light'))
-            : dispatch(changeColorTheme('dark'));
+          colorTheme.themeName == ColorThemes.MONOKAI_DARK
+            ? dispatch(changeColorTheme(ColorThemes.CLASSIC_LIGHT))
+            : dispatch(changeColorTheme(ColorThemes.MONOKAI_DARK));
         }}
       />
       <ScrollView
