@@ -9,6 +9,10 @@ import Animated, {
 } from 'react-native-reanimated';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {SETTINGS_ITEM_ICON_SIZE} from '../constants/dimensions';
+import {
+  ACTIVE_OPACITY_STRONG,
+  ACTIVE_OPACITY_WEAK,
+} from '../constants/miscellaneous';
 import {ColorThemes} from '../enums/colorThemes';
 import {useColorTheme} from '../hooks/useColorTheme';
 
@@ -49,7 +53,11 @@ const SelectThemeRadioButton: FC<SelectThemeRadioButtonProps> = ({
     <Animated.View style={[animatedStyle, styles.container]}>
       <TouchableOpacity
         style={styles.touchablePart}
-        activeOpacity={0.7}
+        activeOpacity={
+          colorTheme.type === 'dark'
+            ? ACTIVE_OPACITY_WEAK
+            : ACTIVE_OPACITY_STRONG
+        }
         onPress={onPressHandler}>
         <Ionicons
           color={isCurrentlyActive ? colorTheme.primary : colorTheme.onSurface}

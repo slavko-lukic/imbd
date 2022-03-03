@@ -9,6 +9,10 @@ import Animated, {
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import colors from '../constants/colors';
 import {SETTINGS_ITEM_ICON_SIZE} from '../constants/dimensions';
+import {
+  ACTIVE_OPACITY_STRONG,
+  ACTIVE_OPACITY_WEAK,
+} from '../constants/miscellaneous';
 import {useColorTheme} from '../hooks/useColorTheme';
 
 interface SettingsGroupItemProps {
@@ -43,7 +47,11 @@ const SettingsGroupItem: FC<SettingsGroupItemProps> = ({
     <Animated.View style={animatedStyle}>
       <TouchableOpacity
         onPress={onPress}
-        activeOpacity={0.7}
+        activeOpacity={
+          colorTheme.type === 'dark'
+            ? ACTIVE_OPACITY_WEAK
+            : ACTIVE_OPACITY_STRONG
+        }
         style={[styles.container, colorThemeSurfaceStyle]}>
         <Ionicons
           name={icon}
