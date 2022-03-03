@@ -4,6 +4,7 @@ import {StyleSheet, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MainHeader from '../../components/MainHeader';
+import RadioButtonGroup from '../../components/RadioButtonGroup';
 import SelectThemeRadioButton from '../../components/SelectThemeRadioButton';
 import SettingsGroup from '../../components/SettingsGroup';
 import {HEADER_ICON_SIZE} from '../../constants/dimensions';
@@ -25,15 +26,42 @@ const ColorThemeScreen: FC<ColorThemeScreenProps> = ({navigation}) => {
     navigation.goBack();
   };
 
-  const mapThemes = () => {
-    return availableColorThemes.map((colorTheme: ColorTheme, index: number) => (
-      <SelectThemeRadioButton
-        key={colorTheme.themeName}
-        colorThemeName={colorTheme.themeName}
-        index={index}
-      />
-    ));
+  const mapDarkThemes = () => {
+    return availableColorThemes.map((colorTheme: ColorTheme, index: number) => {
+      if (colorTheme.type === 'dark')
+        return (
+          <SelectThemeRadioButton
+            key={colorTheme.themeName}
+            colorThemeName={colorTheme.themeName}
+            index={index}
+          />
+        );
+    });
   };
+
+  const mapLightThemes = () => {
+    return availableColorThemes.map((colorTheme: ColorTheme, index: number) => {
+      if (colorTheme.type === 'light')
+        return (
+          <SelectThemeRadioButton
+            key={colorTheme.themeName}
+            colorThemeName={colorTheme.themeName}
+            index={index}
+          />
+        );
+    });
+  };
+
+  const darkThemesGroup = (
+    <RadioButtonGroup key={'dark'} title="Dark:">
+      {mapDarkThemes()}
+    </RadioButtonGroup>
+  );
+  const lightThemesGroup = (
+    <RadioButtonGroup key={'light'} title="Light:">
+      {mapLightThemes()}
+    </RadioButtonGroup>
+  );
 
   const headerLeftButton: JSX.Element = (
     <Ionicons
@@ -50,7 +78,7 @@ const ColorThemeScreen: FC<ColorThemeScreenProps> = ({navigation}) => {
       <MainHeader leftButton={headerLeftButton} />
       <SettingsGroup
         title="Select color theme"
-        items={mapThemes()}
+        items={[darkThemesGroup, lightThemesGroup]}
         hasBottomBorder={false}
       />
     </SafeAreaView>

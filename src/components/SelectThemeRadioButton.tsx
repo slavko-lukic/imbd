@@ -1,5 +1,5 @@
 import React, {FC, useEffect} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Animated, {
   useAnimatedStyle,
@@ -31,6 +31,11 @@ const SelectThemeRadioButton: FC<SelectThemeRadioButtonProps> = ({
   const opacity = useSharedValue(0);
   const positionY = useSharedValue(-50);
 
+  const isCurrentlyActive = colorTheme.themeName === colorThemeName;
+  const onPressHandler = () => {
+    setColorTheme(colorThemeName);
+  };
+
   useEffect(() => {
     opacity.value = withDelay(index * 80, withTiming(1, {duration: 600}));
     positionY.value = withDelay(index * 80, withTiming(0, {duration: 600}));
@@ -45,26 +50,16 @@ const SelectThemeRadioButton: FC<SelectThemeRadioButtonProps> = ({
       <TouchableOpacity
         style={styles.touchablePart}
         activeOpacity={0.7}
-        onPress={() => {
-          setColorTheme(colorThemeName);
-        }}>
+        onPress={onPressHandler}>
         <Ionicons
-          color={
-            colorTheme.themeName === colorThemeName
-              ? colorTheme.primary
-              : colorTheme.onSurface
-          }
+          color={isCurrentlyActive ? colorTheme.primary : colorTheme.onSurface}
           size={SETTINGS_ITEM_ICON_SIZE}
-          name={
-            colorTheme.themeName === colorThemeName
-              ? 'radio-button-on'
-              : 'radio-button-off'
-          }
+          name={isCurrentlyActive ? 'radio-button-on' : 'radio-button-off'}
         />
         <Text
           style={[
             {fontSize: 16, marginHorizontal: 10},
-            colorTheme.themeName === colorThemeName
+            isCurrentlyActive
               ? colorThemePrimaryOnSurfaceStyle
               : colorThemeOnSurfaceStyle,
           ]}>
