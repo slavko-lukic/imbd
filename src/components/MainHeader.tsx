@@ -3,7 +3,6 @@ import {StatusBar, StyleSheet, View} from 'react-native';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import colors from '../constants/colors';
 import {HEADER_HEIGHT} from '../constants/dimensions';
-import {ColorThemes} from '../enums/colorThemes';
 import {useColorTheme} from '../hooks/useColorTheme';
 
 interface MainHeaderProps {

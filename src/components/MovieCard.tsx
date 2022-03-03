@@ -1,5 +1,5 @@
 import React, {FC, useEffect} from 'react';
-import {Image, ImageBackground, StyleSheet, Text, View} from 'react-native';
+import {Image, StyleSheet, Text, View} from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -7,7 +7,6 @@ import Animated, {
   WithSpringConfig,
 } from 'react-native-reanimated';
 import {IMAGE_BASE_URL} from '../constants/api';
-import colors from '../constants/colors';
 import {Movie} from '../models/Movie';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useColorTheme} from '../hooks/useColorTheme';
