@@ -83,7 +83,7 @@ const MovieCard: FC<MovieCardProps> = ({movie, index}) => {
                 {fontSize: 14, marginLeft: 3},
                 colorThemePrimaryOnSurfaceStyle,
               ]}>
-              1h 20m
+              1h 53m
             </Text>
           </View>
         </View>
@@ -99,11 +99,20 @@ const styles = StyleSheet.create({
     padding: 10,
     height: 230,
     borderRadius: 5,
-    overflow: 'hidden',
     marginHorizontal: 20,
     marginTop: 15,
 
     flexDirection: 'row',
+
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 1,
+      height: 2,
+    },
+    shadowOpacity: 0.4,
+    shadowRadius: 4.0,
+
+    elevation: 7,
   },
   imageContainer: {
     borderRadius: 5,
