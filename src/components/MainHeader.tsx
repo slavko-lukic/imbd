@@ -3,6 +3,8 @@ import {StatusBar, StyleSheet, View} from 'react-native';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import colors from '../constants/colors';
 import {HEADER_HEIGHT} from '../constants/dimensions';
+import {ColorThemes} from '../enums/colorThemes';
+import {useColorTheme} from '../hooks/useColorTheme';
 
 interface MainHeaderProps {
   leftButton?: JSX.Element;
@@ -10,10 +12,14 @@ interface MainHeaderProps {
 }
 
 const MainHeader: FC<MainHeaderProps> = ({leftButton, rightButton}) => {
+  const {colorTheme, colorThemeSurfaceStyle} = useColorTheme();
+
   return (
-    <View style={styles.headerContainer}>
-      <StatusBar barStyle={'light-content'} />
-      <View style={styles.statusBar} />
+    <View style={[styles.headerContainer, colorThemeSurfaceStyle]}>
+      <StatusBar
+        barStyle={colorTheme.type === 'dark' ? 'light-content' : 'dark-content'}
+      />
+      <View style={[styles.statusBar, colorThemeSurfaceStyle]} />
       <View style={styles.mainWrapper}>
         <View style={styles.leftPart}>
           <View>{leftButton}</View>
@@ -30,7 +36,6 @@ export default MainHeader;
 
 const styles = StyleSheet.create({
   headerContainer: {
-    backgroundColor: colors.SURFACE,
     width: '100%',
   },
   statusBar: {
@@ -38,13 +43,12 @@ const styles = StyleSheet.create({
     top: -getStatusBarHeight(),
     height: getStatusBarHeight(),
     width: '100%',
-    backgroundColor: colors.SURFACE,
   },
   mainWrapper: {
     height: HEADER_HEIGHT,
     flexDirection: 'row',
     borderBottomWidth: 0.5,
-    borderBottomColor: colors.GREY,
+    borderBottomColor: colors.GREY_2,
   },
   leftPart: {
     flex: 1,

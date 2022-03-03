@@ -1,3 +1,5 @@
+import {ColorTheme} from '../../models/ColorTheme';
+
 export type SettingsReducerState = {
-  colorTheme: 'light' | 'dark';
+  colorTheme: ColorTheme;
 };

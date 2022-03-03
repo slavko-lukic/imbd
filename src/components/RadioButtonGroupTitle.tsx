@@ -8,7 +8,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import {useColorTheme} from '../hooks/useColorTheme';
 
-const SettingsGroupTitle: FC = ({children}) => {
+const RadioButtonGroupTitle: FC = ({children}) => {
   const {colorThemeOnSurfaceStyle} = useColorTheme();
 
   const opacity = useSharedValue(0);
@@ -24,12 +24,12 @@ const SettingsGroupTitle: FC = ({children}) => {
   return (
     <Animated.View style={animatedStyle}>
       <Text
-        numberOfLines={1}
         style={[
           {
-            fontSize: 22,
-            marginHorizontal: 10,
-            marginBottom: 10,
+            fontSize: 14,
+            marginHorizontal: 15,
+            fontStyle: 'normal',
+            marginBottom: 5,
           },
           colorThemeOnSurfaceStyle,
         ]}>
@@ -39,4 +39,4 @@ const SettingsGroupTitle: FC = ({children}) => {
   );
 };
 
-export default SettingsGroupTitle;
+export default RadioButtonGroupTitle;

@@ -1,20 +1,17 @@
 import {StackScreenProps} from '@react-navigation/stack';
-import React, {FC, useEffect} from 'react';
-import {Button, ScrollView, View} from 'react-native';
+import React, {FC} from 'react';
+import {ScrollView, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {useDispatch, useSelector} from 'react-redux';
 import MainHeader from '../components/MainHeader';
 import SettingsGroup from '../components/SettingsGroup';
 import SettingsGroupItem from '../components/SettingsGroupItem';
 import VerticalSpacing from '../components/VerticalSpacing';
-import colors from '../constants/colors';
 import {HEADER_ICON_SIZE} from '../constants/dimensions';
 import {AppRoute} from '../enums/routes';
+import {useColorTheme} from '../hooks/useColorTheme';
 import {SettingsItem} from '../models/SettingsItem';
 import {SettingsStackNavigatorParams} from '../navigation/SettingsNavigator';
-import {changeColorTheme} from '../store/actions/settingsActions';
-import {RootState} from '../store/storeConfig';
 
 type SettingsScreenProps = StackScreenProps<
   SettingsStackNavigatorParams,
@@ -22,12 +19,22 @@ type SettingsScreenProps = StackScreenProps<
 >;
 
 const SettingsScreen: FC<SettingsScreenProps> = ({navigation}) => {
-  const dispatch = useDispatch();
+  const {colorTheme, colorThemeBackgroundStyle} = useColorTheme();
 
-  const theme = useSelector((state: RootState) => state.settings.colorTheme);
+  const goBack = () => {
+    navigation.goBack();
+  };
+
+  const onSelectThemePressHandler = () => {
+    navigation.push(AppRoute.COLOR_THEME);
+  };
 
   const generalSettingsItems: SettingsItem[] = [
-    {settingName: 'Select theme', icon: 'color-palette'},
+    {
+      settingName: 'Select color theme',
+      icon: 'color-palette',
+      onPress: onSelectThemePressHandler,
+    },
     {settingName: 'Configure beer', icon: 'beer'},
     {settingName: 'Saturn options', icon: 'planet'},
     {settingName: 'Pizza setup', icon: 'pizza'},
@@ -43,14 +50,6 @@ const SettingsScreen: FC<SettingsScreenProps> = ({navigation}) => {
     {settingName: 'Megaphone settings', icon: 'megaphone'},
   ];
 
-  const goBack = () => {
-    navigation.goBack();
-  };
-
-  useEffect(() => {
-    console.log(theme);
-  }, [theme]);
-
   /**
    *
    * setting names are used as key in list so they should be unique
@@ -62,6 +61,7 @@ const SettingsScreen: FC<SettingsScreenProps> = ({navigation}) => {
         settingName={settingsItem.settingName}
         icon={settingsItem.icon}
         index={index}
+        onPress={settingsItem.onPress}
       />
     ));
   };
@@ -69,7 +69,7 @@ const SettingsScreen: FC<SettingsScreenProps> = ({navigation}) => {
   const headerLeftButton: JSX.Element = (
     <Ionicons
       name="arrow-back-sharp"
-      color={colors.WHITE}
+      color={colorTheme.onSurface}
       size={HEADER_ICON_SIZE}
       onPress={goBack}
     />
@@ -77,16 +77,8 @@ const SettingsScreen: FC<SettingsScreenProps> = ({navigation}) => {
   return (
     <SafeAreaView
       edges={['top']}
-      style={{backgroundColor: colors.BACKGROUND, flex: 1, height: '100%'}}>
+      style={[styles.screenContainer, colorThemeBackgroundStyle]}>
       <MainHeader leftButton={headerLeftButton} />
-      <Button
-        title={theme == 'dark' ? 'go light' : 'go dark'}
-        onPress={() => {
-          theme == 'dark'
-            ? dispatch(changeColorTheme('light'))
-            : dispatch(changeColorTheme('dark'));
-        }}
-      />
       <ScrollView
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}>
@@ -105,3 +97,10 @@ const SettingsScreen: FC<SettingsScreenProps> = ({navigation}) => {
 };
 
 export default SettingsScreen;
+
+const styles = StyleSheet.create({
+  screenContainer: {
+    flex: 1,
+    height: '100%',
+  },
+});

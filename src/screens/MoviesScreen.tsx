@@ -1,8 +1,7 @@
 import React, {FC, useCallback, useState} from 'react';
-import {FlatList, ListRenderItem} from 'react-native';
+import {FlatList, ListRenderItem, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import MainHeader from '../components/MainHeader';
-import colors from '../constants/colors';
 import {MovieListTypes} from '../enums/movieListTypes';
 import MovieCard from '../components/MovieCard';
 import {SUGGESTED_MOVIES, WATCHED_MOVIES, WATCHLIST} from '../mock/movies_mock';
@@ -14,6 +13,7 @@ import {AppRoute} from '../enums/routes';
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {BottomTabNavigatorParams} from '../navigation/BottomTabs';
 import VerticalSpacing from '../components/VerticalSpacing';
+import {useColorTheme} from '../hooks/useColorTheme';
 
 type MoviesScreenProps = BottomTabScreenProps<
   BottomTabNavigatorParams,
@@ -21,6 +21,8 @@ type MoviesScreenProps = BottomTabScreenProps<
 >;
 
 const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
+  const {colorTheme, colorThemeBackgroundStyle} = useColorTheme();
+
   const [listData, setListData] = useState<Movie[]>(SUGGESTED_MOVIES);
 
   const listDataUpdateHandler = useCallback((displayedList: MovieListTypes) => {
@@ -54,7 +56,7 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
   const headerRightButton: JSX.Element = (
     <Ionicons
       name="settings-sharp"
-      color={colors.WHITE}
+      color={colorTheme.onSurface}
       size={HEADER_ICON_SIZE}
       onPress={goToSettings}
     />
@@ -65,7 +67,7 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
   return (
     <SafeAreaView
       edges={['top']}
-      style={{backgroundColor: colors.BACKGROUND, flex: 1, height: '100%'}}>
+      style={[styles.screenContaner, colorThemeBackgroundStyle]}>
       <MainHeader
         leftButton={headerLeftButton}
         rightButton={headerRightButton}
@@ -80,3 +82,10 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
 };
 
 export default MoviesScreen;
+
+const styles = StyleSheet.create({
+  screenContaner: {
+    flex: 1,
+    height: '100%',
+  },
+});
