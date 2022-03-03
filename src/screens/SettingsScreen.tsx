@@ -21,8 +21,20 @@ type SettingsScreenProps = StackScreenProps<
 const SettingsScreen: FC<SettingsScreenProps> = ({navigation}) => {
   const {colorTheme, colorThemeBackgroundStyle} = useColorTheme();
 
+  const goBack = () => {
+    navigation.goBack();
+  };
+
+  const onSelectThemePressHandler = () => {
+    navigation.push(AppRoute.COLOR_THEME);
+  };
+
   const generalSettingsItems: SettingsItem[] = [
-    {settingName: 'Select theme', icon: 'color-palette'},
+    {
+      settingName: 'Select theme',
+      icon: 'color-palette',
+      onPress: onSelectThemePressHandler,
+    },
     {settingName: 'Configure beer', icon: 'beer'},
     {settingName: 'Saturn options', icon: 'planet'},
     {settingName: 'Pizza setup', icon: 'pizza'},
@@ -38,10 +50,6 @@ const SettingsScreen: FC<SettingsScreenProps> = ({navigation}) => {
     {settingName: 'Megaphone settings', icon: 'megaphone'},
   ];
 
-  const goBack = () => {
-    navigation.goBack();
-  };
-
   /**
    *
    * setting names are used as key in list so they should be unique
@@ -53,6 +61,7 @@ const SettingsScreen: FC<SettingsScreenProps> = ({navigation}) => {
         settingName={settingsItem.settingName}
         icon={settingsItem.icon}
         index={index}
+        onPress={settingsItem.onPress}
       />
     ));
   };

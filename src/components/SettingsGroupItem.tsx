@@ -1,5 +1,5 @@
 import React, {FC, useEffect} from 'react';
-import {StyleSheet, Text} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -15,12 +15,14 @@ interface SettingsGroupItemProps {
   settingName: string;
   icon: string;
   index?: number;
+  onPress?: () => void;
 }
 
 const SettingsGroupItem: FC<SettingsGroupItemProps> = ({
   settingName,
   icon,
   index = 1,
+  onPress,
 }) => {
   const {colorTheme, colorThemeSurfaceStyle, colorThemeOnSurfaceStyle} =
     useColorTheme();
@@ -38,24 +40,28 @@ const SettingsGroupItem: FC<SettingsGroupItemProps> = ({
   }, []);
 
   return (
-    <Animated.View
-      style={[styles.container, animatedStyle, colorThemeSurfaceStyle]}>
-      <Ionicons
-        name={icon}
-        size={SETTINGS_ITEM_ICON_SIZE}
-        color={colorTheme.onSurface}
-      />
-      <Text
-        numberOfLines={1}
-        style={[
-          {
-            fontSize: 16,
-            marginHorizontal: 10,
-          },
-          colorThemeOnSurfaceStyle,
-        ]}>
-        {settingName}
-      </Text>
+    <Animated.View style={animatedStyle}>
+      <TouchableOpacity
+        onPress={onPress}
+        activeOpacity={0.7}
+        style={[styles.container, colorThemeSurfaceStyle]}>
+        <Ionicons
+          name={icon}
+          size={SETTINGS_ITEM_ICON_SIZE}
+          color={colorTheme.onSurface}
+        />
+        <Text
+          numberOfLines={1}
+          style={[
+            {
+              fontSize: 16,
+              marginHorizontal: 10,
+            },
+            colorThemeOnSurfaceStyle,
+          ]}>
+          {settingName}
+        </Text>
+      </TouchableOpacity>
     </Animated.View>
   );
 };

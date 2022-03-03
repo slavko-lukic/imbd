@@ -1,6 +1,6 @@
 import {StackScreenProps} from '@react-navigation/stack';
 import React, {FC} from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Text} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MainHeader from '../../components/MainHeader';
@@ -33,6 +33,7 @@ const ColorThemeScreen: FC<ColorThemeScreenProps> = ({navigation}) => {
       edges={['top']}
       style={[styles.screenContainer, colorThemeBackgroundStyle]}>
       <MainHeader leftButton={headerLeftButton} />
+      <Text style={{color: 'red'}}>This is color theme screen</Text>
     </SafeAreaView>
   );
 };
