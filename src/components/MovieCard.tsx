@@ -1,5 +1,5 @@
 import React, {FC, useEffect} from 'react';
-import {ImageBackground, StyleSheet, Text, View} from 'react-native';
+import {Image, ImageBackground, StyleSheet, Text, View} from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -10,6 +10,9 @@ import {IMAGE_BASE_URL} from '../constants/api';
 import colors from '../constants/colors';
 import {Movie} from '../models/Movie';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {useColorTheme} from '../hooks/useColorTheme';
+import moment from 'moment';
+
 interface MovieCardProps {
   movie: Movie;
   index: number;
@@ -17,6 +20,12 @@ interface MovieCardProps {
 
 const MovieCard: FC<MovieCardProps> = ({movie, index}) => {
   const movieCardY = useSharedValue(-((index + 1) * 1200));
+  const {
+    colorTheme,
+    colorThemeSurfaceStyle,
+    colorThemePrimaryOnSurfaceStyle,
+    colorThemeOnSurfaceStyle,
+  } = useColorTheme();
 
   const springAnimationConfig: WithSpringConfig = {
     damping: 18,
@@ -38,8 +47,94 @@ const MovieCard: FC<MovieCardProps> = ({movie, index}) => {
   }, []);
 
   return (
-    <Animated.View style={[styles.card, movieCardAnimatedStyle]}>
-      <ImageBackground
+    <Animated.View
+      style={[styles.card, movieCardAnimatedStyle, colorThemeSurfaceStyle]}>
+      <View style={styles.imageContainer}>
+        <Image
+          style={styles.image}
+          resizeMode={'cover'}
+          source={{
+            uri: IMAGE_BASE_URL + movie.poster_path,
+          }}
+        />
+      </View>
+      <View style={styles.detailsContainer}>
+        <View style={styles.mainDataContainer}>
+          <Text
+            numberOfLines={1}
+            style={[{fontSize: 18}, colorThemePrimaryOnSurfaceStyle]}>
+            {movie.original_title}
+          </Text>
+
+          <Text
+            style={[{marginTop: 5}, colorThemeOnSurfaceStyle]}
+            numberOfLines={9}>
+            {movie.overview}
+          </Text>
+        </View>
+        <View style={styles.miscDataContainer}>
+          <Text style={colorThemePrimaryOnSurfaceStyle}>
+            {moment(movie.release_date).year()}
+          </Text>
+          <View style={styles.timeContainer}>
+            <Ionicons size={15} color={colorTheme.primary} name="time" />
+            <Text
+              style={[
+                {fontSize: 14, marginLeft: 3},
+                colorThemePrimaryOnSurfaceStyle,
+              ]}>
+              1h 20m
+            </Text>
+          </View>
+        </View>
+      </View>
+    </Animated.View>
+  );
+};
+
+export default MovieCard;
+
+const styles = StyleSheet.create({
+  card: {
+    padding: 10,
+    height: 230,
+    borderRadius: 5,
+    overflow: 'hidden',
+    marginHorizontal: 20,
+    marginTop: 15,
+
+    flexDirection: 'row',
+  },
+  imageContainer: {
+    borderRadius: 5,
+    overflow: 'hidden',
+  },
+  image: {
+    flex: 1,
+    width: 120,
+  },
+  detailsContainer: {
+    flex: 1,
+    marginLeft: 15,
+    marginRight: 5,
+    justifyContent: 'space-between',
+  },
+  mainDataContainer: {},
+  miscDataContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+
+    alignItems: 'flex-end',
+  },
+  timeContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
+
+{
+  /* <ImageBackground
         style={styles.image}
         resizeMode={'cover'}
         source={{
@@ -55,44 +150,5 @@ const MovieCard: FC<MovieCardProps> = ({movie, index}) => {
             <Ionicons name="heart-outline" size={24} color={colors.WHITE} />
           </View>
         </View>
-      </ImageBackground>
-    </Animated.View>
-  );
-};
-
-export default MovieCard;
-
-const styles = StyleSheet.create({
-  card: {
-    height: 180,
-    borderRadius: 5,
-    overflow: 'hidden',
-    marginHorizontal: 20,
-    marginTop: 15,
-  },
-  image: {
-    flex: 1,
-    justifyContent: 'flex-end',
-  },
-  details: {
-    height: 40,
-    backgroundColor: colors.GREY_1_80,
-    paddingHorizontal: 10,
-
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  titleContainer: {
-    height: '100%',
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-  },
-  heartContainer: {
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingLeft: 5,
-  },
-});
+      </ImageBackground> */
+}

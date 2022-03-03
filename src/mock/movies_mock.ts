@@ -5,7 +5,7 @@ export const SUGGESTED_MOVIES: Movie[] = [
     backdrop_path: '/iQFcwSGbZXMkeyKrxbPnwnRo5fl.jpg',
     id: 634649,
     overview:
-      "The tale of an extraordinary family, the Madrigals, who live hidden in the mountains of Colombia, in a magical house, in a vibrant town, in a wondrous, charmed place called an Encanto. The magic of the Encanto has blessed every child in the family with a unique gift from super strength to the power to heal—every child except one, Mirabel. But when she discovers that the magic surrounding the Encanto is in danger, Mirabel decides that she, the only ordinary Madrigal, might just be her exceptional family's last hope.",
+      "With Spider-Man's identity now revealed, Peter asks Doctor Strange for help. When a spell goes wrong, dangerous foes from other worlds start to appear, forcing Peter to discover what it truly means to be Spider-Man.",
     original_language: 'en',
     original_title: 'Spider-Man: No Way Home',
     popularity: 6666.164,
