@@ -1,28 +1,15 @@
 import React, {FC} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {useColorTheme} from '../hooks/useColorTheme';
+import {StyleSheet, View} from 'react-native';
+import RadioButtonGroupTitle from './RadioButtonGroupTitle';
 
 interface RadioButtonGroupProps {
   title: string;
 }
 
 const RadioButtonGroup: FC<RadioButtonGroupProps> = ({title, children}) => {
-  const {colorThemeOnSurfaceStyle} = useColorTheme();
-
   return (
     <View style={styles.container}>
-      <Text
-        style={[
-          {
-            fontSize: 14,
-            marginHorizontal: 15,
-            fontStyle: 'normal',
-            marginBottom: 5,
-          },
-          colorThemeOnSurfaceStyle,
-        ]}>
-        {title}
-      </Text>
+      <RadioButtonGroupTitle>{title}</RadioButtonGroupTitle>
       {children}
     </View>
   );
