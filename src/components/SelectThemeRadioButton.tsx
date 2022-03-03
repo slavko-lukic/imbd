@@ -21,7 +21,12 @@ const SelectThemeRadioButton: FC<SelectThemeRadioButtonProps> = ({
   colorThemeName,
   index = 1,
 }) => {
-  const {colorTheme, setColorTheme, colorThemeOnSurfaceStyle} = useColorTheme();
+  const {
+    colorTheme,
+    setColorTheme,
+    colorThemeOnSurfaceStyle,
+    colorThemePrimaryOnSurfaceStyle,
+  } = useColorTheme();
 
   const opacity = useSharedValue(0);
   const positionY = useSharedValue(-50);
@@ -44,7 +49,11 @@ const SelectThemeRadioButton: FC<SelectThemeRadioButtonProps> = ({
           setColorTheme(colorThemeName);
         }}>
         <Ionicons
-          color={colorTheme.onSurface}
+          color={
+            colorTheme.themeName === colorThemeName
+              ? colorTheme.primary
+              : colorTheme.onSurface
+          }
           size={SETTINGS_ITEM_ICON_SIZE}
           name={
             colorTheme.themeName === colorThemeName
@@ -55,7 +64,9 @@ const SelectThemeRadioButton: FC<SelectThemeRadioButtonProps> = ({
         <Text
           style={[
             {fontSize: 16, marginHorizontal: 10},
-            colorThemeOnSurfaceStyle,
+            colorTheme.themeName === colorThemeName
+              ? colorThemePrimaryOnSurfaceStyle
+              : colorThemeOnSurfaceStyle,
           ]}>
           {colorThemeName}
         </Text>

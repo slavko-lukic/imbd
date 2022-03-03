@@ -1,5 +1,4 @@
 export default {
-  PRIMARY: 'rgb(14,137,255)',
   BLACK: 'rgb(1,1,1)',
   WHITE: 'rgb(254,254,254)',
   WHITE_DIMMED: 'rgb(240, 240, 240)',
@@ -7,11 +6,15 @@ export default {
   GREY_1_80: 'rgba(28,28,30, 0.8)',
   GREY_2: 'rgb(144,143,148)',
   GREY_3: 'rgb(204,203,208)',
-  MONOKAI_GREEN: 'rgb(38,50,56)',
-  MONOKAI_GREEN_DARKER: 'rgb(25,34,39)',
+  DRACULA_DARK: 'rgb(52,55,70)',
+  DRACULA_DARKER: 'rgb(40,42,54)',
   SOLARIZED_WHITE: 'rgb(253,247,230)',
   SOLARIZED_WHITE_DARKER: 'rgb(240,235,217)',
   NORDIC_BLUE: 'rgb(23,43,70)',
   NORDIC_BLUE_DARKER: 'rgb(10,25,48)',
   NORDIC_BLUE_LIGHT: 'rgb(204,216,248)',
+  IOS_BLUE: 'rgb(14,137,255)',
+  VEGA: 'rgb(241,89,42)',
+  VALENCIA: 'rgb(207, 76, 76)',
+  PERSIAN_PINK: 'rgb(242,128,193)',
 };

@@ -8,7 +8,6 @@ import MoviesScreen from '../screens/MoviesScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {RouteProp} from '@react-navigation/native';
-import colors from '../constants/colors';
 import {useColorTheme} from '../hooks/useColorTheme';
 
 export type BottomTabNavigatorParams = {
@@ -46,7 +45,7 @@ export const BottomTabs = (): React.ReactElement => {
         return (
           <Ionicons
             size={30}
-            color={focused ? colors.PRIMARY : colorTheme.onSurface}
+            color={focused ? colorTheme.primary : colorTheme.onSurface}
             name="film-outline"
           />
         );
@@ -63,7 +62,7 @@ export const BottomTabs = (): React.ReactElement => {
         return (
           <Ionicons
             size={30}
-            color={focused ? colors.PRIMARY : colorTheme.onSurface}
+            color={focused ? colorTheme.primary : colorTheme.onSurface}
             name="person-outline"
           />
         );

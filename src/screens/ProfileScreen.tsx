@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {StyleSheet, Text} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import MainHeader from '../components/MainHeader';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -34,7 +34,6 @@ const ProfileScreen: FC<ProfileScreenProps> = ({navigation}) => {
       edges={['top']}
       style={[styles.screenContaner, colorThemeBackgroundStyle]}>
       <MainHeader rightButton={headerRightButton} />
-      <Text style={{color: 'red'}}>Profile Screen</Text>
     </SafeAreaView>
   );
 };

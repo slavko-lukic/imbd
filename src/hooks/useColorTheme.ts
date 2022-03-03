@@ -12,6 +12,8 @@ export const useColorTheme = (): {
   colorThemeBackgroundStyle: StyleProp<ViewStyle>;
   colorThemeSurfaceStyle: StyleProp<ViewStyle>;
   colorThemeOnSurfaceStyle: StyleProp<ViewStyle | TextStyle>;
+  colorThemePrimaryBackgroundStyle: StyleProp<ViewStyle>;
+  colorThemePrimaryOnSurfaceStyle: StyleProp<ViewStyle | TextStyle>;
 } => {
   const dispatch = useDispatch();
   const colorTheme = useSelector(
@@ -24,6 +26,19 @@ export const useColorTheme = (): {
     },
     [colorTheme],
   );
+
+  const colorThemePrimaryBackgroundStyle: StyleProp<ViewStyle> = useMemo(() => {
+    return {
+      backgroundColor: colorTheme.primary,
+    };
+  }, [colorTheme]);
+
+  const colorThemePrimaryOnSurfaceStyle: StyleProp<ViewStyle | TextStyle> =
+    useMemo(() => {
+      return {
+        color: colorTheme.primary,
+      };
+    }, [colorTheme]);
 
   const colorThemeBackgroundStyle: StyleProp<ViewStyle> = useMemo(() => {
     return {
@@ -50,5 +65,7 @@ export const useColorTheme = (): {
     colorThemeBackgroundStyle,
     colorThemeSurfaceStyle,
     colorThemeOnSurfaceStyle,
+    colorThemePrimaryBackgroundStyle,
+    colorThemePrimaryOnSurfaceStyle,
   };
 };
