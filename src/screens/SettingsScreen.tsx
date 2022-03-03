@@ -31,7 +31,7 @@ const SettingsScreen: FC<SettingsScreenProps> = ({navigation}) => {
 
   const generalSettingsItems: SettingsItem[] = [
     {
-      settingName: 'Select theme',
+      settingName: 'Select color theme',
       icon: 'color-palette',
       onPress: onSelectThemePressHandler,
     },

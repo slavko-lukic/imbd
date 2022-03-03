@@ -1,16 +1,27 @@
 import React, {FC} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleProp, StyleSheet, View, ViewStyle} from 'react-native';
 import colors from '../constants/colors';
 import SettingsGroupTitle from './SettingsGroupTitle';
 
 interface SettingsGroupProps {
   title: string;
   items: JSX.Element[];
+  hasBottomBorder?: boolean;
 }
 
-const SettingsGroup: FC<SettingsGroupProps> = ({title, items}) => {
+const SettingsGroup: FC<SettingsGroupProps> = ({
+  title,
+  items,
+  hasBottomBorder = true,
+}) => {
+  const bottomBorderStyle: StyleProp<ViewStyle> = {
+    borderBottomColor: colors.GREY_2,
+    borderBottomWidth: 0.5,
+  };
+
   return (
-    <View style={styles.container}>
+    <View
+      style={[styles.container, hasBottomBorder ? bottomBorderStyle : null]}>
       <SettingsGroupTitle>{title}</SettingsGroupTitle>
       {items}
     </View>
@@ -22,7 +33,5 @@ export default SettingsGroup;
 const styles = StyleSheet.create({
   container: {
     marginTop: 30,
-    borderBottomColor: colors.GREY_2,
-    borderBottomWidth: 0.5,
   },
 });

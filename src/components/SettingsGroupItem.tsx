@@ -31,8 +31,8 @@ const SettingsGroupItem: FC<SettingsGroupItemProps> = ({
   const positionY = useSharedValue(-50);
 
   useEffect(() => {
-    opacity.value = withDelay(index * 80, withTiming(1, {duration: 600}));
-    positionY.value = withDelay(index * 80, withTiming(0, {duration: 600}));
+    opacity.value = withDelay(index * 150, withTiming(1, {duration: 600}));
+    positionY.value = withDelay(index * 150, withTiming(0, {duration: 600}));
   }, []);
 
   const animatedStyle = useAnimatedStyle(() => {

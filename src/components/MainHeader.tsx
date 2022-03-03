@@ -18,7 +18,7 @@ const MainHeader: FC<MainHeaderProps> = ({leftButton, rightButton}) => {
     <View style={[styles.headerContainer, colorThemeSurfaceStyle]}>
       <StatusBar
         barStyle={
-          colorTheme.themeName === ColorThemes.MONOKAI_DARK
+          colorTheme.themeName.toLocaleLowerCase().includes('dark')
             ? 'light-content'
             : 'dark-content'
         }
