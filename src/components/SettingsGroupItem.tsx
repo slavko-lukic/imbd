@@ -1,11 +1,6 @@
-import React, {FC, useEffect} from 'react';
+import React, {FC} from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withDelay,
-  withTiming,
-} from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import colors from '../constants/colors';
 import {SETTINGS_ITEM_ICON_SIZE} from '../constants/dimensions';
@@ -13,6 +8,7 @@ import {
   ACTIVE_OPACITY_STRONG,
   ACTIVE_OPACITY_WEAK,
 } from '../constants/miscellaneous';
+import {useDelayedFadeIn} from '../hooks/animations/useDelayedFadeIn';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
 
 interface SettingsGroupItemProps {
@@ -30,20 +26,10 @@ const SettingsGroupItem: FC<SettingsGroupItemProps> = ({
 }) => {
   const {colorTheme, surfaceStyle, foregroundStyle} = useColorTheme();
 
-  const opacity = useSharedValue(0);
-  const positionY = useSharedValue(-50);
-
-  useEffect(() => {
-    opacity.value = withDelay(index * 150, withTiming(1, {duration: 600}));
-    positionY.value = withDelay(index * 150, withTiming(0, {duration: 600}));
-  }, []);
-
-  const animatedStyle = useAnimatedStyle(() => {
-    return {opacity: opacity.value, transform: [{translateY: positionY.value}]};
-  }, []);
+  const delayedFadeInStyle = useDelayedFadeIn(index * 150, 600, 100, 0);
 
   return (
-    <Animated.View style={animatedStyle}>
+    <Animated.View style={delayedFadeInStyle}>
       <TouchableOpacity
         onPress={onPress}
         activeOpacity={
