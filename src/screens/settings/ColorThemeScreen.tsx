@@ -10,7 +10,7 @@ import SettingsGroup from '../../components/SettingsGroup';
 import {HEADER_ICON_SIZE} from '../../constants/dimensions';
 import {availableColorThemes} from '../../constants/predefinedColorThemes';
 import {AppRoute} from '../../enums/routes';
-import {useColorTheme} from '../../hooks/useColorTheme';
+import {useColorTheme} from '../../hooks/styles/useColorTheme';
 import {ColorTheme} from '../../models/ColorTheme';
 import {SettingsStackNavigatorParams} from '../../navigation/SettingsNavigator';
 

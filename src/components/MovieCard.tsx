@@ -9,7 +9,7 @@ import Animated, {
 import {IMAGE_BASE_URL} from '../constants/api';
 import {Movie} from '../models/Movie';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {useColorTheme} from '../hooks/useColorTheme';
+import {useColorTheme} from '../hooks/styles/useColorTheme';
 import moment from 'moment';
 import {cardShadowStyle} from '../constants/styling';
 

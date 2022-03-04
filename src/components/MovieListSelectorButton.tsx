@@ -10,7 +10,7 @@ import Animated, {
 import colors from '../constants/colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {MovieListTypes} from '../enums/movieListTypes';
-import {useColorTheme} from '../hooks/useColorTheme';
+import {useColorTheme} from '../hooks/styles/useColorTheme';
 
 interface MovieListSelectorButtonProps {
   updateListData: (displayedList: MovieListTypes) => void;

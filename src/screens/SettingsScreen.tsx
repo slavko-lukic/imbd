@@ -9,7 +9,7 @@ import SettingsGroupItem from '../components/SettingsGroupItem';
 import VerticalSpacing from '../components/VerticalSpacing';
 import {HEADER_ICON_SIZE} from '../constants/dimensions';
 import {AppRoute} from '../enums/routes';
-import {useColorTheme} from '../hooks/useColorTheme';
+import {useColorTheme} from '../hooks/styles/useColorTheme';
 import {SettingsItem} from '../models/SettingsItem';
 import {SettingsStackNavigatorParams} from '../navigation/SettingsNavigator';
 

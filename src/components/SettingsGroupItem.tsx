@@ -13,7 +13,7 @@ import {
   ACTIVE_OPACITY_STRONG,
   ACTIVE_OPACITY_WEAK,
 } from '../constants/miscellaneous';
-import {useColorTheme} from '../hooks/useColorTheme';
+import {useColorTheme} from '../hooks/styles/useColorTheme';
 
 interface SettingsGroupItemProps {
   settingName: string;

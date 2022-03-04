@@ -14,7 +14,7 @@ import {
   ACTIVE_OPACITY_WEAK,
 } from '../constants/miscellaneous';
 import {ColorThemes} from '../enums/colorThemes';
-import {useColorTheme} from '../hooks/useColorTheme';
+import {useColorTheme} from '../hooks/styles/useColorTheme';
 
 interface SelectThemeRadioButtonProps {
   colorThemeName: ColorThemes;
