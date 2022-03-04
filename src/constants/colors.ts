@@ -7,15 +7,8 @@ export default {
   GREY_2: 'rgb(144,143,148)',
   GREY_3: 'rgb(204,203,208)',
 
-  DRACULA_DARK: 'rgb(52,55,70)',
-  DRACULA_DARKER: 'rgb(40,42,54)',
-
-  SOLARIZED_WHITE: 'rgb(253,247,230)',
-  SOLARIZED_WHITE_DARKER: 'rgb(240,235,217)',
-
   IOS_BLUE: 'rgb(14,137,255)',
-
-  PERSIAN_PINK: 'rgb(242,128,193)',
+  GOLD: 'rgb(230, 195, 0)',
 };
 
 export const nordicThemeColors = {

@@ -25,6 +25,8 @@ const MovieCard: FC<MovieCardProps> = ({movie, index}) => {
     surfaceStyle,
     primaryColorForegroundStyle,
     foregroundStyle,
+    accentVariantColorForegroundStyle,
+    foregroundVariantStyle,
   } = useColorTheme();
 
   const springAnimationConfig: WithSpringConfig = {
@@ -76,16 +78,13 @@ const MovieCard: FC<MovieCardProps> = ({movie, index}) => {
           </Text>
         </View>
         <View style={styles.miscDataContainer}>
-          <Text style={primaryColorForegroundStyle}>
+          <Text style={accentVariantColorForegroundStyle}>
             {moment(movie.release_date).year()}
           </Text>
           <View style={styles.timeContainer}>
-            <Ionicons size={15} color={colorTheme.primary} name="time" />
+            <Ionicons size={15} color={colorTheme.accentVariant} name="time" />
             <Text
-              style={[
-                {fontSize: 14, marginLeft: 3},
-                primaryColorForegroundStyle,
-              ]}>
+              style={[{fontSize: 14, marginLeft: 3}, foregroundVariantStyle]}>
               1h 53m
             </Text>
           </View>
