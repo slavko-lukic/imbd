@@ -1,5 +1,8 @@
 import {SettingsActionsConstants} from '../../constants/actions/settingsActionsConstants';
-import colors from '../../constants/colors';
+import colors, {
+  nordicThemeColors,
+  solarizedThemeColors,
+} from '../../constants/colors';
 import {ColorThemes} from '../../enums/colorThemes';
 import {ColorTheme} from '../../models/ColorTheme';
 import {SettingsAction} from '../../types/actions/settingsActions';
@@ -7,52 +10,33 @@ import {SettingsReducerState} from '../../types/reducers/settingsReducerState';
 
 export const availableColorThemes: ColorTheme[] = [
   {
-    themeName: ColorThemes.CLASSIC_DARK,
-    type: 'dark',
-    primary: colors.IOS_BLUE,
-    background: colors.BLACK,
-    surface: colors.GREY_1,
-    onSurface: colors.WHITE,
-  },
-  {
-    themeName: ColorThemes.VEGA_IT,
-    type: 'dark',
-    primary: colors.VEGA,
-    background: colors.BLACK,
-    surface: colors.GREY_1,
-    onSurface: colors.WHITE,
-  },
-  {
-    themeName: ColorThemes.DRACULA,
-    type: 'dark',
-    primary: colors.PERSIAN_PINK,
-    background: colors.DRACULA_DARKER,
-    surface: colors.DRACULA_DARK,
-    onSurface: colors.WHITE,
-  },
-  {
     themeName: ColorThemes.NORDIC,
     type: 'dark',
-    primary: colors.VALENCIA,
-    background: colors.NORDIC_BLUE_DARKER,
-    surface: colors.NORDIC_BLUE,
-    onSurface: colors.NORDIC_BLUE_LIGHT,
+    primary: nordicThemeColors.PRIMARY,
+    primaryVariant: nordicThemeColors.PRIMARY_VARIANT,
+    accent: nordicThemeColors.ACCENT,
+    accentVariant: nordicThemeColors.ACCENT_VARIANT,
+    background: nordicThemeColors.BACKGROUND,
+    surface: nordicThemeColors.SURFACE,
+    surfaceVariant: nordicThemeColors.SURFACE_VARIANT,
+    foreground: nordicThemeColors.FOREGROUND,
+    foregroundVariant: nordicThemeColors.FOREGROUND_VARIANT,
+    foregroundContrast: nordicThemeColors.BACKGROUND,
   },
-  {
-    themeName: ColorThemes.CLASSIC_LIGHT,
-    type: 'light',
-    primary: colors.IOS_BLUE,
-    background: colors.WHITE,
-    surface: colors.WHITE_DIMMED,
-    onSurface: colors.BLACK,
-  },
+
   {
     themeName: ColorThemes.SOLARIZED,
     type: 'light',
-    primary: colors.IOS_BLUE,
-    background: colors.SOLARIZED_WHITE,
-    surface: colors.SOLARIZED_WHITE_DARKER,
-    onSurface: colors.BLACK,
+    primary: solarizedThemeColors.PRIMARY,
+    primaryVariant: solarizedThemeColors.PRIMARY_VARIANT,
+    accent: solarizedThemeColors.ACCENT,
+    accentVariant: solarizedThemeColors.ACCENT_VARIANT,
+    background: solarizedThemeColors.BACKGROUND,
+    surface: solarizedThemeColors.SURFACE,
+    surfaceVariant: solarizedThemeColors.SURFACE_VARIANT,
+    foreground: solarizedThemeColors.FOREGROUND,
+    foregroundVariant: solarizedThemeColors.FOREGROUND_VARIANT,
+    foregroundContrast: solarizedThemeColors.BACKGROUND,
   },
 ];
 

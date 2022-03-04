@@ -20,7 +20,7 @@ type ColorThemeScreenProps = StackScreenProps<
 >;
 
 const ColorThemeScreen: FC<ColorThemeScreenProps> = ({navigation}) => {
-  const {colorTheme, colorThemeBackgroundStyle} = useColorTheme();
+  const {colorTheme, backgroundStyle} = useColorTheme();
 
   const goBack = () => {
     navigation.goBack();
@@ -66,7 +66,7 @@ const ColorThemeScreen: FC<ColorThemeScreenProps> = ({navigation}) => {
   const headerLeftButton: JSX.Element = (
     <Ionicons
       name="arrow-back-sharp"
-      color={colorTheme.onSurface}
+      color={colorTheme.foreground}
       size={HEADER_ICON_SIZE}
       onPress={goBack}
     />
@@ -74,7 +74,7 @@ const ColorThemeScreen: FC<ColorThemeScreenProps> = ({navigation}) => {
   return (
     <SafeAreaView
       edges={['top']}
-      style={[styles.screenContainer, colorThemeBackgroundStyle]}>
+      style={[styles.screenContainer, backgroundStyle]}>
       <MainHeader leftButton={headerLeftButton} />
       <SettingsGroup
         title="Select color theme"

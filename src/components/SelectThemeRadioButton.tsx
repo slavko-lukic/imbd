@@ -28,8 +28,8 @@ const SelectThemeRadioButton: FC<SelectThemeRadioButtonProps> = ({
   const {
     colorTheme,
     setColorTheme,
-    colorThemeOnSurfaceStyle,
-    colorThemePrimaryOnSurfaceStyle,
+    foregroundStyle,
+    primaryColorForegroundStyle,
   } = useColorTheme();
 
   const opacity = useSharedValue(0);
@@ -60,16 +60,14 @@ const SelectThemeRadioButton: FC<SelectThemeRadioButtonProps> = ({
         }
         onPress={onPressHandler}>
         <Ionicons
-          color={isCurrentlyActive ? colorTheme.primary : colorTheme.onSurface}
+          color={isCurrentlyActive ? colorTheme.primary : colorTheme.foreground}
           size={SETTINGS_ITEM_ICON_SIZE}
           name={isCurrentlyActive ? 'radio-button-on' : 'radio-button-off'}
         />
         <Text
           style={[
             {fontSize: 16, marginHorizontal: 10},
-            isCurrentlyActive
-              ? colorThemePrimaryOnSurfaceStyle
-              : colorThemeOnSurfaceStyle,
+            isCurrentlyActive ? primaryColorForegroundStyle : foregroundStyle,
           ]}>
           {colorThemeName}
         </Text>

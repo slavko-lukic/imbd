@@ -11,14 +11,14 @@ interface MainHeaderProps {
 }
 
 const MainHeader: FC<MainHeaderProps> = ({leftButton, rightButton}) => {
-  const {colorTheme, colorThemeSurfaceStyle} = useColorTheme();
+  const {colorTheme, surfaceStyle} = useColorTheme();
 
   return (
-    <View style={[styles.headerContainer, colorThemeSurfaceStyle]}>
+    <View style={[styles.headerContainer, surfaceStyle]}>
       <StatusBar
         barStyle={colorTheme.type === 'dark' ? 'light-content' : 'dark-content'}
       />
-      <View style={[styles.statusBar, colorThemeSurfaceStyle]} />
+      <View style={[styles.statusBar, surfaceStyle]} />
       <View style={styles.mainWrapper}>
         <View style={styles.leftPart}>
           <View>{leftButton}</View>

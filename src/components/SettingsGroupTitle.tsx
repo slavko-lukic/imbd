@@ -9,7 +9,7 @@ import Animated, {
 import {useColorTheme} from '../hooks/useColorTheme';
 
 const SettingsGroupTitle: FC = ({children}) => {
-  const {colorThemeOnSurfaceStyle} = useColorTheme();
+  const {foregroundStyle} = useColorTheme();
 
   const opacity = useSharedValue(0);
 
@@ -31,7 +31,7 @@ const SettingsGroupTitle: FC = ({children}) => {
             marginHorizontal: 10,
             marginBottom: 10,
           },
-          colorThemeOnSurfaceStyle,
+          foregroundStyle,
         ]}>
         {children}
       </Text>

@@ -19,7 +19,7 @@ interface MovieListSelectorButtonProps {
 const MovieListSelectorButton: FC<MovieListSelectorButtonProps> = ({
   updateListData,
 }) => {
-  const {colorThemePrimaryBackgroundStyle} = useColorTheme();
+  const {primaryColorBackgroundStyle} = useColorTheme();
 
   const [displayedList, setDisplayedList] = useState<MovieListTypes>(
     MovieListTypes.SUGGESTIONS,
@@ -65,7 +65,7 @@ const MovieListSelectorButton: FC<MovieListSelectorButtonProps> = ({
     <Animated.View style={[animatedStyle]}>
       <Pressable
         onPress={onPressHandler}
-        style={[styles.button, colorThemePrimaryBackgroundStyle]}>
+        style={[styles.button, primaryColorBackgroundStyle]}>
         <Text style={{color: colors.WHITE, fontSize: 14}}>{displayedList}</Text>
         <Ionicons size={16} color={colors.WHITE} name="caret-back-sharp" />
       </Pressable>
