@@ -11,6 +11,7 @@ import {Movie} from '../models/Movie';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useColorTheme} from '../hooks/useColorTheme';
 import moment from 'moment';
+import {cardShadowStyle} from '../constants/styling';
 
 interface MovieCardProps {
   movie: Movie;
@@ -47,7 +48,12 @@ const MovieCard: FC<MovieCardProps> = ({movie, index}) => {
 
   return (
     <Animated.View
-      style={[styles.card, movieCardAnimatedStyle, colorThemeSurfaceStyle]}>
+      style={[
+        styles.card,
+        movieCardAnimatedStyle,
+        cardShadowStyle,
+        colorThemeSurfaceStyle,
+      ]}>
       <View style={styles.imageContainer}>
         <Image
           style={styles.image}
@@ -102,16 +108,6 @@ const styles = StyleSheet.create({
     marginTop: 15,
 
     flexDirection: 'row',
-
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 1,
-      height: 2,
-    },
-    shadowOpacity: 0.4,
-    shadowRadius: 4.0,
-
-    elevation: 7,
   },
   imageContainer: {
     borderRadius: 5,
@@ -140,23 +136,3 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-
-{
-  /* <ImageBackground
-        style={styles.image}
-        resizeMode={'cover'}
-        source={{
-          uri: IMAGE_BASE_URL + movie.backdrop_path,
-        }}>
-        <View style={styles.details}>
-          <View style={styles.titleContainer}>
-            <Text numberOfLines={1} style={{color: 'white', fontSize: 22}}>
-              {movie.original_title}
-            </Text>
-          </View>
-          <View style={styles.heartContainer}>
-            <Ionicons name="heart-outline" size={24} color={colors.WHITE} />
-          </View>
-        </View>
-      </ImageBackground> */
-}
