@@ -3,6 +3,7 @@ import {StatusBar, StyleSheet, View} from 'react-native';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import colors from '../constants/colors';
 import {HEADER_HEIGHT} from '../constants/dimensions';
+import {topHeaderShadowStyle} from '../constants/styling';
 import {useColorTheme} from '../hooks/useColorTheme';
 
 interface MainHeaderProps {
@@ -36,6 +37,16 @@ export default MainHeader;
 const styles = StyleSheet.create({
   headerContainer: {
     width: '100%',
+
+    shadowColor: colors.BLACK,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.4,
+    shadowRadius: 4.0,
+
+    elevation: 6,
   },
   statusBar: {
     position: 'absolute',

@@ -9,6 +9,7 @@ import ProfileScreen from '../screens/ProfileScreen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {RouteProp} from '@react-navigation/native';
 import {useColorTheme} from '../hooks/useColorTheme';
+import colors from '../constants/colors';
 
 export type BottomTabNavigatorParams = {
   [AppRoute.MOVIES]: undefined;
@@ -31,6 +32,15 @@ export const BottomTabs = (): React.ReactElement => {
       tabBarStyle: {
         height: 100,
         backgroundColor: colorTheme.surface,
+
+        shadowColor: colors.BLACK,
+        shadowOffset: {
+          width: 0,
+          height: -3,
+        },
+        shadowOpacity: 0.2,
+        shadowRadius: 3.0,
+        elevation: 6,
       },
     }),
     [colorTheme],
