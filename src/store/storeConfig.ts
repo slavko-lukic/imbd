@@ -1,13 +1,7 @@
-import {combineReducers, createStore} from 'redux';
-import settingsReducer from './reducers/settingsReducer';
+import {createStore} from 'redux';
 import {persistStore, persistReducer} from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-export type RootState = ReturnType<typeof rootReducer>;
-
-const rootReducer = combineReducers({
-  settings: settingsReducer,
-});
+import {rootReducer} from './reducers/rootReducer';
 
 const persistConfig = {
   key: 'root',
