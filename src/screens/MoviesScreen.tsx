@@ -21,7 +21,7 @@ type MoviesScreenProps = BottomTabScreenProps<
 >;
 
 const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
-  const {colorTheme, colorThemeBackgroundStyle} = useColorTheme();
+  const {colorTheme, backgroundStyle} = useColorTheme();
 
   const [listData, setListData] = useState<Movie[]>(SUGGESTED_MOVIES);
 
@@ -56,7 +56,7 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
   const headerRightButton: JSX.Element = (
     <Ionicons
       name="settings-sharp"
-      color={colorTheme.onSurface}
+      color={colorTheme.foreground}
       size={HEADER_ICON_SIZE}
       onPress={goToSettings}
     />
@@ -67,7 +67,7 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
   return (
     <SafeAreaView
       edges={['top']}
-      style={[styles.screenContaner, colorThemeBackgroundStyle]}>
+      style={[styles.screenContaner, backgroundStyle]}>
       <MainHeader
         leftButton={headerLeftButton}
         rightButton={headerRightButton}

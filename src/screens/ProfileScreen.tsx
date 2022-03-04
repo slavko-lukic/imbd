@@ -15,7 +15,7 @@ type ProfileScreenProps = BottomTabScreenProps<
 >;
 
 const ProfileScreen: FC<ProfileScreenProps> = ({navigation}) => {
-  const {colorTheme, colorThemeBackgroundStyle} = useColorTheme();
+  const {colorTheme, backgroundStyle} = useColorTheme();
 
   const goToSettings = () => {
     navigation.navigate(AppRoute.SETTINGS);
@@ -24,7 +24,7 @@ const ProfileScreen: FC<ProfileScreenProps> = ({navigation}) => {
   const headerRightButton: JSX.Element = (
     <Ionicons
       name="settings-sharp"
-      color={colorTheme.onSurface}
+      color={colorTheme.foreground}
       size={HEADER_ICON_SIZE}
       onPress={goToSettings}
     />
@@ -32,7 +32,7 @@ const ProfileScreen: FC<ProfileScreenProps> = ({navigation}) => {
   return (
     <SafeAreaView
       edges={['top']}
-      style={[styles.screenContaner, colorThemeBackgroundStyle]}>
+      style={[styles.screenContaner, backgroundStyle]}>
       <MainHeader rightButton={headerRightButton} />
     </SafeAreaView>
   );

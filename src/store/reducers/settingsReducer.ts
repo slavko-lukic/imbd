@@ -1,60 +1,8 @@
 import {SettingsActionsConstants} from '../../constants/actions/settingsActionsConstants';
-import colors from '../../constants/colors';
-import {ColorThemes} from '../../enums/colorThemes';
+import {availableColorThemes} from '../../constants/predefinedColorThemes';
 import {ColorTheme} from '../../models/ColorTheme';
 import {SettingsAction} from '../../types/actions/settingsActions';
 import {SettingsReducerState} from '../../types/reducers/settingsReducerState';
-
-export const availableColorThemes: ColorTheme[] = [
-  {
-    themeName: ColorThemes.CLASSIC_DARK,
-    type: 'dark',
-    primary: colors.IOS_BLUE,
-    background: colors.BLACK,
-    surface: colors.GREY_1,
-    onSurface: colors.WHITE,
-  },
-  {
-    themeName: ColorThemes.VEGA_IT,
-    type: 'dark',
-    primary: colors.VEGA,
-    background: colors.BLACK,
-    surface: colors.GREY_1,
-    onSurface: colors.WHITE,
-  },
-  {
-    themeName: ColorThemes.DRACULA,
-    type: 'dark',
-    primary: colors.PERSIAN_PINK,
-    background: colors.DRACULA_DARKER,
-    surface: colors.DRACULA_DARK,
-    onSurface: colors.WHITE,
-  },
-  {
-    themeName: ColorThemes.NORDIC,
-    type: 'dark',
-    primary: colors.VALENCIA,
-    background: colors.NORDIC_BLUE_DARKER,
-    surface: colors.NORDIC_BLUE,
-    onSurface: colors.NORDIC_BLUE_LIGHT,
-  },
-  {
-    themeName: ColorThemes.CLASSIC_LIGHT,
-    type: 'light',
-    primary: colors.IOS_BLUE,
-    background: colors.WHITE,
-    surface: colors.WHITE_DIMMED,
-    onSurface: colors.BLACK,
-  },
-  {
-    themeName: ColorThemes.SOLARIZED,
-    type: 'light',
-    primary: colors.IOS_BLUE,
-    background: colors.SOLARIZED_WHITE,
-    surface: colors.SOLARIZED_WHITE_DARKER,
-    onSurface: colors.BLACK,
-  },
-];
 
 const initialState: SettingsReducerState = {
   colorTheme: availableColorThemes[0],

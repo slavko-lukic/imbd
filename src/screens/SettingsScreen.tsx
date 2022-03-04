@@ -19,7 +19,7 @@ type SettingsScreenProps = StackScreenProps<
 >;
 
 const SettingsScreen: FC<SettingsScreenProps> = ({navigation}) => {
-  const {colorTheme, colorThemeBackgroundStyle} = useColorTheme();
+  const {colorTheme, backgroundStyle} = useColorTheme();
 
   const goBack = () => {
     navigation.goBack();
@@ -69,7 +69,7 @@ const SettingsScreen: FC<SettingsScreenProps> = ({navigation}) => {
   const headerLeftButton: JSX.Element = (
     <Ionicons
       name="arrow-back-sharp"
-      color={colorTheme.onSurface}
+      color={colorTheme.foreground}
       size={HEADER_ICON_SIZE}
       onPress={goBack}
     />
@@ -77,7 +77,7 @@ const SettingsScreen: FC<SettingsScreenProps> = ({navigation}) => {
   return (
     <SafeAreaView
       edges={['top']}
-      style={[styles.screenContainer, colorThemeBackgroundStyle]}>
+      style={[styles.screenContainer, backgroundStyle]}>
       <MainHeader leftButton={headerLeftButton} />
       <ScrollView
         showsVerticalScrollIndicator={false}

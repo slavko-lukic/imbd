@@ -9,11 +9,20 @@ import {RootState} from '../store/storeConfig';
 export const useColorTheme = (): {
   colorTheme: ColorTheme;
   setColorTheme: (theme: ColorThemes) => void;
-  colorThemeBackgroundStyle: StyleProp<ViewStyle>;
-  colorThemeSurfaceStyle: StyleProp<ViewStyle>;
-  colorThemeOnSurfaceStyle: StyleProp<ViewStyle | TextStyle>;
-  colorThemePrimaryBackgroundStyle: StyleProp<ViewStyle>;
-  colorThemePrimaryOnSurfaceStyle: StyleProp<ViewStyle | TextStyle>;
+  primaryColorBackgroundStyle: StyleProp<ViewStyle>;
+  primaryColorForegroundStyle: StyleProp<ViewStyle | TextStyle>;
+  primaryVariantColorBackgroundStyle: StyleProp<ViewStyle>;
+  primaryVariantColorForegroundStyle: StyleProp<ViewStyle | TextStyle>;
+  accentColorBackgroundStyle: StyleProp<ViewStyle>;
+  accentColorForegroundStyle: StyleProp<ViewStyle | TextStyle>;
+  accentVariantColorBackgroundStyle: StyleProp<ViewStyle>;
+  accentVariantColorForegroundStyle: StyleProp<ViewStyle | TextStyle>;
+  backgroundStyle: StyleProp<ViewStyle>;
+  surfaceStyle: StyleProp<ViewStyle>;
+  surfaceVariantStyle: StyleProp<ViewStyle>;
+  foregroundStyle: StyleProp<ViewStyle | TextStyle>;
+  foregroundVariantStyle: StyleProp<ViewStyle | TextStyle>;
+  foregroundContrastVariantStyle: StyleProp<ViewStyle | TextStyle>;
 } => {
   const dispatch = useDispatch();
   const colorTheme = useSelector(
@@ -27,45 +36,114 @@ export const useColorTheme = (): {
     [colorTheme],
   );
 
-  const colorThemePrimaryBackgroundStyle: StyleProp<ViewStyle> = useMemo(() => {
+  const primaryColorBackgroundStyle: StyleProp<ViewStyle> = useMemo(() => {
     return {
       backgroundColor: colorTheme.primary,
     };
   }, [colorTheme]);
 
-  const colorThemePrimaryOnSurfaceStyle: StyleProp<ViewStyle | TextStyle> =
+  const primaryColorForegroundStyle: StyleProp<ViewStyle | TextStyle> =
     useMemo(() => {
       return {
         color: colorTheme.primary,
       };
     }, [colorTheme]);
 
-  const colorThemeBackgroundStyle: StyleProp<ViewStyle> = useMemo(() => {
+  const primaryVariantColorBackgroundStyle: StyleProp<ViewStyle> =
+    useMemo(() => {
+      return {
+        backgroundColor: colorTheme.primaryVariant,
+      };
+    }, [colorTheme]);
+
+  const primaryVariantColorForegroundStyle: StyleProp<ViewStyle | TextStyle> =
+    useMemo(() => {
+      return {
+        color: colorTheme.primaryVariant,
+      };
+    }, [colorTheme]);
+
+  const accentColorBackgroundStyle: StyleProp<ViewStyle> = useMemo(() => {
+    return {
+      backgroundColor: colorTheme.accent,
+    };
+  }, [colorTheme]);
+
+  const accentColorForegroundStyle: StyleProp<ViewStyle | TextStyle> =
+    useMemo(() => {
+      return {
+        color: colorTheme.accent,
+      };
+    }, [colorTheme]);
+
+  const accentVariantColorBackgroundStyle: StyleProp<ViewStyle> =
+    useMemo(() => {
+      return {
+        backgroundColor: colorTheme.accentVariant,
+      };
+    }, [colorTheme]);
+
+  const accentVariantColorForegroundStyle: StyleProp<ViewStyle | TextStyle> =
+    useMemo(() => {
+      return {
+        color: colorTheme.accentVariant,
+      };
+    }, [colorTheme]);
+
+  const backgroundStyle: StyleProp<ViewStyle> = useMemo(() => {
     return {
       backgroundColor: colorTheme.background,
     };
   }, [colorTheme]);
 
-  const colorThemeSurfaceStyle: StyleProp<ViewStyle> = useMemo(() => {
+  const surfaceStyle: StyleProp<ViewStyle> = useMemo(() => {
     return {
       backgroundColor: colorTheme.surface,
     };
   }, [colorTheme]);
 
-  const colorThemeOnSurfaceStyle: StyleProp<ViewStyle | TextStyle> =
+  const surfaceVariantStyle: StyleProp<ViewStyle> = useMemo(() => {
+    return {
+      backgroundColor: colorTheme.surfaceVariant,
+    };
+  }, [colorTheme]);
+
+  const foregroundStyle: StyleProp<ViewStyle | TextStyle> = useMemo(() => {
+    return {
+      color: colorTheme.foreground,
+    };
+  }, [colorTheme]);
+
+  const foregroundVariantStyle: StyleProp<ViewStyle | TextStyle> =
     useMemo(() => {
       return {
-        color: colorTheme.onSurface,
+        color: colorTheme.foregroundVariant,
+      };
+    }, [colorTheme]);
+
+  const foregroundContrastVariantStyle: StyleProp<ViewStyle | TextStyle> =
+    useMemo(() => {
+      return {
+        color: colorTheme.foregroundContrast,
       };
     }, [colorTheme]);
 
   return {
     colorTheme,
     setColorTheme,
-    colorThemeBackgroundStyle,
-    colorThemeSurfaceStyle,
-    colorThemeOnSurfaceStyle,
-    colorThemePrimaryBackgroundStyle,
-    colorThemePrimaryOnSurfaceStyle,
+    primaryColorBackgroundStyle,
+    primaryColorForegroundStyle,
+    primaryVariantColorBackgroundStyle,
+    primaryVariantColorForegroundStyle,
+    accentColorBackgroundStyle,
+    accentColorForegroundStyle,
+    accentVariantColorBackgroundStyle,
+    accentVariantColorForegroundStyle,
+    backgroundStyle,
+    surfaceStyle,
+    surfaceVariantStyle,
+    foregroundStyle,
+    foregroundVariantStyle,
+    foregroundContrastVariantStyle,
   };
 };

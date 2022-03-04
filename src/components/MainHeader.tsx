@@ -3,7 +3,6 @@ import {StatusBar, StyleSheet, View} from 'react-native';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import colors from '../constants/colors';
 import {HEADER_HEIGHT} from '../constants/dimensions';
-import {topHeaderShadowStyle} from '../constants/styling';
 import {useColorTheme} from '../hooks/useColorTheme';
 
 interface MainHeaderProps {
@@ -12,14 +11,14 @@ interface MainHeaderProps {
 }
 
 const MainHeader: FC<MainHeaderProps> = ({leftButton, rightButton}) => {
-  const {colorTheme, colorThemeSurfaceStyle} = useColorTheme();
+  const {colorTheme, surfaceStyle} = useColorTheme();
 
   return (
-    <View style={[styles.headerContainer, colorThemeSurfaceStyle]}>
+    <View style={[styles.headerContainer, surfaceStyle]}>
       <StatusBar
         barStyle={colorTheme.type === 'dark' ? 'light-content' : 'dark-content'}
       />
-      <View style={[styles.statusBar, colorThemeSurfaceStyle]} />
+      <View style={[styles.statusBar, surfaceStyle]} />
       <View style={styles.mainWrapper}>
         <View style={styles.leftPart}>
           <View>{leftButton}</View>

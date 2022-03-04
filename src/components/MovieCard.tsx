@@ -22,9 +22,11 @@ const MovieCard: FC<MovieCardProps> = ({movie, index}) => {
   const movieCardY = useSharedValue(-((index + 1) * 1200));
   const {
     colorTheme,
-    colorThemeSurfaceStyle,
-    colorThemePrimaryOnSurfaceStyle,
-    colorThemeOnSurfaceStyle,
+    surfaceStyle,
+    primaryColorForegroundStyle,
+    foregroundStyle,
+    accentVariantColorForegroundStyle,
+    foregroundVariantStyle,
   } = useColorTheme();
 
   const springAnimationConfig: WithSpringConfig = {
@@ -52,7 +54,7 @@ const MovieCard: FC<MovieCardProps> = ({movie, index}) => {
         styles.card,
         movieCardAnimatedStyle,
         cardShadowStyle,
-        colorThemeSurfaceStyle,
+        surfaceStyle,
       ]}>
       <View style={styles.imageContainer}>
         <Image
@@ -67,27 +69,22 @@ const MovieCard: FC<MovieCardProps> = ({movie, index}) => {
         <View style={styles.mainDataContainer}>
           <Text
             numberOfLines={1}
-            style={[{fontSize: 18}, colorThemePrimaryOnSurfaceStyle]}>
+            style={[{fontSize: 18}, primaryColorForegroundStyle]}>
             {movie.original_title}
           </Text>
 
-          <Text
-            style={[{marginTop: 5}, colorThemeOnSurfaceStyle]}
-            numberOfLines={9}>
+          <Text style={[{marginTop: 5}, foregroundStyle]} numberOfLines={9}>
             {movie.overview}
           </Text>
         </View>
         <View style={styles.miscDataContainer}>
-          <Text style={colorThemePrimaryOnSurfaceStyle}>
+          <Text style={accentVariantColorForegroundStyle}>
             {moment(movie.release_date).year()}
           </Text>
           <View style={styles.timeContainer}>
-            <Ionicons size={15} color={colorTheme.primary} name="time" />
+            <Ionicons size={15} color={colorTheme.accentVariant} name="time" />
             <Text
-              style={[
-                {fontSize: 14, marginLeft: 3},
-                colorThemePrimaryOnSurfaceStyle,
-              ]}>
+              style={[{fontSize: 14, marginLeft: 3}, foregroundVariantStyle]}>
               1h 53m
             </Text>
           </View>

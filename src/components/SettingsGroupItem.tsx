@@ -28,8 +28,7 @@ const SettingsGroupItem: FC<SettingsGroupItemProps> = ({
   index = 1,
   onPress,
 }) => {
-  const {colorTheme, colorThemeSurfaceStyle, colorThemeOnSurfaceStyle} =
-    useColorTheme();
+  const {colorTheme, surfaceStyle, foregroundStyle} = useColorTheme();
 
   const opacity = useSharedValue(0);
   const positionY = useSharedValue(-50);
@@ -52,11 +51,11 @@ const SettingsGroupItem: FC<SettingsGroupItemProps> = ({
             ? ACTIVE_OPACITY_WEAK
             : ACTIVE_OPACITY_STRONG
         }
-        style={[styles.container, colorThemeSurfaceStyle]}>
+        style={[styles.container, surfaceStyle]}>
         <Ionicons
           name={icon}
           size={SETTINGS_ITEM_ICON_SIZE}
-          color={colorTheme.onSurface}
+          color={colorTheme.foreground}
         />
         <Text
           numberOfLines={1}
@@ -65,7 +64,7 @@ const SettingsGroupItem: FC<SettingsGroupItemProps> = ({
               fontSize: 16,
               marginHorizontal: 10,
             },
-            colorThemeOnSurfaceStyle,
+            foregroundStyle,
           ]}>
           {settingName}
         </Text>

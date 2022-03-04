@@ -55,7 +55,7 @@ export const BottomTabs = (): React.ReactElement => {
         return (
           <Ionicons
             size={30}
-            color={focused ? colorTheme.primary : colorTheme.onSurface}
+            color={focused ? colorTheme.primary : colorTheme.foreground}
             name="film-outline"
           />
         );
@@ -72,7 +72,7 @@ export const BottomTabs = (): React.ReactElement => {
         return (
           <Ionicons
             size={30}
-            color={focused ? colorTheme.primary : colorTheme.onSurface}
+            color={focused ? colorTheme.primary : colorTheme.foreground}
             name="person-outline"
           />
         );

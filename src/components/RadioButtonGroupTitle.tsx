@@ -9,7 +9,7 @@ import Animated, {
 import {useColorTheme} from '../hooks/useColorTheme';
 
 const RadioButtonGroupTitle: FC = ({children}) => {
-  const {colorThemeOnSurfaceStyle} = useColorTheme();
+  const {foregroundStyle} = useColorTheme();
 
   const opacity = useSharedValue(0);
 
@@ -31,7 +31,7 @@ const RadioButtonGroupTitle: FC = ({children}) => {
             fontStyle: 'normal',
             marginBottom: 5,
           },
-          colorThemeOnSurfaceStyle,
+          foregroundStyle,
         ]}>
         {children}
       </Text>
