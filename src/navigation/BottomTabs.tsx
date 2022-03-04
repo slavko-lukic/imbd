@@ -8,16 +8,20 @@ import MoviesScreen from '../screens/MoviesScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {RouteProp} from '@react-navigation/native';
+import {useColorTheme} from '../hooks/useColorTheme';
 import colors from '../constants/colors';
 
 export type BottomTabNavigatorParams = {
   [AppRoute.MOVIES]: undefined;
   [AppRoute.PROFILE]: undefined;
+  [AppRoute.SETTINGS]: undefined;
 };
 
 const Tabs = createBottomTabNavigator<BottomTabNavigatorParams>();
 
 export const BottomTabs = (): React.ReactElement => {
+  const {colorTheme} = useColorTheme();
+
   const bottomTabGeneralOptions: (props: {
     route: RouteProp<BottomTabNavigatorParams, keyof BottomTabNavigatorParams>;
     navigation: any;
@@ -27,10 +31,19 @@ export const BottomTabs = (): React.ReactElement => {
       tabBarShowLabel: false,
       tabBarStyle: {
         height: 100,
-        backgroundColor: colors.SURFACE,
+        backgroundColor: colorTheme.surface,
+
+        shadowColor: colors.BLACK,
+        shadowOffset: {
+          width: 0,
+          height: -3,
+        },
+        shadowOpacity: 0.2,
+        shadowRadius: 3.0,
+        elevation: 6,
       },
     }),
-    [],
+    [colorTheme],
   );
 
   const bottomTabMoviesOptions: (props: {
@@ -42,13 +55,13 @@ export const BottomTabs = (): React.ReactElement => {
         return (
           <Ionicons
             size={30}
-            color={focused ? colors.PRIMARY : colors.GREY}
+            color={focused ? colorTheme.primary : colorTheme.foreground}
             name="film-outline"
           />
         );
       },
     };
-  }, []);
+  }, [colorTheme]);
 
   const bottomTabProfileOptions: (props: {
     route: RouteProp<BottomTabNavigatorParams, keyof BottomTabNavigatorParams>;
@@ -59,13 +72,13 @@ export const BottomTabs = (): React.ReactElement => {
         return (
           <Ionicons
             size={30}
-            color={focused ? colors.PRIMARY : colors.GREY}
+            color={focused ? colorTheme.primary : colorTheme.foreground}
             name="person-outline"
           />
         );
       },
     };
-  }, []);
+  }, [colorTheme]);
 
   return (
     <Tabs.Navigator screenOptions={bottomTabGeneralOptions}>

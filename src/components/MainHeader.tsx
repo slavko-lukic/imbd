@@ -1,38 +1,30 @@
 import React, {FC} from 'react';
-import {StatusBar, StyleSheet, TouchableOpacity, View} from 'react-native';
-
+import {StatusBar, StyleSheet, View} from 'react-native';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import colors from '../constants/colors';
+import {HEADER_HEIGHT} from '../constants/dimensions';
+import {useColorTheme} from '../hooks/useColorTheme';
 
 interface MainHeaderProps {
   leftButton?: JSX.Element;
   rightButton?: JSX.Element;
-  leftButtonOnPress?: () => void;
-  rightButtonOnPress?: () => void;
 }
 
-const HEADER_HEIGHT = 60;
+const MainHeader: FC<MainHeaderProps> = ({leftButton, rightButton}) => {
+  const {colorTheme, surfaceStyle} = useColorTheme();
 
-const MainHeader: FC<MainHeaderProps> = ({
-  leftButton,
-  rightButton,
-  leftButtonOnPress,
-  rightButtonOnPress,
-}) => {
   return (
-    <View style={styles.headerContainer}>
-      <StatusBar barStyle={'light-content'} />
-      <View style={styles.statusBar} />
+    <View style={[styles.headerContainer, surfaceStyle]}>
+      <StatusBar
+        barStyle={colorTheme.type === 'dark' ? 'light-content' : 'dark-content'}
+      />
+      <View style={[styles.statusBar, surfaceStyle]} />
       <View style={styles.mainWrapper}>
         <View style={styles.leftPart}>
-          <TouchableOpacity onPress={leftButtonOnPress}>
-            {leftButton}
-          </TouchableOpacity>
+          <View>{leftButton}</View>
         </View>
         <View style={styles.rightPart}>
-          <TouchableOpacity onPress={rightButtonOnPress}>
-            {rightButton}
-          </TouchableOpacity>
+          <View>{rightButton}</View>
         </View>
       </View>
     </View>
@@ -43,21 +35,29 @@ export default MainHeader;
 
 const styles = StyleSheet.create({
   headerContainer: {
-    backgroundColor: colors.SURFACE,
     width: '100%',
+
+    shadowColor: colors.BLACK,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.4,
+    shadowRadius: 4.0,
+
+    elevation: 6,
   },
   statusBar: {
     position: 'absolute',
     top: -getStatusBarHeight(),
     height: getStatusBarHeight(),
     width: '100%',
-    backgroundColor: colors.SURFACE,
   },
   mainWrapper: {
     height: HEADER_HEIGHT,
     flexDirection: 'row',
     borderBottomWidth: 0.5,
-    borderBottomColor: colors.GREY,
+    borderBottomColor: colors.GREY_2,
   },
   leftPart: {
     flex: 1,

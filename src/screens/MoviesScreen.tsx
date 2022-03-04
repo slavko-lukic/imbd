@@ -1,88 +1,91 @@
-import React, {useEffect, useState} from 'react';
-import {Text, View} from 'react-native';
-import Animated, {
-  runOnJS,
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated';
+import React, {FC, useCallback, useState} from 'react';
+import {FlatList, ListRenderItem, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import MainHeader from '../components/MainHeader';
-import colors from '../constants/colors';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import {MovieListTypes} from '../enums/movieListTypes';
 import MovieCard from '../components/MovieCard';
+import {SUGGESTED_MOVIES, WATCHED_MOVIES, WATCHLIST} from '../mock/movies_mock';
+import {Movie} from '../models/Movie';
+import MovieListSelectorButton from '../components/MovieListSelectorButton';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import {HEADER_ICON_SIZE} from '../constants/dimensions';
+import {AppRoute} from '../enums/routes';
+import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
+import {BottomTabNavigatorParams} from '../navigation/BottomTabs';
+import VerticalSpacing from '../components/VerticalSpacing';
+import {useColorTheme} from '../hooks/useColorTheme';
 
-const MoviesScreen = () => {
-  const [currentList, setCurrentList] = useState<
-    'watchlist' | 'watched' | 'suggestions'
-  >('suggestions');
+type MoviesScreenProps = BottomTabScreenProps<
+  BottomTabNavigatorParams,
+  AppRoute.MOVIES
+>;
 
-  // const queryParams = new URLSearchParams({
-  //   api_key: 'e0966f5c25707b5d4f4f5a1670429967',
-  //   language: 'en-US',
-  //   page: '1',
-  // });
-  // const {response} = useAxiosFetch('/popular', queryParams);
-  const X = useSharedValue(0);
-  const Y = useSharedValue(0);
+const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
+  const {colorTheme, backgroundStyle} = useColorTheme();
 
-  const animatedStyle = useAnimatedStyle(() => {
-    return {transform: [{translateY: Y.value}, {translateX: X.value}]};
+  const [listData, setListData] = useState<Movie[]>(SUGGESTED_MOVIES);
+
+  const listDataUpdateHandler = useCallback((displayedList: MovieListTypes) => {
+    switch (displayedList) {
+      case MovieListTypes.WATCHLIST:
+        setListData(WATCHLIST);
+        break;
+      case MovieListTypes.SUGGESTIONS:
+        setListData(SUGGESTED_MOVIES);
+        break;
+      case MovieListTypes.WATCHED:
+        setListData(WATCHED_MOVIES);
+        break;
+      default:
+        setListData(SUGGESTED_MOVIES);
+        break;
+    }
   }, []);
 
-  const listControl = (
-    <Animated.View
-      style={[{flexDirection: 'row', alignItems: 'center'}, animatedStyle]}>
-      <Text style={{color: colors.WHITE, fontSize: 16}}>{currentList}</Text>
-      <Ionicons size={16} color={colors.WHITE} name="caret-back-sharp" />
-    </Animated.View>
+  const goToSettings = () => {
+    navigation.navigate(AppRoute.SETTINGS);
+  };
+
+  const renderItem: ListRenderItem<Movie> = ({item, index}) => (
+    <MovieCard movie={item} index={index} />
   );
 
-  const nextState = (): MovieListTypes => {
-    switch (currentList) {
-      case MovieListTypes.WATCHED:
-        return MovieListTypes.WATCHLIST;
-      case MovieListTypes.WATCHLIST:
-        return MovieListTypes.SUGGESTIONS;
-      case MovieListTypes.SUGGESTIONS:
-        return MovieListTypes.WATCHED;
-      default:
-        return MovieListTypes.SUGGESTIONS;
-    }
-  };
+  const headerLeftButton: JSX.Element = (
+    <MovieListSelectorButton updateListData={listDataUpdateHandler} />
+  );
+  const headerRightButton: JSX.Element = (
+    <Ionicons
+      name="settings-sharp"
+      color={colorTheme.foreground}
+      size={HEADER_ICON_SIZE}
+      onPress={goToSettings}
+    />
+  );
 
-  const headerLeftButtonHandler = () => {
-    X.value = withTiming(-200, {duration: 140}, isFinished => {
-      if (isFinished) {
-        Y.value = withTiming(-200, {duration: 140}, isFinished => {
-          if (isFinished) runOnJS(setCurrentList)(nextState);
-        });
-      }
-    });
-  };
-
-  useEffect(() => {
-    X.value = withTiming(-0, {duration: 140}, isFinished => {
-      if (isFinished) {
-        Y.value = withTiming(0, {duration: 140});
-      }
-    });
-  }, [currentList]);
+  const listFooter = <VerticalSpacing spacing={60} />;
 
   return (
     <SafeAreaView
       edges={['top']}
-      style={{backgroundColor: colors.BACKGROUND, flex: 1, height: '100%'}}>
+      style={[styles.screenContaner, backgroundStyle]}>
       <MainHeader
-        leftButton={listControl}
-        leftButtonOnPress={headerLeftButtonHandler}
+        leftButton={headerLeftButton}
+        rightButton={headerRightButton}
       />
-      <MovieCard />
-      <MovieCard />
-      <MovieCard />
+      <FlatList
+        ListFooterComponent={listFooter}
+        data={listData}
+        renderItem={renderItem}
+      />
     </SafeAreaView>
   );
 };
 
 export default MoviesScreen;
+
+const styles = StyleSheet.create({
+  screenContaner: {
+    flex: 1,
+    height: '100%',
+  },
+});
