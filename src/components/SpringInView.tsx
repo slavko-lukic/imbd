@@ -1,5 +1,5 @@
 import React, {FC, useEffect} from 'react';
-import {TouchableOpacity, ViewProps} from 'react-native';
+import {TouchableOpacity, View, ViewProps} from 'react-native';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -10,29 +10,38 @@ import Animated, {
 
 interface SpringInViewProps extends ViewProps {
   /**
-   * delays the animation - defaults to 0 (in milliseconds)
+   * Delays the animation by set time (in milliseconds).
+   * Defaults to 0.
    */
   delay?: number;
 
   /**
-   * spring animation config
+   * Spring animation configuration.
    */
   springAnimationConfig?: WithSpringConfig;
 
   /**
-   * initial X position - defaults to 0
+   * Initial X position.
+   * Defaults to 0.
    */
   offsetX?: number;
 
   /**
-   * initial Y position - defaults to 0
+   * Initial Y position.
+   * Defaults to 0.
    */
   offsetY?: number;
 
   /**
-   * callback that executes when component is pressed
+   * Callback that executes when component is pressed.
    */
   onPress?: () => void;
+
+  /**
+   * Determines what the opacity of the wrapped view should be when touch is active
+   * Defaults to 0.2.
+   */
+  activeOpacity?: number;
 }
 
 const SpringInView: FC<SpringInViewProps> = ({
@@ -41,6 +50,7 @@ const SpringInView: FC<SpringInViewProps> = ({
   offsetX = 0,
   offsetY = 0,
   onPress,
+  activeOpacity,
   children,
   style,
   ...otherProps
@@ -63,9 +73,16 @@ const SpringInView: FC<SpringInViewProps> = ({
 
   return (
     <Animated.View style={animatedStyle} {...otherProps}>
-      <TouchableOpacity onPress={onPress} style={style}>
-        {children}
-      </TouchableOpacity>
+      {onPress ? (
+        <TouchableOpacity
+          activeOpacity={activeOpacity}
+          onPress={onPress}
+          style={style}>
+          {children}
+        </TouchableOpacity>
+      ) : (
+        <View style={style}>{children}</View>
+      )}
     </Animated.View>
   );
 };

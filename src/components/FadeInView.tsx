@@ -67,21 +67,21 @@ const FadeInView: FC<FadeInViewProps> = ({
   const positionX = useSharedValue(offsetX);
   const positionY = useSharedValue(offsetY);
 
+  const timingOpacity: number = withTiming(1, {duration: duration});
+  const timingPosition: number = withTiming(0, {duration: duration});
+
   useEffect(() => {
-    if (initialOpacity < 1)
-      opacity.value = withDelay(delay, withTiming(1, {duration: duration}));
+    if (initialOpacity < 1) opacity.value = withDelay(delay, timingOpacity);
 
-    if (offsetX)
-      positionX.value = withDelay(delay, withTiming(0, {duration: duration}));
+    if (offsetX) positionX.value = withDelay(delay, timingPosition);
 
-    if (offsetY)
-      positionY.value = withDelay(delay, withTiming(0, {duration: duration}));
+    if (offsetY) positionY.value = withDelay(delay, timingPosition);
   }, []);
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
       opacity: opacity.value,
-      transform: [{translateY: positionY.value}, {translateX: positionX.value}],
+      transform: [{translateX: positionX.value}, {translateY: positionY.value}],
     };
   }, []);
 
