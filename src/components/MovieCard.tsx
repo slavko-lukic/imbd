@@ -1,17 +1,13 @@
-import React, {FC, useEffect} from 'react';
+import React, {FC} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-  WithSpringConfig,
-} from 'react-native-reanimated';
+import {WithSpringConfig} from 'react-native-reanimated';
 import {IMAGE_BASE_URL} from '../constants/api';
 import {Movie} from '../models/Movie';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {useColorTheme} from '../hooks/useColorTheme';
+import {useColorTheme} from '../hooks/styles/useColorTheme';
 import moment from 'moment';
 import {cardShadowStyle} from '../constants/styling';
+import SpringInView from './SpringInView';
 
 interface MovieCardProps {
   movie: Movie;
@@ -19,15 +15,7 @@ interface MovieCardProps {
 }
 
 const MovieCard: FC<MovieCardProps> = ({movie, index}) => {
-  const movieCardY = useSharedValue(-((index + 1) * 1200));
-  const {
-    colorTheme,
-    surfaceStyle,
-    primaryColorForegroundStyle,
-    foregroundStyle,
-    accentVariantColorForegroundStyle,
-    foregroundVariantStyle,
-  } = useColorTheme();
+  const cardOffsetY = -((index + 1) * 1200);
 
   const springAnimationConfig: WithSpringConfig = {
     damping: 18,
@@ -38,24 +26,20 @@ const MovieCard: FC<MovieCardProps> = ({movie, index}) => {
     restDisplacementThreshold: 0.001,
   };
 
-  const springAnimation: number = withSpring(0, springAnimationConfig);
-
-  const movieCardAnimatedStyle = useAnimatedStyle(() => {
-    return {transform: [{translateY: movieCardY.value}]};
-  }, []);
-
-  useEffect(() => {
-    movieCardY.value = springAnimation;
-  }, []);
+  const {
+    colorTheme,
+    surfaceStyle,
+    primaryColorForegroundStyle,
+    foregroundStyle,
+    accentVariantColorForegroundStyle,
+    foregroundVariantStyle,
+  } = useColorTheme();
 
   return (
-    <Animated.View
-      style={[
-        styles.card,
-        movieCardAnimatedStyle,
-        cardShadowStyle,
-        surfaceStyle,
-      ]}>
+    <SpringInView
+      offsetY={cardOffsetY}
+      springAnimationConfig={springAnimationConfig}
+      style={[styles.card, cardShadowStyle, surfaceStyle]}>
       <View style={styles.imageContainer}>
         <Image
           style={styles.image}
@@ -90,7 +74,7 @@ const MovieCard: FC<MovieCardProps> = ({movie, index}) => {
           </View>
         </View>
       </View>
-    </Animated.View>
+    </SpringInView>
   );
 };
 

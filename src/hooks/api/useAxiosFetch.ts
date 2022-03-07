@@ -1,6 +1,6 @@
 import {AxiosResponse} from 'axios';
 import {useEffect, useState} from 'react';
-import {axiosGet} from '../utilities/api';
+import {axiosGet} from '../../utilities/api';
 
 export const useAxiosFetch = (
   url: string,

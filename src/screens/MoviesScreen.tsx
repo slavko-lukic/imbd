@@ -13,7 +13,7 @@ import {AppRoute} from '../enums/routes';
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {BottomTabNavigatorParams} from '../navigation/BottomTabs';
 import VerticalSpacing from '../components/VerticalSpacing';
-import {useColorTheme} from '../hooks/useColorTheme';
+import {useColorTheme} from '../hooks/styles/useColorTheme';
 
 type MoviesScreenProps = BottomTabScreenProps<
   BottomTabNavigatorParams,

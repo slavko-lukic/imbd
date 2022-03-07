@@ -3,7 +3,7 @@ import {StatusBar, StyleSheet, View} from 'react-native';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import colors from '../constants/colors';
 import {HEADER_HEIGHT} from '../constants/dimensions';
-import {useColorTheme} from '../hooks/useColorTheme';
+import {useColorTheme} from '../hooks/styles/useColorTheme';
 
 interface MainHeaderProps {
   leftButton?: JSX.Element;

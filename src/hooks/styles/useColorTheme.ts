@@ -1,10 +1,10 @@
 import {useCallback, useMemo} from 'react';
 import {StyleProp, TextStyle, ViewStyle} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {ColorThemes} from '../enums/colorThemes';
-import {ColorTheme} from '../models/ColorTheme';
-import {changeColorTheme} from '../store/actions/settingsActions';
-import {RootState} from '../store/reducers/rootReducer';
+import {ColorThemes} from '../../enums/colorThemes';
+import {ColorTheme} from '../../models/ColorTheme';
+import {changeColorTheme} from '../../store/actions/settingsActions';
+import {RootState} from '../../store/reducers/rootReducer';
 
 export const useColorTheme = (): {
   colorTheme: ColorTheme;
