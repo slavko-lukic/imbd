@@ -28,6 +28,11 @@ interface SpringInViewProps extends ViewProps {
    * initial Y position - defaults to 0
    */
   offsetY?: number;
+
+  /**
+   * callback that executes when component is pressed
+   */
+  onPress?: () => void;
 }
 
 const SpringInView: FC<SpringInViewProps> = ({
@@ -35,6 +40,7 @@ const SpringInView: FC<SpringInViewProps> = ({
   springAnimationConfig,
   offsetX = 0,
   offsetY = 0,
+  onPress,
   children,
   style,
   ...otherProps
@@ -49,15 +55,17 @@ const SpringInView: FC<SpringInViewProps> = ({
     if (offsetY) positionY.value = withDelay(delay, springAnimation);
   }, []);
 
-  const movieCardAnimatedStyle = useAnimatedStyle(() => {
+  const animatedStyle = useAnimatedStyle(() => {
     return {
       transform: [{translateX: positionX.value}, {translateY: positionY.value}],
     };
   }, []);
 
   return (
-    <Animated.View style={movieCardAnimatedStyle} {...otherProps}>
-      <TouchableOpacity style={style}>{children}</TouchableOpacity>
+    <Animated.View style={animatedStyle} {...otherProps}>
+      <TouchableOpacity onPress={onPress} style={style}>
+        {children}
+      </TouchableOpacity>
     </Animated.View>
   );
 };

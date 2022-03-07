@@ -1,16 +1,13 @@
 import React, {FC} from 'react';
 import {Text} from 'react-native';
-import Animated from 'react-native-reanimated';
-import {useDelayedFadeIn} from '../hooks/animations/useDelayedFadeIn';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
+import FadeInView from './FadeInView';
 
 const SettingsGroupTitle: FC = ({children}) => {
   const {foregroundStyle} = useColorTheme();
 
-  const delayedFadeInStyle = useDelayedFadeIn(900);
-
   return (
-    <Animated.View style={delayedFadeInStyle}>
+    <FadeInView delay={900}>
       <Text
         numberOfLines={1}
         style={[
@@ -23,7 +20,7 @@ const SettingsGroupTitle: FC = ({children}) => {
         ]}>
         {children}
       </Text>
-    </Animated.View>
+    </FadeInView>
   );
 };
 

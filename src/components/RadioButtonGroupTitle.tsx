@@ -1,16 +1,13 @@
 import React, {FC} from 'react';
 import {Text} from 'react-native';
-import Animated from 'react-native-reanimated';
-import {useDelayedFadeIn} from '../hooks/animations/useDelayedFadeIn';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
+import FadeInView from './FadeInView';
 
 const RadioButtonGroupTitle: FC = ({children}) => {
   const {foregroundStyle} = useColorTheme();
 
-  const delayedFadeInStyle = useDelayedFadeIn(900);
-
   return (
-    <Animated.View style={delayedFadeInStyle}>
+    <FadeInView delay={1100}>
       <Text
         style={[
           {
@@ -23,7 +20,7 @@ const RadioButtonGroupTitle: FC = ({children}) => {
         ]}>
         {children}
       </Text>
-    </Animated.View>
+    </FadeInView>
   );
 };
 
