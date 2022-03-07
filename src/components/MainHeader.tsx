@@ -7,10 +7,10 @@ import {useColorTheme} from '../hooks/styles/useColorTheme';
 
 interface MainHeaderProps {
   leftButton?: JSX.Element;
-  rightButton?: JSX.Element;
+  rightButtons?: JSX.Element[];
 }
 
-const MainHeader: FC<MainHeaderProps> = ({leftButton, rightButton}) => {
+const MainHeader: FC<MainHeaderProps> = ({leftButton, rightButtons}) => {
   const {colorTheme, surfaceStyle} = useColorTheme();
 
   return (
@@ -23,9 +23,7 @@ const MainHeader: FC<MainHeaderProps> = ({leftButton, rightButton}) => {
         <View style={styles.leftPart}>
           <View>{leftButton}</View>
         </View>
-        <View style={styles.rightPart}>
-          <View>{rightButton}</View>
-        </View>
+        <View style={styles.rightPart}>{rightButtons}</View>
       </View>
     </View>
   );
@@ -68,8 +66,9 @@ const styles = StyleSheet.create({
   },
   rightPart: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'flex-end',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
 
     marginRight: 20,
   },

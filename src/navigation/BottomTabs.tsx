@@ -15,6 +15,7 @@ export type BottomTabNavigatorParams = {
   [AppRoute.MOVIES]: undefined;
   [AppRoute.PROFILE]: undefined;
   [AppRoute.SETTINGS]: undefined;
+  [AppRoute.SEARCH]: undefined;
 };
 
 const Tabs = createBottomTabNavigator<BottomTabNavigatorParams>();

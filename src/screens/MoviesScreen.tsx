@@ -1,5 +1,5 @@
 import React, {FC, useCallback, useState} from 'react';
-import {FlatList, ListRenderItem, StyleSheet} from 'react-native';
+import {FlatList, ListRenderItem, StyleSheet, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import MainHeader from '../components/MainHeader';
 import {MovieListTypes} from '../enums/movieListTypes';
@@ -53,14 +53,25 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
   const headerLeftButton: JSX.Element = (
     <MovieListSelectorButton updateListData={listDataUpdateHandler} />
   );
-  const headerRightButton: JSX.Element = (
+  const headerRightButtons: JSX.Element[] = [
     <Ionicons
+      key="settings-sharp"
       name="settings-sharp"
       color={colorTheme.foreground}
       size={HEADER_ICON_SIZE}
       onPress={goToSettings}
-    />
-  );
+    />,
+    <Ionicons
+      key="search"
+      name="search"
+      style={{marginLeft: 10}}
+      color={colorTheme.foreground}
+      size={HEADER_ICON_SIZE}
+      onPress={() => {
+        navigation.navigate(AppRoute.SEARCH);
+      }}
+    />,
+  ];
 
   const listFooter = <VerticalSpacing spacing={60} />;
 
@@ -70,7 +81,7 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
       style={[styles.screenContaner, backgroundStyle]}>
       <MainHeader
         leftButton={headerLeftButton}
-        rightButton={headerRightButton}
+        rightButtons={headerRightButtons}
       />
       <FlatList
         ListFooterComponent={listFooter}
