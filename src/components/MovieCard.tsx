@@ -28,7 +28,7 @@ const MovieCard: FC<MovieCardProps> = ({movie, index}) => {
 
   const {
     colorTheme,
-    surfaceStyle,
+    surfaceVariantStyle,
     primaryColorForegroundStyle,
     foregroundStyle,
     accentVariantColorForegroundStyle,
@@ -39,7 +39,7 @@ const MovieCard: FC<MovieCardProps> = ({movie, index}) => {
     <SpringInView
       offsetY={cardOffsetY}
       springAnimationConfig={springAnimationConfig}
-      style={[styles.card, cardShadowStyle, surfaceStyle]}>
+      style={[styles.card, cardShadowStyle, surfaceVariantStyle]}>
       <View style={styles.imageContainer}>
         <Image
           style={styles.image}

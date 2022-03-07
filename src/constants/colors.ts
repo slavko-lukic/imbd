@@ -4,8 +4,9 @@ export default {
   WHITE_DIMMED: 'rgb(240, 240, 240)',
   GREY_1: 'rgb(28,28,30)',
   GREY_1_80: 'rgba(28,28,30, 0.8)',
-  GREY_2: 'rgb(144,143,148)',
-  GREY_3: 'rgb(204,203,208)',
+  GREY_2: 'rgb(48,38,40)',
+  GREY_3: 'rgb(144,143,148)',
+  GREY_4: 'rgb(204,203,208)',
 
   IOS_BLUE: 'rgb(14,137,255)',
   GOLD: 'rgb(230, 195, 0)',

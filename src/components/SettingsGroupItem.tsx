@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     height: 60,
 
     borderTopWidth: 0.5,
-    borderTopColor: colors.GREY_2,
+    borderTopColor: colors.GREY_3,
 
     flexDirection: 'row',
     justifyContent: 'flex-start',
