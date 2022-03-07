@@ -30,8 +30,12 @@ export const useDelayedFadeIn = (
 
   useEffect(() => {
     opacity.value = withDelay(delay, withTiming(1, {duration: duration}));
-    positionX.value = withDelay(delay, withTiming(0, {duration: duration}));
-    positionY.value = withDelay(delay, withTiming(0, {duration: duration}));
+
+    if (offsetX)
+      positionX.value = withDelay(delay, withTiming(0, {duration: duration}));
+
+    if (offsetY)
+      positionY.value = withDelay(delay, withTiming(0, {duration: duration}));
   }, []);
 
   const delayedFadeInAnimatedStyle: ViewStyle | ImageStyle | TextStyle =
