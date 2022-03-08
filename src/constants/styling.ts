@@ -13,3 +13,14 @@ export const cardShadowStyle: StyleProp<ViewStyle> = {
 
   elevation: 7,
 };
+
+export const cardOnlyTopShadow: StyleProp<ViewStyle> = {
+  shadowRadius: 2,
+  shadowOpacity: 0.3,
+  shadowOffset: {
+    width: 0,
+    height: -6,
+  },
+  shadowColor: colors.BLACK,
+  elevation: 4,
+};

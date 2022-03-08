@@ -2,6 +2,19 @@ import {Movie} from '../models/Movie';
 
 export const SUGGESTED_MOVIES: Movie[] = [
   {
+    backdrop_path: '/ddIkmH3TpR6XSc47jj0BrGK5Rbz.jpg',
+    id: 374720,
+    original_language: 'en',
+    original_title: 'Dunkirk',
+    overview:
+      'The story of the miraculous evacuation of Allied soldiers from Belgium, Britain, Canada and France, who were cut off and surrounded by the German army from the beaches and harbour of Dunkirk between May 26th and June 4th 1940 during World War II.',
+    popularity: 44.981,
+    poster_path: '/ebSnODDg9lbsMIaWg2uAbjn7TO5.jpg',
+    release_date: '2017-07-19',
+    vote_average: 7.5,
+    vote_count: 13832,
+  },
+  {
     backdrop_path: '/iQFcwSGbZXMkeyKrxbPnwnRo5fl.jpg',
     id: 634649,
     overview:
