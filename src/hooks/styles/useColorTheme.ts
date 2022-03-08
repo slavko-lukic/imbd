@@ -23,6 +23,12 @@ export const useColorTheme = (): {
   foregroundStyle: StyleProp<ViewStyle | TextStyle>;
   foregroundVariantStyle: StyleProp<ViewStyle | TextStyle>;
   foregroundContrastVariantStyle: StyleProp<ViewStyle | TextStyle>;
+  borderForegroundColorStyle: StyleProp<ViewStyle>;
+  borderForegroundVariantColorStyle: StyleProp<ViewStyle>;
+  borderPrimaryColorStyle: StyleProp<ViewStyle>;
+  borderPrimaryVariantColorStyle: StyleProp<ViewStyle>;
+  borderAccentColorStyle: StyleProp<ViewStyle>;
+  borderAccentVariantColorStyle: StyleProp<ViewStyle>;
 } => {
   const dispatch = useDispatch();
   const colorTheme = useSelector(
@@ -128,6 +134,43 @@ export const useColorTheme = (): {
       };
     }, [colorTheme]);
 
+  const borderForegroundColorStyle: StyleProp<ViewStyle> = useMemo(() => {
+    return {
+      borderColor: colorTheme.foreground,
+    };
+  }, [colorTheme]);
+
+  const borderForegroundVariantColorStyle: StyleProp<ViewStyle> =
+    useMemo(() => {
+      return {
+        borderColor: colorTheme.foregroundVariant,
+      };
+    }, [colorTheme]);
+
+  const borderPrimaryColorStyle: StyleProp<ViewStyle> = useMemo(() => {
+    return {
+      borderColor: colorTheme.primary,
+    };
+  }, [colorTheme]);
+
+  const borderPrimaryVariantColorStyle: StyleProp<ViewStyle> = useMemo(() => {
+    return {
+      borderColor: colorTheme.primaryVariant,
+    };
+  }, [colorTheme]);
+
+  const borderAccentColorStyle: StyleProp<ViewStyle> = useMemo(() => {
+    return {
+      borderColor: colorTheme.accent,
+    };
+  }, [colorTheme]);
+
+  const borderAccentVariantColorStyle: StyleProp<ViewStyle> = useMemo(() => {
+    return {
+      borderColor: colorTheme.accentVariant,
+    };
+  }, [colorTheme]);
+
   return {
     colorTheme,
     setColorTheme,
@@ -145,5 +188,11 @@ export const useColorTheme = (): {
     foregroundStyle,
     foregroundVariantStyle,
     foregroundContrastVariantStyle,
+    borderForegroundColorStyle,
+    borderForegroundVariantColorStyle,
+    borderPrimaryColorStyle,
+    borderPrimaryVariantColorStyle,
+    borderAccentColorStyle,
+    borderAccentVariantColorStyle,
   };
 };
