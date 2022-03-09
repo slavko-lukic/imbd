@@ -132,13 +132,11 @@ const styles = StyleSheet.create({
     marginTop: BACKDROP_IMAGE_HEIGHT - 25,
   },
   titleContainer: {
-    marginTop: 20,
-    paddingBottom: 20,
+    paddingVertical: 20,
     borderBottomWidth: 0.5,
   },
   genresContainer: {},
   descriptionContainer: {
-    marginTop: 20,
-    paddingBottom: 10,
+    paddingVertical: 20,
   },
 });
