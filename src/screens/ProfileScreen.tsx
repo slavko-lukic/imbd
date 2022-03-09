@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import MainHeader from '../components/MainHeader';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -8,6 +8,7 @@ import {AppRoute} from '../enums/routes';
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {BottomTabNavigatorParams} from '../navigation/BottomTabs';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
+import Neumorphling from '../components/Neumorphling';
 
 type ProfileScreenProps = BottomTabScreenProps<
   BottomTabNavigatorParams,
@@ -32,8 +33,25 @@ const ProfileScreen: FC<ProfileScreenProps> = ({navigation}) => {
   return (
     <SafeAreaView
       edges={['top']}
-      style={[styles.screenContaner, backgroundStyle]}>
+      style={[styles.screenContaner, {backgroundColor: 'rgb(140,210,210)'}]}>
       <MainHeader rightButton={headerRightButton} />
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <Neumorphling
+          style={{
+            width: 150,
+            height: 100,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+          backgroundColor="rgb(140,210,210)">
+          <Text>Hey</Text>
+        </Neumorphling>
+      </View>
     </SafeAreaView>
   );
 };
