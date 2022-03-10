@@ -1,6 +1,7 @@
 import {StackScreenProps} from '@react-navigation/stack';
 import React, {FC} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
+
 import Animated, {
   Extrapolation,
   interpolate,
@@ -12,6 +13,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MainHeader from '../components/MainHeader';
+import Neumorphling from '../components/Neumorphling';
 import ReflectionImage from '../components/ReflectionImage';
 import {IMAGE_BASE_URL} from '../constants/api';
 import {
@@ -32,12 +34,8 @@ type MovieScreenProps = StackScreenProps<
 const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
   const movie = route.params;
 
-  const {
-    foregroundStyle,
-    colorTheme,
-    surfaceStyle,
-    primaryColorForegroundStyle,
-  } = useColorTheme();
+  const {primaryVariantColorForegroundStyle, colorTheme, surfaceStyle} =
+    useColorTheme();
 
   const goBack = () => {
     navigation.goBack();
@@ -88,12 +86,32 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}>
         <View style={[styles.card, surfaceStyle, cardOnlyTopShadow]}>
-          <View style={styles.titleContainer}>
-            <Text style={[{fontSize: 32}, primaryColorForegroundStyle]}>
-              {movie.original_title}
-            </Text>
+          <View>
+            <View style={styles.titleContainer}>
+              <Text
+                style={[{fontSize: 32}, primaryVariantColorForegroundStyle]}>
+                {movie.original_title}
+              </Text>
+            </View>
+            <ScrollView
+              showsHorizontalScrollIndicator={false}
+              showsVerticalScrollIndicator={false}
+              horizontal
+              style={{marginTop: 30, overflow: 'visible'}}>
+              <Neumorphling
+                distance={6}
+                style={{
+                  paddingHorizontal: 10,
+                  paddingVertical: 5,
+                  borderRadius: 10,
+                }}
+                backgroundColor={colorTheme.surface}>
+                <Text style={{color: colorTheme.accent}}>Drama</Text>
+              </Neumorphling>
+            </ScrollView>
           </View>
-          <View style={styles.descriptionContainer}>
+
+          {/* <View style={styles.descriptionContainer}>
             <Text style={[{fontSize: 18}, foregroundStyle]}>
               {movie.overview}
               {movie.overview}
@@ -101,7 +119,7 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
               {movie.overview}
               {movie.overview}
             </Text>
-          </View>
+          </View> */}
         </View>
       </Animated.ScrollView>
     </SafeAreaView>

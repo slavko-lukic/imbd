@@ -1,6 +1,7 @@
 import React, {FC, useState} from 'react';
 import {Pressable, View, ViewProps, ViewStyle} from 'react-native';
-import {pSBC} from '../utilities/pSBC';
+import {useColorTheme} from '../hooks/styles/useColorTheme';
+import {shadeColor} from '../utilities/colors';
 
 interface NeumorphlingProps extends ViewProps {
   backgroundColor: string;
@@ -11,7 +12,7 @@ interface NeumorphlingProps extends ViewProps {
 }
 
 const blurMapper = (xOffset: number, yOffset: number) => {
-  return -Math.abs(0.8 * xOffset * yOffset) + 2;
+  return -Math.abs(1.5 * xOffset * yOffset) + 4;
 };
 
 const Neumorphling: FC<NeumorphlingProps> = ({
@@ -26,29 +27,31 @@ const Neumorphling: FC<NeumorphlingProps> = ({
 }) => {
   const [pressed, setPressed] = useState(false);
 
+  const {colorTheme} = useColorTheme();
+  const highlightColorModifier = colorTheme.type === 'dark' ? 30 : 10;
+  const shadowColorModifier = colorTheme.type === 'dark' ? 40 : 30;
+
   const shadowStyle: ViewStyle = {
     shadowRadius:
-      Math.abs(distance / 1.4) / blurMapper(lightPositionX, lightPositionY),
+      Math.abs(distance) / blurMapper(lightPositionX, lightPositionY),
     shadowOffset: {
-      width: distance * -lightPositionX,
-      height: distance * -lightPositionY,
+      width: (distance * -lightPositionX) / 2.1,
+      height: (distance * -lightPositionY) / 2.1,
     },
-    shadowColor: pSBC(-0.3, backgroundColor) || backgroundColor,
+    shadowColor: shadeColor(backgroundColor, -shadowColorModifier),
   };
 
   const highlightStyle: ViewStyle = {
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: pSBC(-0.1, backgroundColor) || backgroundColor,
+    borderColor: shadeColor(backgroundColor, -10) || backgroundColor,
     backgroundColor: backgroundColor,
 
     shadowRadius:
-      Math.abs(distance / 1.4) / blurMapper(lightPositionX, lightPositionY),
+      Math.abs(distance) / blurMapper(lightPositionX, lightPositionY),
     shadowOffset: {
-      width: distance * lightPositionX,
-      height: distance * lightPositionY,
+      width: (distance * lightPositionX) / 2.1,
+      height: (distance * lightPositionY) / 2.1,
     },
-    shadowColor: pSBC(0.4, backgroundColor) || backgroundColor,
+    shadowColor: shadeColor(backgroundColor, highlightColorModifier),
   };
 
   distance = Math.abs(distance);
@@ -57,13 +60,17 @@ const Neumorphling: FC<NeumorphlingProps> = ({
     <View style={[shadowStyle, {shadowOpacity: pressed ? 0 : 1}]}>
       <Pressable
         onPressIn={() => {
-          setPressed(true);
+          if (onPress) setPressed(true);
         }}
         onPressOut={() => {
-          setPressed(false);
+          if (onPress) setPressed(false);
         }}
         onPress={onPress}
-        style={[highlightStyle, {shadowOpacity: pressed ? 0 : 0.8}, style]}
+        style={[
+          highlightStyle,
+          {shadowOpacity: pressed ? 0 : 0.9, borderWidth: pressed ? 0 : 0.4},
+          style,
+        ]}
         {...otherProps}>
         {children}
       </Pressable>

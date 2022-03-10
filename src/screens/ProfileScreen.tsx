@@ -52,7 +52,7 @@ const ProfileScreen: FC<ProfileScreenProps> = ({navigation}) => {
         }}>
         <Slider
           style={{width: 100, top: -30}}
-          maximumValue={10}
+          maximumValue={20}
           minimumValue={0}
           value={d}
           onValueChange={d => setD(d)}
@@ -71,10 +71,11 @@ const ProfileScreen: FC<ProfileScreenProps> = ({navigation}) => {
           />
           <Neumorphling
             style={{
-              width: 150,
-              height: 100,
+              width: 250,
+              height: 200,
               justifyContent: 'center',
               alignItems: 'center',
+              borderRadius: 20,
             }}
             backgroundColor={solarizedThemeColors.SURFACE}
             lightPositionX={x}
