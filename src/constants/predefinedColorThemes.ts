@@ -1,6 +1,10 @@
 import {ColorThemes} from '../enums/colorThemes';
 import {ColorTheme} from '../models/ColorTheme';
-import colors, {nordicThemeColors, solarizedThemeColors} from './colors';
+import colors, {
+  nordicThemeColors,
+  palenightThemeColors,
+  solarizedThemeColors,
+} from './colors';
 
 export const availableColorThemes: ColorTheme[] = [
   {
@@ -45,5 +49,19 @@ export const availableColorThemes: ColorTheme[] = [
     foreground: solarizedThemeColors.FOREGROUND,
     foregroundVariant: solarizedThemeColors.FOREGROUND_VARIANT,
     foregroundContrast: solarizedThemeColors.BACKGROUND,
+  },
+  {
+    themeName: ColorThemes.PALENIGHT,
+    type: 'dark',
+    primary: palenightThemeColors.PRIMARY,
+    primaryVariant: palenightThemeColors.PRIMARY_VARIANT,
+    accent: palenightThemeColors.ACCENT,
+    accentVariant: palenightThemeColors.ACCENT_VARIANT,
+    background: palenightThemeColors.BACKGROUND,
+    surface: palenightThemeColors.SURFACE,
+    surfaceVariant: palenightThemeColors.SURFACE_VARIANT,
+    foreground: palenightThemeColors.FOREGROUND,
+    foregroundVariant: palenightThemeColors.FOREGROUND_VARIANT,
+    foregroundContrast: palenightThemeColors.BACKGROUND,
   },
 ];

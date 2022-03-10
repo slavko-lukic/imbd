@@ -31,6 +31,9 @@ const Neumorphling: FC<NeumorphlingProps> = ({
   const highlightColorModifier = colorTheme.type === 'dark' ? 30 : 10;
   const shadowColorModifier = colorTheme.type === 'dark' ? 40 : 30;
 
+  if (distance > 20) distance = 20;
+  if (distance < 0) distance = 0;
+
   const shadowStyle: ViewStyle = {
     shadowRadius:
       Math.abs(distance) / blurMapper(lightPositionX, lightPositionY),
@@ -54,17 +57,18 @@ const Neumorphling: FC<NeumorphlingProps> = ({
     shadowColor: shadeColor(backgroundColor, highlightColorModifier),
   };
 
-  distance = Math.abs(distance);
+  const onPressInHandler = () => {
+    if (onPress) setPressed(true);
+  };
+  const onPressOutHandler = () => {
+    if (onPress) setPressed(false);
+  };
 
   return (
     <View style={[shadowStyle, {shadowOpacity: pressed ? 0 : 1}]}>
       <Pressable
-        onPressIn={() => {
-          if (onPress) setPressed(true);
-        }}
-        onPressOut={() => {
-          if (onPress) setPressed(false);
-        }}
+        onPressIn={onPressInHandler}
+        onPressOut={onPressOutHandler}
         onPress={onPress}
         style={[
           highlightStyle,

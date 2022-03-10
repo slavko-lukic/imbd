@@ -45,3 +45,19 @@ export const solarizedThemeColors = {
   ACCENT: 'rgb(14,137,255)',
   ACCENT_VARIANT: 'rgb(0, 105, 204)',
 };
+
+export const palenightThemeColors = {
+  SURFACE: 'rgb(47,51,72)',
+  SURFACE_VARIANT: 'rgb(48, 55, 93)',
+
+  BACKGROUND: 'rgb(30, 33, 46)',
+
+  FOREGROUND: 'rgb(199,206,219)',
+  FOREGROUND_VARIANT: 'rgb(177, 187, 205)',
+
+  PRIMARY: 'rgb(246,95,124)',
+  PRIMARY_VARIANT: 'rgb(244, 62, 99)',
+
+  ACCENT: 'rgb(251,210,109)',
+  ACCENT_VARIANT: 'rgb(250, 195, 56)',
+};

@@ -1,20 +1,26 @@
 import {StackScreenProps} from '@react-navigation/stack';
-import React, {FC} from 'react';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
-
+import moment from 'moment';
+import React, {FC, useEffect} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 import Animated, {
   Extrapolation,
   interpolate,
   useAnimatedScrollHandler,
   useAnimatedStyle,
   useSharedValue,
+  withDelay,
+  withTiming,
 } from 'react-native-reanimated';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import FadeInView from '../components/FadeInView';
+import GenresGroup from '../components/GenresGroup';
+import HorizontalSeparator from '../components/HorizontalSeparator';
 import MainHeader from '../components/MainHeader';
-import Neumorphling from '../components/Neumorphling';
+import MovieDurationLabel from '../components/MovieDurationLabel';
 import ReflectionImage from '../components/ReflectionImage';
+import ToggleSwitch from '../components/ToggleSwitch';
 import {IMAGE_BASE_URL} from '../constants/api';
 import {
   BACKDROP_IMAGE_HEIGHT,
@@ -34,28 +40,49 @@ type MovieScreenProps = StackScreenProps<
 const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
   const movie = route.params;
 
-  const {primaryVariantColorForegroundStyle, colorTheme, surfaceStyle} =
-    useColorTheme();
+  const {
+    primaryVariantColorForegroundStyle,
+    foregroundStyle,
+    colorTheme,
+    surfaceStyle,
+  } = useColorTheme();
 
   const goBack = () => {
     navigation.goBack();
   };
 
   const scrollY = useSharedValue(0);
-
+  const opacity = useSharedValue(0);
+  const cardPosition = useSharedValue(1000);
+  // updates scroll Y state
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: e => {
       scrollY.value = e.contentOffset.y;
     },
   });
 
-  const animatedStyles = useAnimatedStyle(() => {
+  // fades in image on screen load
+  useEffect(() => {
+    cardPosition.value = withTiming(0, {duration: 500});
+    opacity.value = withDelay(500, withTiming(1, {duration: 500}));
+  }, []);
+
+  // handles animations for image
+  const animatedImageStyle = useAnimatedStyle(() => {
     const scale = interpolate(scrollY.value, [-100, 0], [1.1, 1], {
       extrapolateRight: Extrapolation.CLAMP,
     });
 
     return {
+      opacity: opacity.value,
       transform: [{scale: scale}],
+    };
+  });
+
+  // handles animations for card
+  const animatedCardStyle = useAnimatedStyle(() => {
+    return {
+      top: cardPosition.value,
     };
   });
 
@@ -72,55 +99,78 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
     <SafeAreaView edges={['top']} style={[styles.screenContaner, surfaceStyle]}>
       <MainHeader leftButton={headerLeftButton} />
 
-      <Animated.View style={[styles.imageContainer, animatedStyles]}>
+      {/* reflected image */}
+      <Animated.View style={[styles.imageContainer, animatedImageStyle]}>
         <ReflectionImage
           source={{
             uri: IMAGE_BASE_URL + movie.backdrop_path,
           }}
         />
       </Animated.View>
-
       <Animated.ScrollView
         scrollEventThrottle={10}
         onScroll={scrollHandler}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}>
-        <View style={[styles.card, surfaceStyle, cardOnlyTopShadow]}>
+        <Animated.View
+          style={[
+            styles.card,
+            surfaceStyle,
+            cardOnlyTopShadow,
+            animatedCardStyle,
+          ]}>
           <View>
-            <View style={styles.titleContainer}>
+            {/* movie title */}
+            <FadeInView style={styles.titleContainer} delay={570}>
               <Text
+                numberOfLines={1}
                 style={[{fontSize: 32}, primaryVariantColorForegroundStyle]}>
                 {movie.original_title}
               </Text>
-            </View>
-            <ScrollView
-              showsHorizontalScrollIndicator={false}
-              showsVerticalScrollIndicator={false}
-              horizontal
-              style={{marginTop: 30, overflow: 'visible'}}>
-              <Neumorphling
-                distance={6}
-                style={{
-                  paddingHorizontal: 10,
-                  paddingVertical: 5,
-                  borderRadius: 10,
-                }}
-                backgroundColor={colorTheme.surface}>
-                <Text style={{color: colorTheme.accent}}>Drama</Text>
-              </Neumorphling>
-            </ScrollView>
-          </View>
+            </FadeInView>
 
-          {/* <View style={styles.descriptionContainer}>
-            <Text style={[{fontSize: 18}, foregroundStyle]}>
-              {movie.overview}
-              {movie.overview}
-              {movie.overview}
-              {movie.overview}
-              {movie.overview}
-            </Text>
-          </View> */}
-        </View>
+            {/* movie release year and duration */}
+            <View style={styles.yearAndDurationContainer}>
+              <FadeInView offsetX={-100} delay={610}>
+                <Text
+                  numberOfLines={1}
+                  style={[{fontSize: 16}, primaryVariantColorForegroundStyle]}>
+                  {moment(movie.release_date).year()}
+                </Text>
+              </FadeInView>
+              <FadeInView offsetX={100} delay={690}>
+                <MovieDurationLabel />
+              </FadeInView>
+            </View>
+
+            {/* horizontal separator */}
+            <FadeInView style={styles.horizontalSeparator} delay={740}>
+              <HorizontalSeparator color={colorTheme.foreground} />
+            </FadeInView>
+
+            {/* watchlist and watched switch and like button */}
+            <FadeInView delay={1070} style={styles.buttonsContainer}>
+              <ToggleSwitch
+                currentlyActive="left"
+                width={80}
+                height={22}
+                leftOptionText="watchlist"
+                rightOptionText="watched"
+              />
+              <Ionicons size={35} color={colorTheme.foreground} name="heart" />
+            </FadeInView>
+
+            {/* genres horizontal list */}
+            <GenresGroup style={styles.genresContainer} />
+
+            {/* movie description */}
+            <FadeInView delay={1400} style={styles.descriptionContainer}>
+              <Text style={[{fontSize: 16}, foregroundStyle]}>
+                {movie.overview}
+              </Text>
+            </FadeInView>
+          </View>
+        </Animated.View>
       </Animated.ScrollView>
     </SafeAreaView>
   );
@@ -135,6 +185,7 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   imageContainer: {
+    opacity: 0,
     height: BACKDROP_IMAGE_HEIGHT,
     width: '100%',
     position: 'absolute',
@@ -149,12 +200,33 @@ const styles = StyleSheet.create({
 
     marginTop: BACKDROP_IMAGE_HEIGHT - 25,
   },
+
   titleContainer: {
-    paddingVertical: 20,
-    borderBottomWidth: 0.5,
+    marginTop: 20,
   },
-  genresContainer: {},
+  yearAndDurationContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+
+    marginTop: 10,
+  },
+
+  horizontalSeparator: {marginTop: 10},
+
+  buttonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+
+    marginTop: 20,
+  },
+
+  genresContainer: {
+    marginTop: 20,
+  },
+
   descriptionContainer: {
-    paddingVertical: 20,
+    marginVertical: 20,
   },
 });
