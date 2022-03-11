@@ -2,14 +2,14 @@ import React, {FC, useState} from 'react';
 import {Slider, StyleSheet, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import MainHeader from '../components/MainHeader';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import {HEADER_ICON_SIZE} from '../constants/dimensions';
 import {AppRoute} from '../enums/routes';
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {BottomTabNavigatorParams} from '../navigation/BottomTabs';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
 import Neumorphling from '../components/Neumorphling';
 import {solarizedThemeColors} from '../constants/colors';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import {HEADER_ICON_SIZE} from '../constants/dimensions';
 
 type ProfileScreenProps = BottomTabScreenProps<
   BottomTabNavigatorParams,
@@ -17,7 +17,7 @@ type ProfileScreenProps = BottomTabScreenProps<
 >;
 
 const ProfileScreen: FC<ProfileScreenProps> = ({navigation}) => {
-  const {colorTheme, backgroundStyle} = useColorTheme();
+  const {colorTheme} = useColorTheme();
 
   const [x, setX] = useState(-1);
   const [y, setY] = useState(-1);
@@ -35,6 +35,7 @@ const ProfileScreen: FC<ProfileScreenProps> = ({navigation}) => {
       onPress={goToSettings}
     />
   );
+
   return (
     <SafeAreaView
       edges={['top']}
@@ -42,7 +43,7 @@ const ProfileScreen: FC<ProfileScreenProps> = ({navigation}) => {
         styles.screenContaner,
         {backgroundColor: solarizedThemeColors.SURFACE},
       ]}>
-      <MainHeader rightButton={headerRightButton} />
+      <MainHeader rightButtons={headerRightButton} />
 
       <View
         style={{

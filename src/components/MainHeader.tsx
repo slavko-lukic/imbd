@@ -7,10 +7,15 @@ import {useColorTheme} from '../hooks/styles/useColorTheme';
 
 interface MainHeaderProps {
   leftButton?: JSX.Element;
-  rightButton?: JSX.Element;
+  middleElement?: JSX.Element;
+  rightButtons?: JSX.Element[] | JSX.Element;
 }
 
-const MainHeader: FC<MainHeaderProps> = ({leftButton, rightButton}) => {
+const MainHeader: FC<MainHeaderProps> = ({
+  leftButton,
+  middleElement,
+  rightButtons,
+}) => {
   const {colorTheme, surfaceStyle} = useColorTheme();
 
   return (
@@ -20,12 +25,9 @@ const MainHeader: FC<MainHeaderProps> = ({leftButton, rightButton}) => {
       />
       <View style={[styles.statusBar, surfaceStyle]} />
       <View style={styles.mainWrapper}>
-        <View style={styles.leftPart}>
-          <View>{leftButton}</View>
-        </View>
-        <View style={styles.rightPart}>
-          <View>{rightButton}</View>
-        </View>
+        <View style={styles.leftPart}>{leftButton}</View>
+        <View style={styles.middleElement}>{middleElement}</View>
+        <View style={styles.rightPart}>{rightButtons}</View>
       </View>
     </View>
   );
@@ -62,17 +64,22 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.GREY_3,
   },
   leftPart: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'flex-start',
 
     marginLeft: 20,
   },
   rightPart: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'flex-end',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
 
     marginRight: 20,
+  },
+  middleElement: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
