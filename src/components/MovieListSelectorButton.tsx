@@ -66,18 +66,17 @@ const MovieListSelectorButton: FC<MovieListSelectorButtonProps> = ({
     <Animated.View style={[animatedStyle]}>
       <Neumorphling
         backgroundColor={colorTheme.surface}
-        distance={5}
+        distance={7}
+        onPress={onPressHandler}
         style={[styles.button]}>
-        <Pressable onPress={onPressHandler} style={{flexDirection: 'row'}}>
-          <Text style={{color: colorTheme.foreground, fontSize: 14}}>
-            {displayedList}
-          </Text>
-          <Ionicons
-            size={16}
-            color={colorTheme.foreground}
-            name="caret-back-sharp"
-          />
-        </Pressable>
+        <Text style={{color: colorTheme.foreground, fontSize: 14}}>
+          {displayedList}
+        </Text>
+        <Ionicons
+          size={16}
+          color={colorTheme.foreground}
+          name="caret-back-sharp"
+        />
       </Neumorphling>
     </Animated.View>
   );

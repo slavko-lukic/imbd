@@ -1,5 +1,11 @@
 import React, {FC} from 'react';
-import {StyleSheet, Text, TouchableOpacity, ViewStyle} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from 'react-native';
 import {
   ACTIVE_OPACITY_STRONG,
   ACTIVE_OPACITY_WEAK,
@@ -47,41 +53,43 @@ const ToggleSwitch: FC<ToggleSwitchProps> = ({
 
   return (
     <Neumorphling
+      style={{borderRadius: 10}}
       distance={5}
-      backgroundColor={colorTheme.surface}
-      style={styles.container}>
-      <TouchableOpacity
-        activeOpacity={
-          colorTheme.type === 'dark'
-            ? ACTIVE_OPACITY_WEAK
-            : ACTIVE_OPACITY_STRONG
-        }
-        style={[styles.center, leftButtonStyle]}>
-        <Text
-          style={
-            currentlyActive === 'left'
-              ? foregroundContrastVariantStyle
-              : foregroundStyle
-          }>
-          {leftOptionText}
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        activeOpacity={
-          colorTheme.type === 'dark'
-            ? ACTIVE_OPACITY_WEAK
-            : ACTIVE_OPACITY_STRONG
-        }
-        style={[styles.center, rightButtonStyle]}>
-        <Text
-          style={
-            currentlyActive === 'right'
-              ? foregroundContrastVariantStyle
-              : foregroundStyle
-          }>
-          {rightOptionText}
-        </Text>
-      </TouchableOpacity>
+      backgroundColor={colorTheme.surface}>
+      <View style={styles.container}>
+        <TouchableOpacity
+          activeOpacity={
+            colorTheme.type === 'dark'
+              ? ACTIVE_OPACITY_WEAK
+              : ACTIVE_OPACITY_STRONG
+          }
+          style={[styles.center, leftButtonStyle]}>
+          <Text
+            style={
+              currentlyActive === 'left'
+                ? foregroundContrastVariantStyle
+                : foregroundStyle
+            }>
+            {leftOptionText}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={
+            colorTheme.type === 'dark'
+              ? ACTIVE_OPACITY_WEAK
+              : ACTIVE_OPACITY_STRONG
+          }
+          style={[styles.center, rightButtonStyle]}>
+          <Text
+            style={
+              currentlyActive === 'right'
+                ? foregroundContrastVariantStyle
+                : foregroundStyle
+            }>
+            {rightOptionText}
+          </Text>
+        </TouchableOpacity>
+      </View>
     </Neumorphling>
   );
 };
