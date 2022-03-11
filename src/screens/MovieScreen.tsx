@@ -148,7 +148,7 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
             {/* watchlist and watched switch and like button */}
             <View style={styles.buttonsContainer}>
               <ToggleSwitch
-                currentlyActive="left"
+                currentlyActive="right"
                 width={80}
                 height={22}
                 leftOptionText="watchlist"

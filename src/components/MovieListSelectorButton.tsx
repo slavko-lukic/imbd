@@ -11,6 +11,7 @@ import colors from '../constants/colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {MovieListTypes} from '../enums/movieListTypes';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
+import Neumorphling from './Neumorphling';
 
 interface MovieListSelectorButtonProps {
   updateListData: (displayedList: MovieListTypes) => void;
@@ -19,7 +20,7 @@ interface MovieListSelectorButtonProps {
 const MovieListSelectorButton: FC<MovieListSelectorButtonProps> = ({
   updateListData,
 }) => {
-  const {primaryColorBackgroundStyle} = useColorTheme();
+  const {colorTheme} = useColorTheme();
 
   const [displayedList, setDisplayedList] = useState<MovieListTypes>(
     MovieListTypes.SUGGESTIONS,
@@ -63,12 +64,21 @@ const MovieListSelectorButton: FC<MovieListSelectorButtonProps> = ({
 
   return (
     <Animated.View style={[animatedStyle]}>
-      <Pressable
-        onPress={onPressHandler}
-        style={[styles.button, primaryColorBackgroundStyle]}>
-        <Text style={{color: colors.WHITE, fontSize: 14}}>{displayedList}</Text>
-        <Ionicons size={16} color={colors.WHITE} name="caret-back-sharp" />
-      </Pressable>
+      <Neumorphling
+        backgroundColor={colorTheme.surface}
+        distance={5}
+        style={[styles.button]}>
+        <Pressable onPress={onPressHandler} style={{flexDirection: 'row'}}>
+          <Text style={{color: colorTheme.foreground, fontSize: 14}}>
+            {displayedList}
+          </Text>
+          <Ionicons
+            size={16}
+            color={colorTheme.foreground}
+            name="caret-back-sharp"
+          />
+        </Pressable>
+      </Neumorphling>
     </Animated.View>
   );
 };
