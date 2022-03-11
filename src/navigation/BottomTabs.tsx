@@ -10,11 +10,13 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {RouteProp} from '@react-navigation/native';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
 import colors from '../constants/colors';
+import {Movie} from '../models/Movie';
 
 export type BottomTabNavigatorParams = {
   [AppRoute.MOVIES]: undefined;
   [AppRoute.PROFILE]: undefined;
   [AppRoute.SETTINGS]: undefined;
+  [AppRoute.MOVIE]: Movie;
 };
 
 const Tabs = createBottomTabNavigator<BottomTabNavigatorParams>();

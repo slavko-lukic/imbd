@@ -7,7 +7,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-interface FadeInViewProps extends ViewProps {
+export interface FadeInViewProps extends ViewProps {
   /**
    * Initial opacity of the component.
    * If set to 1 there will be no fade animation.

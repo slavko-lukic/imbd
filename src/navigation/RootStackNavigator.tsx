@@ -6,10 +6,13 @@ import {AppRoute} from '../enums/routes';
 import {BottomTabs} from './BottomTabs';
 import React from 'react';
 import SettingsStackNavigator from './SettingsNavigator';
+import MovieScreen from '../screens/MovieScreen';
+import {Movie} from '../models/Movie';
 
 export type RootStackNavigatorParams = {
   [AppRoute.HOME]: undefined;
   [AppRoute.SETTINGS]: undefined;
+  [AppRoute.MOVIE]: Movie;
 };
 
 const RootStack = createStackNavigator<RootStackNavigatorParams>();
@@ -26,6 +29,7 @@ const RootStackNavigator = () => {
         name={AppRoute.SETTINGS}
         component={SettingsStackNavigator}
       />
+      <RootStack.Screen name={AppRoute.MOVIE} component={MovieScreen} />
     </RootStack.Navigator>
   );
 };
