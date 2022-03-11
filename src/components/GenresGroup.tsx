@@ -20,9 +20,10 @@ const GenresGroup: FC<GenresGroupProps> = ({style}) => {
         return (
           <FadeInView
             key={i}
-            offsetY={-50}
-            duration={1000}
-            delay={1200 + i * 100}>
+            offsetY={-25}
+            offsetX={-400}
+            duration={900}
+            delay={1000 + i * 150}>
             <Neumorphling
               distance={5}
               style={{

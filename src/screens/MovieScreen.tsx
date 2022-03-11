@@ -69,7 +69,7 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
 
   // handles animations for image
   const animatedImageStyle = useAnimatedStyle(() => {
-    const scale = interpolate(scrollY.value, [-100, 0], [1.1, 1], {
+    const scale = interpolate(scrollY.value, [-100, 0], [1.2, 1], {
       extrapolateRight: Extrapolation.CLAMP,
     });
 
@@ -123,7 +123,6 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
             {/* movie title */}
             <FadeInView style={styles.titleContainer} delay={570}>
               <Text
-                numberOfLines={1}
                 style={[{fontSize: 32}, primaryVariantColorForegroundStyle]}>
                 {movie.original_title}
               </Text>
