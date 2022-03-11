@@ -8,13 +8,18 @@ import {useColorTheme} from '../hooks/styles/useColorTheme';
 import moment from 'moment';
 import {cardShadowStyle} from '../constants/styling';
 import SpringInView from './SpringInView';
+import {
+  ACTIVE_OPACITY_STRONG,
+  ACTIVE_OPACITY_WEAK,
+} from '../constants/miscellaneous';
 
 interface MovieCardProps {
   movie: Movie;
   index: number;
+  onPress?: () => void;
 }
 
-const MovieCard: FC<MovieCardProps> = ({movie, index}) => {
+const MovieCard: FC<MovieCardProps> = ({movie, index, onPress}) => {
   const cardOffsetY = -((index + 1) * 1200);
 
   const springAnimationConfig: WithSpringConfig = {
@@ -37,6 +42,10 @@ const MovieCard: FC<MovieCardProps> = ({movie, index}) => {
 
   return (
     <SpringInView
+      onPress={onPress}
+      activeOpacity={
+        colorTheme.type === 'dark' ? ACTIVE_OPACITY_WEAK : ACTIVE_OPACITY_STRONG
+      }
       offsetY={cardOffsetY}
       springAnimationConfig={springAnimationConfig}
       style={[styles.card, cardShadowStyle, surfaceVariantStyle]}>

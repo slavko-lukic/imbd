@@ -46,8 +46,12 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
     navigation.navigate(AppRoute.SETTINGS);
   };
 
+  const goToMovie = (movie: Movie) => {
+    navigation.navigate(AppRoute.MOVIE, movie);
+  };
+
   const renderItem: ListRenderItem<Movie> = ({item, index}) => (
-    <MovieCard movie={item} index={index} />
+    <MovieCard movie={item} index={index} onPress={() => goToMovie(item)} />
   );
 
   const headerLeftButton: JSX.Element = (

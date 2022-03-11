@@ -48,6 +48,8 @@ const styles = StyleSheet.create({
     shadowRadius: 4.0,
 
     elevation: 6,
+
+    zIndex: 999,
   },
   statusBar: {
     position: 'absolute',

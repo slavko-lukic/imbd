@@ -7,11 +7,14 @@ import {BottomTabs} from './BottomTabs';
 import React from 'react';
 import SettingsStackNavigator from './SettingsNavigator';
 import SearchScreen from '../screens/SearchScreen';
+import MovieScreen from '../screens/MovieScreen';
+import {Movie} from '../models/Movie';
 
 export type RootStackNavigatorParams = {
   [AppRoute.HOME]: undefined;
   [AppRoute.SETTINGS]: undefined;
   [AppRoute.SEARCH]: undefined;
+  [AppRoute.MOVIE]: Movie;
 };
 
 const RootStack = createStackNavigator<RootStackNavigatorParams>();
@@ -41,6 +44,7 @@ const RootStackNavigator = () => {
           cardStyleInterpolator: screenFadeTransitionInterpolator,
         })}
       />
+      <RootStack.Screen name={AppRoute.MOVIE} component={MovieScreen} />
     </RootStack.Navigator>
   );
 };
