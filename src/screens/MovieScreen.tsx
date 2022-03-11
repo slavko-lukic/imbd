@@ -14,7 +14,6 @@ import Animated, {
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {getStatusBarHeight} from 'react-native-status-bar-height';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import FadeInView from '../components/FadeInView';
 import GenresGroup from '../components/GenresGroup';
 import HorizontalSeparator from '../components/HorizontalSeparator';
 import MainHeader from '../components/MainHeader';
@@ -63,8 +62,10 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
 
   // fades in image on screen load
   useEffect(() => {
-    cardPosition.value = withTiming(0, {duration: 500});
-    opacity.value = withDelay(500, withTiming(1, {duration: 500}));
+    cardPosition.value = withTiming(0, {
+      duration: 700,
+    });
+    opacity.value = withDelay(700, withTiming(1, {duration: 500}));
   }, []);
 
   // handles animations for image
@@ -121,34 +122,31 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
           ]}>
           <View>
             {/* movie title */}
-            <FadeInView style={styles.titleContainer} delay={570}>
+            <View style={styles.titleContainer}>
               <Text
                 style={[{fontSize: 32}, primaryVariantColorForegroundStyle]}>
                 {movie.original_title}
               </Text>
-            </FadeInView>
+            </View>
 
             {/* movie release year and duration */}
             <View style={styles.yearAndDurationContainer}>
-              <FadeInView offsetX={-100} delay={610}>
-                <Text
-                  numberOfLines={1}
-                  style={[{fontSize: 16}, primaryVariantColorForegroundStyle]}>
-                  {moment(movie.release_date).year()}
-                </Text>
-              </FadeInView>
-              <FadeInView offsetX={100} delay={690}>
-                <MovieDurationLabel />
-              </FadeInView>
+              <Text
+                numberOfLines={1}
+                style={[{fontSize: 16}, primaryVariantColorForegroundStyle]}>
+                {moment(movie.release_date).year()}
+              </Text>
+              <MovieDurationLabel />
             </View>
 
             {/* horizontal separator */}
-            <FadeInView style={styles.horizontalSeparator} delay={740}>
-              <HorizontalSeparator color={colorTheme.foreground} />
-            </FadeInView>
+            <HorizontalSeparator
+              style={styles.horizontalSeparator}
+              color={colorTheme.foreground}
+            />
 
             {/* watchlist and watched switch and like button */}
-            <FadeInView delay={1070} style={styles.buttonsContainer}>
+            <View style={styles.buttonsContainer}>
               <ToggleSwitch
                 currentlyActive="left"
                 width={80}
@@ -157,17 +155,17 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
                 rightOptionText="watched"
               />
               <Ionicons size={35} color={colorTheme.foreground} name="heart" />
-            </FadeInView>
+            </View>
 
             {/* genres horizontal list */}
             <GenresGroup style={styles.genresContainer} />
 
             {/* movie description */}
-            <FadeInView delay={1400} style={styles.descriptionContainer}>
+            <View style={styles.descriptionContainer}>
               <Text style={[{fontSize: 16}, foregroundStyle]}>
                 {movie.overview}
               </Text>
-            </FadeInView>
+            </View>
           </View>
         </Animated.View>
       </Animated.ScrollView>

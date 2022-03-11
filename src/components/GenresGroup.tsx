@@ -1,7 +1,6 @@
 import React, {FC} from 'react';
 import {ScrollView, Text, ViewProps} from 'react-native';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
-import FadeInView from './FadeInView';
 import Neumorphling from './Neumorphling';
 
 interface GenresGroupProps extends ViewProps {}
@@ -18,24 +17,18 @@ const GenresGroup: FC<GenresGroupProps> = ({style}) => {
       style={[style, {overflow: 'visible'}]}>
       {genres.map((genre, i) => {
         return (
-          <FadeInView
+          <Neumorphling
             key={i}
-            offsetY={-25}
-            offsetX={-400}
-            duration={900}
-            delay={1000 + i * 150}>
-            <Neumorphling
-              distance={5}
-              style={{
-                paddingHorizontal: 10,
-                paddingVertical: 5,
-                borderRadius: 10,
-                marginRight: 10,
-              }}
-              backgroundColor={colorTheme.surface}>
-              <Text style={{color: colorTheme.accent}}>{genre}</Text>
-            </Neumorphling>
-          </FadeInView>
+            distance={5}
+            style={{
+              paddingHorizontal: 10,
+              paddingVertical: 5,
+              borderRadius: 10,
+              marginRight: 10,
+            }}
+            backgroundColor={colorTheme.surface}>
+            <Text style={{color: colorTheme.accent}}>{genre}</Text>
+          </Neumorphling>
         );
       })}
     </ScrollView>
