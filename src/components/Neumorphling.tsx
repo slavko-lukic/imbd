@@ -28,8 +28,8 @@ const Neumorphling: FC<NeumorphlingProps> = ({
   const [pressed, setPressed] = useState(false);
 
   const {colorTheme} = useColorTheme();
-  const highlightColorModifier = colorTheme.type === 'dark' ? 30 : 10;
-  const shadowColorModifier = colorTheme.type === 'dark' ? 40 : 30;
+  const highlightColorModifier = colorTheme.type === 'dark' ? 40 : 10;
+  const shadowColorModifier = colorTheme.type === 'dark' ? 50 : 30;
 
   if (distance > 20) distance = 20;
   if (distance < 0) distance = 0;
