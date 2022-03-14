@@ -1,4 +1,5 @@
 import {CastMember} from './CastMember';
+import {CrewMember} from './CrewMember';
 
 export interface Movie {
   id: number;
@@ -15,4 +16,5 @@ export interface Movie {
 
 export interface DetailedMovie extends Movie {
   cast: CastMember[];
+  crew: CrewMember[];
 }

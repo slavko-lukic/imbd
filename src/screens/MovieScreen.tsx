@@ -18,7 +18,6 @@ import GenresGroup from '../components/GenresGroup';
 import HorizontalSeparator from '../components/HorizontalSeparator';
 import MainHeader from '../components/MainHeader';
 import MovieDurationLabel from '../components/MovieDurationLabel';
-import MovieMemberCard from '../components/MovieMemberCard';
 import ReflectionImage from '../components/ReflectionImage';
 import ToggleSwitch from '../components/ToggleSwitch';
 import {IMAGE_BASE_URL} from '../constants/api';
@@ -30,8 +29,9 @@ import {
 import {cardOnlyTopShadow} from '../constants/styling';
 import {AppRoute} from '../enums/routes';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
-import {CastMember} from '../models/CastMember';
 import {RootStackNavigatorParams} from '../navigation/RootStackNavigator';
+import CastMembersGroup from '../components/CastMembersGroup';
+import CrewMembersGroup from '../components/CrewMembersGroup';
 
 type MovieScreenProps = StackScreenProps<
   RootStackNavigatorParams,
@@ -41,14 +41,11 @@ type MovieScreenProps = StackScreenProps<
 const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
   const movie = route.params;
 
-  console.log(movie.cast);
   const {
     primaryVariantColorForegroundStyle,
     foregroundStyle,
     colorTheme,
     surfaceStyle,
-    surfaceVariantStyle,
-    backgroundStyle,
   } = useColorTheme();
 
   const goBack = () => {
@@ -173,10 +170,13 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
             </View>
 
             {/* cast */}
-            <View style={styles.descriptionContainer}>
-              {movie.cast.map((castMember: CastMember) => {
-                return <MovieMemberCard member={castMember} />;
-              })}
+            <View style={styles.castMembersContainer}>
+              <CastMembersGroup castMembers={movie.cast} />
+            </View>
+
+            {/* crew */}
+            <View style={styles.crewMembersContainer}>
+              <CrewMembersGroup crewMembers={movie.crew} />
             </View>
           </View>
         </Animated.View>
@@ -234,8 +234,14 @@ const styles = StyleSheet.create({
   genresContainer: {
     marginTop: 20,
   },
-
   descriptionContainer: {
     marginTop: 20,
+  },
+  castMembersContainer: {
+    marginTop: 20,
+  },
+  crewMembersContainer: {
+    marginTop: 20,
+    marginBottom: 30,
   },
 });

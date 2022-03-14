@@ -54,7 +54,11 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
     };
 
     const res = await axiosGet(`/movie/${movie.id}/credits`, params);
-    const detailedMovie: DetailedMovie = {...movie, cast: res.data.cast};
+    const detailedMovie: DetailedMovie = {
+      ...movie,
+      cast: res.data.cast,
+      crew: res.data.crew,
+    };
 
     navigation.navigate(AppRoute.MOVIE, detailedMovie);
   };

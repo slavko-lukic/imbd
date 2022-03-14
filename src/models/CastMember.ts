@@ -1,4 +1,4 @@
-export interface Cast {
+export interface CastMember {
   name: string;
   id: number;
   profile_path: string;

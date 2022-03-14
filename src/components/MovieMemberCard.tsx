@@ -3,29 +3,28 @@ import {Image, StyleSheet, Text, View} from 'react-native';
 import {IMAGE_BASE_URL} from '../constants/api';
 import {cardShadowStyle} from '../constants/styling';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
-import {CastMember} from '../models/CastMember';
 
 interface MovieMemberCardProps {
-  member: CastMember;
+  name: string;
+  picture: string;
+  role: string;
 }
 
-const MovieMemberCard: FC<MovieMemberCardProps> = ({member}) => {
+const MovieMemberCard: FC<MovieMemberCardProps> = ({name, role, picture}) => {
   const {surfaceVariantStyle, foregroundStyle} = useColorTheme();
 
   return (
-    <View
-      style={[styles.cardContainer, surfaceVariantStyle, cardShadowStyle]}
-      key={member.cast_id}>
+    <View style={[styles.cardContainer, surfaceVariantStyle, cardShadowStyle]}>
       <Image
         style={styles.image}
         resizeMode={'cover'}
         source={{
-          uri: IMAGE_BASE_URL + member.profile_path,
+          uri: IMAGE_BASE_URL + picture,
         }}
       />
       <View style={styles.textContainer}>
         <Text numberOfLines={1} style={[foregroundStyle, {flexWrap: 'wrap'}]}>
-          {member.name}
+          {name}
         </Text>
         <Text
           numberOfLines={1}
@@ -36,7 +35,7 @@ const MovieMemberCard: FC<MovieMemberCardProps> = ({member}) => {
         <Text
           numberOfLines={1}
           style={[foregroundStyle, {flex: 1, flexWrap: 'wrap'}]}>
-          {member.character}
+          {role}
         </Text>
       </View>
     </View>
