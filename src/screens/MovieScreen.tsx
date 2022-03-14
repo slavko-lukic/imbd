@@ -1,10 +1,11 @@
 import {StackScreenProps} from '@react-navigation/stack';
 import moment from 'moment';
-import React, {FC, useEffect} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import Animated, {
   Extrapolation,
   interpolate,
+  runOnJS,
   useAnimatedScrollHandler,
   useAnimatedStyle,
   useSharedValue,
@@ -40,6 +41,7 @@ type MovieScreenProps = StackScreenProps<
 
 const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
   const movie = route.params;
+  const [isHeaderTitleShown, setIsHeaderTitleShown] = useState(false);
 
   const {
     primaryVariantColorForegroundStyle,
@@ -51,7 +53,7 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
   const goBack = () => {
     navigation.goBack();
   };
-
+  const headerTitleOpacity = useSharedValue(0);
   const scrollY = useSharedValue(0);
   const opacity = useSharedValue(0);
   const cardPosition = useSharedValue(1000);
@@ -59,6 +61,10 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: e => {
       scrollY.value = e.contentOffset.y;
+
+      e.contentOffset.y > 230
+        ? runOnJS(setIsHeaderTitleShown)(true)
+        : runOnJS(setIsHeaderTitleShown)(false);
     },
   });
 
@@ -89,6 +95,16 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
     };
   });
 
+  useEffect(() => {
+    headerTitleOpacity.value = isHeaderTitleShown
+      ? withTiming(1)
+      : withTiming(0);
+  }, [isHeaderTitleShown]);
+
+  const headerAnimatedStyle = useAnimatedStyle(() => {
+    return {opacity: headerTitleOpacity.value};
+  }, []);
+
   const headerLeftButton: JSX.Element = (
     <Ionicons
       name="arrow-back-sharp"
@@ -100,7 +116,20 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
 
   return (
     <SafeAreaView edges={['top']} style={[styles.screenContaner, surfaceStyle]}>
-      <MainHeader leftButton={headerLeftButton} />
+      <MainHeader
+        middleElement={
+          <Animated.Text
+            numberOfLines={1}
+            style={[
+              {fontSize: 17},
+              primaryVariantColorForegroundStyle,
+              headerAnimatedStyle,
+            ]}>
+            {movie.original_title} ({moment(movie.release_date).year()})
+          </Animated.Text>
+        }
+        leftButton={headerLeftButton}
+      />
 
       {/* reflected image */}
       <Animated.View style={[styles.imageContainer, animatedImageStyle]}>

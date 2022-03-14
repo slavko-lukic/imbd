@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
 
     marginLeft: 20,
+    minWidth: 35,
   },
   rightPart: {
     flexDirection: 'row',
@@ -75,6 +76,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
 
     marginRight: 20,
+    minWidth: 35,
   },
   middleElement: {
     flex: 1,

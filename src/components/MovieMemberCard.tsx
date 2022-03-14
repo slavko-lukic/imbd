@@ -11,7 +11,8 @@ interface MovieMemberCardProps {
 }
 
 const MovieMemberCard: FC<MovieMemberCardProps> = ({name, role, picture}) => {
-  const {surfaceVariantStyle, foregroundStyle} = useColorTheme();
+  const {surfaceVariantStyle, foregroundStyle, accentColorForegroundStyle} =
+    useColorTheme();
 
   return (
     <View style={[styles.cardContainer, surfaceVariantStyle, cardShadowStyle]}>
@@ -23,7 +24,9 @@ const MovieMemberCard: FC<MovieMemberCardProps> = ({name, role, picture}) => {
         }}
       />
       <View style={styles.textContainer}>
-        <Text numberOfLines={1} style={[foregroundStyle, {flexWrap: 'wrap'}]}>
+        <Text
+          numberOfLines={1}
+          style={[accentColorForegroundStyle, {flexWrap: 'wrap'}]}>
           {name}
         </Text>
         <Text
