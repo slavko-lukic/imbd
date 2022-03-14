@@ -18,6 +18,7 @@ import GenresGroup from '../components/GenresGroup';
 import HorizontalSeparator from '../components/HorizontalSeparator';
 import MainHeader from '../components/MainHeader';
 import MovieDurationLabel from '../components/MovieDurationLabel';
+import MovieMemberCard from '../components/MovieMemberCard';
 import ReflectionImage from '../components/ReflectionImage';
 import ToggleSwitch from '../components/ToggleSwitch';
 import {IMAGE_BASE_URL} from '../constants/api';
@@ -29,6 +30,7 @@ import {
 import {cardOnlyTopShadow} from '../constants/styling';
 import {AppRoute} from '../enums/routes';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
+import {CastMember} from '../models/CastMember';
 import {RootStackNavigatorParams} from '../navigation/RootStackNavigator';
 
 type MovieScreenProps = StackScreenProps<
@@ -39,11 +41,14 @@ type MovieScreenProps = StackScreenProps<
 const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
   const movie = route.params;
 
+  console.log(movie.cast);
   const {
     primaryVariantColorForegroundStyle,
     foregroundStyle,
     colorTheme,
     surfaceStyle,
+    surfaceVariantStyle,
+    backgroundStyle,
   } = useColorTheme();
 
   const goBack = () => {
@@ -166,6 +171,13 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
                 {movie.overview}
               </Text>
             </View>
+
+            {/* cast */}
+            <View style={styles.descriptionContainer}>
+              {movie.cast.map((castMember: CastMember) => {
+                return <MovieMemberCard member={castMember} />;
+              })}
+            </View>
           </View>
         </Animated.View>
       </Animated.ScrollView>
@@ -224,6 +236,6 @@ const styles = StyleSheet.create({
   },
 
   descriptionContainer: {
-    marginVertical: 20,
+    marginTop: 20,
   },
 });

@@ -5,7 +5,7 @@ import MainHeader from '../components/MainHeader';
 import {MovieListTypes} from '../enums/movieListTypes';
 import MovieCard from '../components/MovieCard';
 import {SUGGESTED_MOVIES, WATCHED_MOVIES, WATCHLIST} from '../mock/movies_mock';
-import {Movie} from '../models/Movie';
+import {DetailedMovie, Movie} from '../models/Movie';
 import MovieListSelectorButton from '../components/MovieListSelectorButton';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {HEADER_ICON_SIZE} from '../constants/dimensions';
@@ -14,6 +14,7 @@ import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {BottomTabNavigatorParams} from '../navigation/BottomTabs';
 import VerticalSpacing from '../components/VerticalSpacing';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
+import {axiosGet} from '../utilities/api';
 
 type MoviesScreenProps = BottomTabScreenProps<
   BottomTabNavigatorParams,
@@ -46,8 +47,16 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
     navigation.navigate(AppRoute.SETTINGS);
   };
 
-  const goToMovie = (movie: Movie) => {
-    navigation.navigate(AppRoute.MOVIE, movie);
+  const goToMovie = async (movie: Movie) => {
+    const params = {
+      api_key: 'e0966f5c25707b5d4f4f5a1670429967',
+      language: 'en-US',
+    };
+
+    const res = await axiosGet(`/movie/${movie.id}/credits`, params);
+    const detailedMovie: DetailedMovie = {...movie, cast: res.data.cast};
+
+    navigation.navigate(AppRoute.MOVIE, detailedMovie);
   };
 
   const renderItem: ListRenderItem<Movie> = ({item, index}) => (
