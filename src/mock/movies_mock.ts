@@ -15,6 +15,19 @@ export const SUGGESTED_MOVIES: Movie[] = [
     vote_count: 13832,
   },
   {
+    backdrop_path: '/yY76zq9XSuJ4nWyPDuwkdV7Wt0c.jpg',
+    id: 577922,
+    original_language: 'en',
+    original_title: 'Tenet',
+    overview:
+      'Armed with only one word - Tenet - and fighting for the survival of the entire world, the Protagonist journeys through a twilight world of international espionage on a mission that will unfold in something beyond real time.',
+    popularity: 121.455,
+    poster_path: '/oh8XmxWlySHgGLlx8QOBmq9k72j.jpg',
+    release_date: '2020-08-22',
+    vote_average: 7.2,
+    vote_count: 6851,
+  },
+  {
     backdrop_path: '/iQFcwSGbZXMkeyKrxbPnwnRo5fl.jpg',
     id: 634649,
     overview:

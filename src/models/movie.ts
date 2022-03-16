@@ -1,3 +1,6 @@
+import {CastMember} from './CastMember';
+import {CrewMember} from './CrewMember';
+
 export interface Movie {
   id: number;
   original_title: string;
@@ -9,4 +12,9 @@ export interface Movie {
   release_date: string;
   vote_average: number;
   vote_count: number;
+}
+
+export interface DetailedMovie extends Movie {
+  cast: CastMember[];
+  crew: CrewMember[];
 }

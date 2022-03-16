@@ -3,8 +3,8 @@ import {BASE_URL} from '../constants/api';
 
 export const axiosGet = (
   path: string,
-  queryParams?: URLSearchParams,
-  headers?: any,
+  queryParams?: object,
+  headers?: object,
   abortSignal?: AbortSignal,
 ) => {
   return axiosRequest(
@@ -19,9 +19,9 @@ export const axiosGet = (
 
 export const axiosPost = (
   path: string,
-  body?: any,
-  queryParams?: URLSearchParams,
-  headers?: any,
+  body?: object,
+  queryParams?: object,
+  headers?: object,
   abortSignal?: AbortSignal,
 ) => {
   return axiosRequest('POST', path, body, queryParams, headers, abortSignal);
@@ -30,9 +30,9 @@ export const axiosPost = (
 const axiosRequest = async (
   method: 'POST' | 'GET' | 'PATCH' | 'DELETE' | 'PUT',
   path: string,
-  body?: any,
-  queryParams?: URLSearchParams,
-  headers?: any,
+  body?: object,
+  queryParams?: object,
+  headers?: object,
   abortSignal?: AbortSignal,
 ) => {
   const axiosConfig: AxiosRequestConfig = {

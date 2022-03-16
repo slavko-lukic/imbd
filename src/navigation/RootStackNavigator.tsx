@@ -8,13 +8,13 @@ import React from 'react';
 import SettingsStackNavigator from './SettingsNavigator';
 import SearchScreen from '../screens/SearchScreen';
 import MovieScreen from '../screens/MovieScreen';
-import {Movie} from '../models/Movie';
+import {DetailedMovie} from '../models/Movie';
 
 export type RootStackNavigatorParams = {
   [AppRoute.HOME]: undefined;
   [AppRoute.SETTINGS]: undefined;
   [AppRoute.SEARCH]: undefined;
-  [AppRoute.MOVIE]: Movie;
+  [AppRoute.MOVIE]: DetailedMovie;
 };
 
 const RootStack = createStackNavigator<RootStackNavigatorParams>();
