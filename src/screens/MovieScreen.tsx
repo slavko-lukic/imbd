@@ -33,6 +33,7 @@ import {useColorTheme} from '../hooks/styles/useColorTheme';
 import {RootStackNavigatorParams} from '../navigation/RootStackNavigator';
 import CastMembersGroup from '../components/CastMembersGroup';
 import CrewMembersGroup from '../components/CrewMembersGroup';
+import BouncyHeartSwitch from '../components/BouncyHeartSwitch';
 
 type MovieScreenProps = StackScreenProps<
   RootStackNavigatorParams,
@@ -185,7 +186,7 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
                 leftOptionText="watchlist"
                 rightOptionText="watched"
               />
-              <Ionicons size={35} color={colorTheme.foreground} name="heart" />
+              <BouncyHeartSwitch />
             </View>
 
             {/* genres horizontal list */}
