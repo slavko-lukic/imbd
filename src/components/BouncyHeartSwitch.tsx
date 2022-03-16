@@ -13,7 +13,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import {StyleProp, ViewStyle} from 'react-native';
 
-const radius = 7;
+const RADIUS = 7;
 
 const AniamtedCircle = Animated.createAnimatedComponent(Circle);
 const AnimatedPath = Animated.createAnimatedComponent(Path);
@@ -26,6 +26,7 @@ interface BouncyHeartSwitchProps {
   inactiveFillColor?: string;
   inactiveOutlineColor?: string;
   circleFillColor?: string;
+  hasShadow?: boolean;
 }
 
 const BouncyHeartSwitch: FC<BouncyHeartSwitchProps> = ({
@@ -36,6 +37,7 @@ const BouncyHeartSwitch: FC<BouncyHeartSwitchProps> = ({
   inactiveFillColor = '#fff',
   inactiveOutlineColor = '#ff809b',
   circleFillColor = '#fff',
+  hasShadow = true,
 }) => {
   const [switchState, setSwitchState] = useState(false);
 
@@ -130,33 +132,37 @@ const BouncyHeartSwitch: FC<BouncyHeartSwitchProps> = ({
         animatedProps={animatedProps}
       />
 
-      {/* Gradient used for shadow */}
-      <Defs>
-        <RadialGradient
-          id="grad"
-          cx="13"
-          cy="0"
-          r={radius + 1}
-          gradientUnits="userSpaceOnUse">
-          <Stop offset="0" stopColor="black" stopOpacity="0.9" />
-          <Stop offset="1" stopColor="black" stopOpacity="0" />
-        </RadialGradient>
-      </Defs>
-
       {/* Shadow  */}
-      <AniamtedCircle
-        cx={13}
-        cy={0}
-        r={radius + 1}
-        style={[animatedStyle]}
-        fill="url(#grad)"
-      />
+      {hasShadow ? (
+        <>
+          {/* Radial gradient used for shadow */}
+          <Defs>
+            <RadialGradient
+              id="grad"
+              cx="13"
+              cy="0"
+              r={RADIUS + 1}
+              gradientUnits="userSpaceOnUse">
+              <Stop offset="0" stopColor="black" stopOpacity="0.9" />
+              <Stop offset="1" stopColor="black" stopOpacity="0" />
+            </RadialGradient>
+          </Defs>
+          {/* Animated circle that simulates the shadow */}
+          <AniamtedCircle
+            cx={13}
+            cy={0}
+            r={RADIUS + 1}
+            style={[animatedStyle]}
+            fill="url(#grad)"
+          />
+        </>
+      ) : null}
 
       {/* Circle */}
       <AniamtedCircle
         cx={13}
         cy={0}
-        r={radius - 1}
+        r={RADIUS - 1}
         style={[animatedStyle]}
         fill={circleFillColor}
       />
