@@ -1,23 +1,23 @@
+import {useNavigation} from '@react-navigation/native';
 import React, {FC} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
 import {Cast} from '../models/Cast';
 import {Crew} from '../models/Crew';
-import InfoCard from './InfoCard';
+import MovieCreditCard from './MovieCreditCard';
 
-interface InfoGroupProps {
+interface MovieCreditGroupProps {
   groupName: string;
   dataSource: Cast[] | Crew[];
   numberOfItemsToShow?: number;
-  onViewAllPressHandler?: () => void;
 }
 
-const InfoGroup: FC<InfoGroupProps> = ({
+const MovieCreditGroup: FC<MovieCreditGroupProps> = ({
   groupName,
   dataSource,
   numberOfItemsToShow,
-  onViewAllPressHandler,
 }) => {
+  const navigation = useNavigation();
   const {accentVariantColorForegroundStyle, foregroundVariantStyle} =
     useColorTheme();
 
@@ -33,7 +33,7 @@ const InfoGroup: FC<InfoGroupProps> = ({
       .slice(0, numberOfItemsToShow)
       .map(credit => {
         return (
-          <InfoCard
+          <MovieCreditCard
             key={credit.credit_id}
             name={credit.name}
             picture={credit.profile_path}
@@ -52,7 +52,9 @@ const InfoGroup: FC<InfoGroupProps> = ({
         </Text>
         {numberOfItemsToShow ? (
           <Text
-            onPress={onViewAllPressHandler}
+            onPress={() => {
+              // navigation.navigate();
+            }}
             style={[accentVariantColorForegroundStyle]}>
             View All
           </Text>
@@ -63,7 +65,7 @@ const InfoGroup: FC<InfoGroupProps> = ({
   );
 };
 
-export default InfoGroup;
+export default MovieCreditGroup;
 
 const styles = StyleSheet.create({
   titleContainer: {

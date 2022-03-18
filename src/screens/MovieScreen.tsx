@@ -32,7 +32,7 @@ import {AppRoute} from '../enums/routes';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
 import {RootStackNavigatorParams} from '../navigation/RootStackNavigator';
 import BouncyHeartSwitch from '../components/BouncyHeartSwitch';
-import InfoGroup from '../components/InfoGroup';
+import MovieCreditGroup from '../components/MovieCreditGroup';
 
 type MovieScreenProps = StackScreenProps<
   RootStackNavigatorParams,
@@ -200,19 +200,16 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
 
             {/* cast */}
             <View style={styles.castMembersContainer}>
-              <InfoGroup
+              <MovieCreditGroup
                 numberOfItemsToShow={8}
                 groupName="Cast"
                 dataSource={movie.cast}
-                onViewAllPressHandler={() => {
-                  // navigation.push()
-                }}
               />
             </View>
 
             {/* crew */}
             <View style={styles.crewMembersContainer}>
-              <InfoGroup
+              <MovieCreditGroup
                 numberOfItemsToShow={6}
                 groupName="Crew"
                 dataSource={movie.crew}
