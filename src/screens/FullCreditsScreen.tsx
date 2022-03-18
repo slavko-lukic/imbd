@@ -1,5 +1,5 @@
 import {StackScreenProps} from '@react-navigation/stack';
-import React, {FC} from 'react';
+import React, {FC, useCallback} from 'react';
 import {StyleSheet, ListRenderItem, View, Text} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -37,13 +37,16 @@ const FullCreditsScreen: FC<FullCreditsScreenProps> = ({route, navigation}) => {
     navigation.goBack();
   };
 
-  const renderItem: ListRenderItem<Cast | Crew> = ({item}) => (
-    <MovieCreditCard
-      key={item.credit_id}
-      name={item.name}
-      picture={item.profile_path}
-      role={getRole(item)}
-    />
+  const renderItem: ListRenderItem<Cast | Crew> = useCallback(
+    ({item}) => (
+      <MovieCreditCard
+        key={item.credit_id}
+        name={item.name}
+        picture={item.profile_path}
+        role={getRole(item)}
+      />
+    ),
+    [dataSource],
   );
 
   const keyExtractor = (item: Cast | Crew) => {
@@ -74,6 +77,8 @@ const FullCreditsScreen: FC<FullCreditsScreenProps> = ({route, navigation}) => {
         leftButton={headerLeftButton}
       />
       <FlatList
+        initialNumToRender={20}
+        maxToRenderPerBatch={50}
         style={styles.list}
         data={dataSource as Array<Cast | Crew>}
         renderItem={renderItem}
