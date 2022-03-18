@@ -7,4 +7,5 @@ export enum AppRoute {
   COLOR_THEME = 'Color theme',
   SEARCH = 'Search',
   MOVIE = 'Movie',
+  FULL_CREDITS = 'Full credits',
 }

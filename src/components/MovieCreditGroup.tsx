@@ -1,6 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {FC} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
+import {AppRoute} from '../enums/routes';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
 import {Cast} from '../models/Cast';
 import {Crew} from '../models/Crew';
@@ -53,7 +54,7 @@ const MovieCreditGroup: FC<MovieCreditGroupProps> = ({
         {numberOfItemsToShow ? (
           <Text
             onPress={() => {
-              // navigation.navigate();
+              navigation.navigate(AppRoute.FULL_CREDITS, dataSource);
             }}
             style={[accentVariantColorForegroundStyle]}>
             View All
