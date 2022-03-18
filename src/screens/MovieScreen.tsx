@@ -31,9 +31,8 @@ import {cardOnlyTopShadow} from '../constants/styling';
 import {AppRoute} from '../enums/routes';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
 import {RootStackNavigatorParams} from '../navigation/RootStackNavigator';
-import CastMembersGroup from '../components/CastMembersGroup';
-import CrewMembersGroup from '../components/CrewMembersGroup';
 import BouncyHeartSwitch from '../components/BouncyHeartSwitch';
+import InfoGroup from '../components/InfoGroup';
 
 type MovieScreenProps = StackScreenProps<
   RootStackNavigatorParams,
@@ -201,12 +200,12 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
 
             {/* cast */}
             <View style={styles.castMembersContainer}>
-              <CastMembersGroup castMembers={movie.cast} />
+              <InfoGroup dataSource={movie.cast} />
             </View>
 
             {/* crew */}
             <View style={styles.crewMembersContainer}>
-              <CrewMembersGroup crewMembers={movie.crew} />
+              <InfoGroup dataSource={movie.crew} />
             </View>
           </View>
         </Animated.View>

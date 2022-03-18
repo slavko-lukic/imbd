@@ -1,16 +1,39 @@
 import React, {FC} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
+import {Cast} from '../models/Cast';
+import {Crew} from '../models/Crew';
 import InfoCard from './InfoCard';
 
 interface InfoGroupProps {
-  dataSource: [];
+  dataSource: Cast[] | Crew[];
   itemsToShow?: number;
 }
 
 const InfoGroup: FC<InfoGroupProps> = ({dataSource, itemsToShow}) => {
   const {accentVariantColorForegroundStyle, foregroundVariantStyle} =
     useColorTheme();
+
+  const getRole = (credit: Cast | Crew): string => {
+    if ('job' in credit) {
+      return credit.job;
+    }
+    return credit.character;
+  };
+
+  const mapItems = () => {
+    const items: JSX.Element[] = dataSource.slice(0, 8).map(credit => {
+      return (
+        <InfoCard
+          key={credit.credit_id}
+          name={credit.name}
+          picture={credit.profile_path}
+          role={getRole(credit)}
+        />
+      );
+    });
+    return items;
+  };
 
   return (
     <>
@@ -20,16 +43,7 @@ const InfoGroup: FC<InfoGroupProps> = ({dataSource, itemsToShow}) => {
         </Text>
         <Text style={[accentVariantColorForegroundStyle]}>View All</Text>
       </View>
-      {dataSource.slice(0, 8).map((e: any) => {
-        return (
-          <InfoCard
-            key={e.cast_id}
-            name={e.name}
-            picture={e.profile_path}
-            role={e.character}
-          />
-        );
-      })}
+      {mapItems()}
     </>
   );
 };
