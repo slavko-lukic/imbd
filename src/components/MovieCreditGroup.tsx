@@ -1,11 +1,18 @@
 import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
 import React, {FC} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {AppRoute} from '../enums/routes';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
 import {Cast} from '../models/Cast';
 import {Crew} from '../models/Crew';
+import {RootStackNavigatorParams} from '../navigation/RootStackNavigator';
 import MovieCreditCard from './MovieCreditCard';
+
+type MovieScreenProp = StackNavigationProp<
+  RootStackNavigatorParams,
+  AppRoute.FULL_CREDITS
+>;
 
 interface MovieCreditGroupProps {
   groupName: string;
@@ -18,7 +25,7 @@ const MovieCreditGroup: FC<MovieCreditGroupProps> = ({
   dataSource,
   numberOfItemsToShow,
 }) => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<MovieScreenProp>();
   const {accentVariantColorForegroundStyle, foregroundVariantStyle} =
     useColorTheme();
 
