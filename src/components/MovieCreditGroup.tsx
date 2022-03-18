@@ -29,6 +29,13 @@ const MovieCreditGroup: FC<MovieCreditGroupProps> = ({
     return credit.character;
   };
 
+  const goToFullCreditsList = () => {
+    navigation.navigate(AppRoute.FULL_CREDITS, {
+      dataSource: dataSource,
+      groupName: groupName,
+    });
+  };
+
   const mapItems = () => {
     const itemsForRender: JSX.Element[] = dataSource
       .slice(0, numberOfItemsToShow)
@@ -53,9 +60,7 @@ const MovieCreditGroup: FC<MovieCreditGroupProps> = ({
         </Text>
         {numberOfItemsToShow ? (
           <Text
-            onPress={() => {
-              navigation.navigate(AppRoute.FULL_CREDITS, dataSource);
-            }}
+            onPress={goToFullCreditsList}
             style={[accentVariantColorForegroundStyle]}>
             View All
           </Text>

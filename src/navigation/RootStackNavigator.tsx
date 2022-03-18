@@ -19,7 +19,7 @@ export type RootStackNavigatorParams = {
   [AppRoute.SETTINGS]: undefined;
   [AppRoute.SEARCH]: undefined;
   [AppRoute.MOVIE]: DetailedMovie;
-  [AppRoute.FULL_CREDITS]: Cast[] | Crew[];
+  [AppRoute.FULL_CREDITS]: {dataSource: Cast[] | Crew[]; groupName: string};
 };
 
 const RootStack = createStackNavigator<RootStackNavigatorParams>();

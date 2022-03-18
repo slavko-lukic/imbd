@@ -20,7 +20,9 @@ type FullCreditsScreenProps = StackScreenProps<
 >;
 
 const FullCreditsScreen: FC<FullCreditsScreenProps> = ({route, navigation}) => {
-  const dataSource = route.params;
+  const dataSource = route.params.dataSource;
+  const groupName = route.params.groupName;
+
   const {surfaceStyle, colorTheme, primaryVariantColorForegroundStyle} =
     useColorTheme();
 
@@ -61,7 +63,7 @@ const FullCreditsScreen: FC<FullCreditsScreenProps> = ({route, navigation}) => {
     <Text
       numberOfLines={1}
       style={[{fontSize: 17}, primaryVariantColorForegroundStyle]}>
-      Cast ({dataSource.length})
+      All {groupName} ({dataSource.length})
     </Text>
   );
 
