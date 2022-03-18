@@ -1,11 +1,11 @@
 import React, {FC} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
-import {CrewMember} from '../models/CrewMember';
+import {Crew} from '../models/Crew';
 import InfoCard from './InfoCard';
 
 interface CrewMembersGroupProps {
-  crewMembers: CrewMember[];
+  crewMembers: Crew[];
 }
 
 const CrewMembersGroup: FC<CrewMembersGroupProps> = ({crewMembers}) => {
@@ -23,7 +23,7 @@ const CrewMembersGroup: FC<CrewMembersGroupProps> = ({crewMembers}) => {
       {crewMembers
         .sort((a, b) => Number(b.popularity) - Number(a.popularity))
         .slice(0, 6)
-        .map((crewMember: CrewMember) => {
+        .map((crewMember: Crew) => {
           return (
             <InfoCard
               key={crewMember.credit_id}

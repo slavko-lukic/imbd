@@ -1,14 +1,14 @@
 import React, {FC} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
-import {Cast} from '../models/Cast';
 import InfoCard from './InfoCard';
 
-interface CastMembersGroupProps {
-  castMembers: Cast[];
+interface InfoGroupProps {
+  dataSource: [];
+  itemsToShow?: number;
 }
 
-const CastMembersGroup: FC<CastMembersGroupProps> = ({castMembers}) => {
+const InfoGroup: FC<InfoGroupProps> = ({dataSource, itemsToShow}) => {
   const {accentVariantColorForegroundStyle, foregroundVariantStyle} =
     useColorTheme();
 
@@ -16,17 +16,17 @@ const CastMembersGroup: FC<CastMembersGroupProps> = ({castMembers}) => {
     <>
       <View style={styles.titleContainer}>
         <Text style={[{fontSize: 16}, foregroundVariantStyle]}>
-          Cast ({castMembers.length})
+          Cast ({dataSource.length})
         </Text>
         <Text style={[accentVariantColorForegroundStyle]}>View All</Text>
       </View>
-      {castMembers.slice(0, 8).map((castMember: Cast) => {
+      {dataSource.slice(0, 8).map((e: any) => {
         return (
           <InfoCard
-            key={castMember.cast_id}
-            name={castMember.name}
-            picture={castMember.profile_path}
-            role={castMember.character}
+            key={e.cast_id}
+            name={e.name}
+            picture={e.profile_path}
+            role={e.character}
           />
         );
       })}
@@ -34,7 +34,7 @@ const CastMembersGroup: FC<CastMembersGroupProps> = ({castMembers}) => {
   );
 };
 
-export default CastMembersGroup;
+export default InfoGroup;
 
 const styles = StyleSheet.create({
   titleContainer: {
