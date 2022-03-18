@@ -6,11 +6,18 @@ import {Crew} from '../models/Crew';
 import InfoCard from './InfoCard';
 
 interface InfoGroupProps {
+  groupName: string;
   dataSource: Cast[] | Crew[];
-  itemsToShow?: number;
+  numberOfItemsToShow?: number;
+  onViewAllPressHandler?: () => void;
 }
 
-const InfoGroup: FC<InfoGroupProps> = ({dataSource, itemsToShow}) => {
+const InfoGroup: FC<InfoGroupProps> = ({
+  groupName,
+  dataSource,
+  numberOfItemsToShow,
+  onViewAllPressHandler,
+}) => {
   const {accentVariantColorForegroundStyle, foregroundVariantStyle} =
     useColorTheme();
 
@@ -22,26 +29,34 @@ const InfoGroup: FC<InfoGroupProps> = ({dataSource, itemsToShow}) => {
   };
 
   const mapItems = () => {
-    const items: JSX.Element[] = dataSource.slice(0, 8).map(credit => {
-      return (
-        <InfoCard
-          key={credit.credit_id}
-          name={credit.name}
-          picture={credit.profile_path}
-          role={getRole(credit)}
-        />
-      );
-    });
-    return items;
+    const itemsForRender: JSX.Element[] = dataSource
+      .slice(0, numberOfItemsToShow)
+      .map(credit => {
+        return (
+          <InfoCard
+            key={credit.credit_id}
+            name={credit.name}
+            picture={credit.profile_path}
+            role={getRole(credit)}
+          />
+        );
+      });
+    return itemsForRender;
   };
 
   return (
     <>
       <View style={styles.titleContainer}>
         <Text style={[{fontSize: 16}, foregroundVariantStyle]}>
-          Cast ({dataSource.length})
+          {groupName} ({dataSource.length})
         </Text>
-        <Text style={[accentVariantColorForegroundStyle]}>View All</Text>
+        {numberOfItemsToShow ? (
+          <Text
+            onPress={onViewAllPressHandler}
+            style={[accentVariantColorForegroundStyle]}>
+            View All
+          </Text>
+        ) : null}
       </View>
       {mapItems()}
     </>

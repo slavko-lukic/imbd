@@ -200,12 +200,23 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
 
             {/* cast */}
             <View style={styles.castMembersContainer}>
-              <InfoGroup dataSource={movie.cast} />
+              <InfoGroup
+                numberOfItemsToShow={8}
+                groupName="Cast"
+                dataSource={movie.cast}
+                onViewAllPressHandler={() => {
+                  // navigation.push()
+                }}
+              />
             </View>
 
             {/* crew */}
             <View style={styles.crewMembersContainer}>
-              <InfoGroup dataSource={movie.crew} />
+              <InfoGroup
+                numberOfItemsToShow={6}
+                groupName="Crew"
+                dataSource={movie.crew}
+              />
             </View>
           </View>
         </Animated.View>
