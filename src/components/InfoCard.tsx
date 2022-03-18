@@ -31,14 +31,9 @@ const InfoCard: FC<InfoCardProps> = ({name, role, picture}) => {
         </Text>
         <Text
           numberOfLines={1}
-          style={[{fontStyle: 'italic', flexWrap: 'wrap'}, foregroundStyle]}>
-          {' '}
-          as{' '}
-        </Text>
-        <Text
-          numberOfLines={1}
           style={[foregroundStyle, {flex: 1, flexWrap: 'wrap'}]}>
-          {role}
+          {' '}
+          - {role}
         </Text>
       </View>
     </View>
