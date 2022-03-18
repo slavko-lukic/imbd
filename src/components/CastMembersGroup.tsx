@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
 import {CastMember} from '../models/CastMember';
-import MovieMemberCard from './MovieMemberCard';
+import InfoCard from './InfoCard';
 
 interface CastMembersGroupProps {
   castMembers: CastMember[];
@@ -22,7 +22,7 @@ const CastMembersGroup: FC<CastMembersGroupProps> = ({castMembers}) => {
       </View>
       {castMembers.slice(0, 8).map((castMember: CastMember) => {
         return (
-          <MovieMemberCard
+          <InfoCard
             key={castMember.cast_id}
             name={castMember.name}
             picture={castMember.profile_path}

@@ -4,13 +4,13 @@ import {IMAGE_BASE_URL} from '../constants/api';
 import {cardShadowStyle} from '../constants/styling';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
 
-interface MovieMemberCardProps {
+interface InfoCardProps {
   name: string;
   picture: string;
   role: string;
 }
 
-const MovieMemberCard: FC<MovieMemberCardProps> = ({name, role, picture}) => {
+const InfoCard: FC<InfoCardProps> = ({name, role, picture}) => {
   const {surfaceVariantStyle, foregroundStyle, accentColorForegroundStyle} =
     useColorTheme();
 
@@ -45,7 +45,7 @@ const MovieMemberCard: FC<MovieMemberCardProps> = ({name, role, picture}) => {
   );
 };
 
-export default MovieMemberCard;
+export default InfoCard;
 
 const styles = StyleSheet.create({
   cardContainer: {

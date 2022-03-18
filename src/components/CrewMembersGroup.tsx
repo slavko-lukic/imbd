@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
 import {CrewMember} from '../models/CrewMember';
-import MovieMemberCard from './MovieMemberCard';
+import InfoCard from './InfoCard';
 
 interface CrewMembersGroupProps {
   crewMembers: CrewMember[];
@@ -25,7 +25,7 @@ const CrewMembersGroup: FC<CrewMembersGroupProps> = ({crewMembers}) => {
         .slice(0, 6)
         .map((crewMember: CrewMember) => {
           return (
-            <MovieMemberCard
+            <InfoCard
               key={crewMember.credit_id}
               name={crewMember.name}
               picture={crewMember.profile_path}
