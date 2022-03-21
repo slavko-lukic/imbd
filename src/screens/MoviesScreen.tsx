@@ -1,5 +1,5 @@
 import React, {FC, useCallback, useState} from 'react';
-import {FlatList, ListRenderItem, StyleSheet, View} from 'react-native';
+import {FlatList, ListRenderItem, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import MainHeader from '../components/MainHeader';
 import {MovieListTypes} from '../enums/movieListTypes';
@@ -15,7 +15,8 @@ import {BottomTabNavigatorParams} from '../navigation/BottomTabs';
 import VerticalSpacing from '../components/VerticalSpacing';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
 import {axiosGet} from '../utilities/api';
-import {Cast, Crew} from '../models';
+import {Crew} from '../models';
+import MovieGridItem from '../components/MovieGridItem';
 
 type MoviesScreenProps = BottomTabScreenProps<
   BottomTabNavigatorParams,
@@ -76,9 +77,19 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
     navigation.navigate(AppRoute.MOVIE, detailedMovie);
   };
 
-  const renderItem: ListRenderItem<Movie> = ({item, index}) => (
+  const renderListItems: ListRenderItem<Movie> = ({item, index}) => (
     <MovieCard movie={item} index={index} onPress={() => goToMovie(item)} />
   );
+
+  const renderGridItems: ListRenderItem<Movie> = ({item, index}) => {
+    return (
+      <MovieGridItem
+        movie={item}
+        index={index}
+        onPress={() => goToMovie(item)}
+      />
+    );
+  };
 
   const headerLeftButton: JSX.Element = (
     <MovieListSelectorButton updateListData={listDataUpdateHandler} />
@@ -114,9 +125,10 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
         rightButtons={headerRightButtons}
       />
       <FlatList
+        numColumns={3}
         ListFooterComponent={listFooter}
         data={listData}
-        renderItem={renderItem}
+        renderItem={renderGridItems}
       />
     </SafeAreaView>
   );

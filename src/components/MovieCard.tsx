@@ -2,7 +2,6 @@ import React, {FC} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import {WithSpringConfig} from 'react-native-reanimated';
 import {IMAGE_BASE_URL} from '../constants/api';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
 import moment from 'moment';
 import {cardShadowStyle} from '../constants/styling';
