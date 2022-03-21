@@ -15,6 +15,7 @@ import {BottomTabNavigatorParams} from '../navigation/BottomTabs';
 import VerticalSpacing from '../components/VerticalSpacing';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
 import {axiosGet} from '../utilities/api';
+import {Cast, Crew} from '../models';
 
 type MoviesScreenProps = BottomTabScreenProps<
   BottomTabNavigatorParams,
@@ -53,11 +54,23 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
       language: 'en-US',
     };
 
-    const res = await axiosGet(`/movie/${movie.id}/credits`, params);
+    const creditsResponse = await axiosGet(
+      `/movie/${movie.id}/credits`,
+      params,
+    );
+    const detailsResponse = await axiosGet(`/movie/${movie.id}`, params);
+
+    const movieCrew: Crew[] = creditsResponse.data.crew;
+
+    const directorsIndex = movieCrew.findIndex(cast => cast.job === 'Director');
+    movieCrew.unshift(...movieCrew.splice(directorsIndex, 1));
+
     const detailedMovie: DetailedMovie = {
       ...movie,
-      cast: res.data.cast,
-      crew: res.data.crew,
+      runtime: detailsResponse.data.runtime,
+      genres: detailsResponse.data.genres,
+      cast: creditsResponse.data.cast,
+      crew: movieCrew,
     };
 
     navigation.navigate(AppRoute.MOVIE, detailedMovie);

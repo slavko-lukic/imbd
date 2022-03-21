@@ -10,7 +10,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {RouteProp} from '@react-navigation/native';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
 import colors from '../constants/colors';
-import {Movie} from '../models/Movie';
+import {Movie} from '../models';
 
 export type BottomTabNavigatorParams = {
   [AppRoute.MOVIES]: undefined;

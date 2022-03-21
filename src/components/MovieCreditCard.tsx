@@ -4,13 +4,14 @@ import {IMAGE_BASE_URL} from '../constants/api';
 import {cardShadowStyle} from '../constants/styling';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
 
-interface MovieMemberCardProps {
+const placeholderImage = require('../assets/images/profile_placeholder.png');
+interface MovieCreditCardProps {
   name: string;
   picture: string;
   role: string;
 }
 
-const MovieMemberCard: FC<MovieMemberCardProps> = ({name, role, picture}) => {
+const MovieCreditCard: FC<MovieCreditCardProps> = ({name, role, picture}) => {
   const {surfaceVariantStyle, foregroundStyle, accentColorForegroundStyle} =
     useColorTheme();
 
@@ -19,9 +20,13 @@ const MovieMemberCard: FC<MovieMemberCardProps> = ({name, role, picture}) => {
       <Image
         style={styles.image}
         resizeMode={'cover'}
-        source={{
-          uri: IMAGE_BASE_URL + picture,
-        }}
+        source={
+          picture
+            ? {
+                uri: IMAGE_BASE_URL + picture,
+              }
+            : placeholderImage
+        }
       />
       <View style={styles.textContainer}>
         <Text
@@ -30,10 +35,8 @@ const MovieMemberCard: FC<MovieMemberCardProps> = ({name, role, picture}) => {
           {name}
         </Text>
         <Text
-          numberOfLines={1}
-          style={[{fontStyle: 'italic', flexWrap: 'wrap'}, foregroundStyle]}>
-          {' '}
-          as{' '}
+          style={[foregroundStyle, {flexWrap: 'wrap', marginHorizontal: 4}]}>
+          -
         </Text>
         <Text
           numberOfLines={1}
@@ -45,7 +48,7 @@ const MovieMemberCard: FC<MovieMemberCardProps> = ({name, role, picture}) => {
   );
 };
 
-export default MovieMemberCard;
+export default MovieCreditCard;
 
 const styles = StyleSheet.create({
   cardContainer: {

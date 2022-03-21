@@ -2,7 +2,6 @@ import React, {FC} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import {WithSpringConfig} from 'react-native-reanimated';
 import {IMAGE_BASE_URL} from '../constants/api';
-import {Movie} from '../models/Movie';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
 import moment from 'moment';
@@ -12,6 +11,7 @@ import {
   ACTIVE_OPACITY_STRONG,
   ACTIVE_OPACITY_WEAK,
 } from '../constants/miscellaneous';
+import {Movie} from '../models';
 
 interface MovieCardProps {
   movie: Movie;
@@ -74,13 +74,6 @@ const MovieCard: FC<MovieCardProps> = ({movie, index, onPress}) => {
           <Text style={accentVariantColorForegroundStyle}>
             {moment(movie.release_date).year()}
           </Text>
-          <View style={styles.timeContainer}>
-            <Ionicons size={15} color={colorTheme.accentVariant} name="time" />
-            <Text
-              style={[{fontSize: 14, marginLeft: 3}, foregroundVariantStyle]}>
-              1h 53m
-            </Text>
-          </View>
         </View>
       </View>
     </SpringInView>
@@ -116,13 +109,8 @@ const styles = StyleSheet.create({
   mainDataContainer: {},
   miscDataContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
 
     alignItems: 'flex-end',
-  },
-  timeContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 });

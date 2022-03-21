@@ -10,7 +10,7 @@ import VerticalSpacing from '../components/VerticalSpacing';
 import {HEADER_ICON_SIZE} from '../constants/dimensions';
 import {AppRoute} from '../enums/routes';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
-import {SettingsItem} from '../models/SettingsItem';
+import {SettingsItem} from '../models';
 import {SettingsStackNavigatorParams} from '../navigation/SettingsNavigator';
 
 type SettingsScreenProps = StackScreenProps<

@@ -1,6 +1,6 @@
 import {SettingsActionsConstants} from '../../constants/actions/settingsActionsConstants';
 import {availableColorThemes} from '../../constants/predefinedColorThemes';
-import {ColorTheme} from '../../models/ColorTheme';
+import {ColorTheme} from '../../models';
 import {SettingsAction} from '../../types/actions/settingsActions';
 import {SettingsReducerState} from '../../types/reducers/settingsReducerState';
 

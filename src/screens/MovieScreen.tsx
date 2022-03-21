@@ -31,9 +31,8 @@ import {cardOnlyTopShadow} from '../constants/styling';
 import {AppRoute} from '../enums/routes';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
 import {RootStackNavigatorParams} from '../navigation/RootStackNavigator';
-import CastMembersGroup from '../components/CastMembersGroup';
-import CrewMembersGroup from '../components/CrewMembersGroup';
 import BouncyHeartSwitch from '../components/BouncyHeartSwitch';
+import MovieCreditGroup from '../components/MovieCreditGroup';
 
 type MovieScreenProps = StackScreenProps<
   RootStackNavigatorParams,
@@ -166,9 +165,9 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
               <Text
                 numberOfLines={1}
                 style={[{fontSize: 16}, primaryVariantColorForegroundStyle]}>
-                {moment(movie.release_date).year()}
+                {moment(movie.release_date).format('LL')}
               </Text>
-              <MovieDurationLabel />
+              <MovieDurationLabel runtime={movie.runtime} />
             </View>
 
             {/* horizontal separator */}
@@ -190,7 +189,7 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
             </View>
 
             {/* genres horizontal list */}
-            <GenresGroup style={styles.genresContainer} />
+            <GenresGroup genres={movie.genres} style={styles.genresContainer} />
 
             {/* movie description */}
             <View style={styles.descriptionContainer}>
@@ -201,12 +200,20 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
 
             {/* cast */}
             <View style={styles.castMembersContainer}>
-              <CastMembersGroup castMembers={movie.cast} />
+              <MovieCreditGroup
+                itemsDisplayLimit={8}
+                groupName="Cast"
+                items={movie.cast}
+              />
             </View>
 
             {/* crew */}
             <View style={styles.crewMembersContainer}>
-              <CrewMembersGroup crewMembers={movie.crew} />
+              <MovieCreditGroup
+                itemsDisplayLimit={6}
+                groupName="Crew"
+                items={movie.crew}
+              />
             </View>
           </View>
         </Animated.View>
