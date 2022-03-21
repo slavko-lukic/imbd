@@ -4,6 +4,7 @@ import {IMAGE_BASE_URL} from '../constants/api';
 import {cardShadowStyle} from '../constants/styling';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
 
+const placeholderImage = require('../assets/images/profile_placeholder.png');
 interface MovieCreditCardProps {
   name: string;
   picture: string;
@@ -19,9 +20,13 @@ const MovieCreditCard: FC<MovieCreditCardProps> = ({name, role, picture}) => {
       <Image
         style={styles.image}
         resizeMode={'cover'}
-        source={{
-          uri: IMAGE_BASE_URL + picture,
-        }}
+        source={
+          picture
+            ? {
+                uri: IMAGE_BASE_URL + picture,
+              }
+            : placeholderImage
+        }
       />
       <View style={styles.textContainer}>
         <Text
