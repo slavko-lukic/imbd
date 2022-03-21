@@ -2,12 +2,15 @@ import React, {FC} from 'react';
 import {StyleSheet, Text, View, ViewProps} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
+import {hoursToHoursMinutes} from '../utilities/time';
 
 interface MovieDurationLabelProps extends ViewProps {
+  runtime: number;
   iconName?: 'time-outline' | 'time';
 }
 
 const MovieDurationLabel: FC<MovieDurationLabelProps> = ({
+  runtime,
   style,
   iconName = 'time',
 }) => {
@@ -18,7 +21,7 @@ const MovieDurationLabel: FC<MovieDurationLabelProps> = ({
       <View style={styles.container}>
         <Ionicons size={20} color={colorTheme.accentVariant} name={iconName} />
         <Text style={[{fontSize: 16, marginLeft: 3}, foregroundVariantStyle]}>
-          1h 53m
+          {hoursToHoursMinutes(runtime)}
         </Text>
       </View>
     </View>

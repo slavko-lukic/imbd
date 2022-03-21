@@ -167,7 +167,7 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
                 style={[{fontSize: 16}, primaryVariantColorForegroundStyle]}>
                 {moment(movie.release_date).year()}
               </Text>
-              <MovieDurationLabel />
+              <MovieDurationLabel runtime={movie.runtime} />
             </View>
 
             {/* horizontal separator */}

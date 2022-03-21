@@ -74,13 +74,6 @@ const MovieCard: FC<MovieCardProps> = ({movie, index, onPress}) => {
           <Text style={accentVariantColorForegroundStyle}>
             {moment(movie.release_date).year()}
           </Text>
-          <View style={styles.timeContainer}>
-            <Ionicons size={15} color={colorTheme.accentVariant} name="time" />
-            <Text
-              style={[{fontSize: 14, marginLeft: 3}, foregroundVariantStyle]}>
-              1h 53m
-            </Text>
-          </View>
         </View>
       </View>
     </SpringInView>
@@ -116,13 +109,8 @@ const styles = StyleSheet.create({
   mainDataContainer: {},
   miscDataContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
 
     alignItems: 'flex-end',
-  },
-  timeContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 });

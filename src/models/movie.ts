@@ -16,4 +16,5 @@ export interface Movie {
 export interface DetailedMovie extends Movie {
   cast: Cast[];
   crew: Crew[];
+  runtime: number;
 }

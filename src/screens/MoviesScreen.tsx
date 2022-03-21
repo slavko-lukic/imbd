@@ -53,11 +53,16 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
       language: 'en-US',
     };
 
-    const res = await axiosGet(`/movie/${movie.id}/credits`, params);
+    const creditsResponse = await axiosGet(
+      `/movie/${movie.id}/credits`,
+      params,
+    );
+    const detailsResponse = await axiosGet(`/movie/${movie.id}`, params);
     const detailedMovie: DetailedMovie = {
       ...movie,
-      cast: res.data.cast,
-      crew: res.data.crew,
+      runtime: detailsResponse.data.runtime,
+      cast: creditsResponse.data.cast,
+      crew: creditsResponse.data.crew,
     };
 
     navigation.navigate(AppRoute.MOVIE, detailedMovie);
