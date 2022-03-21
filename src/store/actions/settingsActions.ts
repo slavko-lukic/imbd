@@ -8,3 +8,10 @@ export const changeColorTheme = (colorTheme: ColorThemes): SettingsAction => {
     colorTheme: colorTheme,
   };
 };
+
+export const changeViewType = (viewType: 'list' | 'grid'): SettingsAction => {
+  return {
+    type: SettingsActionsConstants.CHANGE_VIEW_TYPE,
+    viewType: viewType,
+  };
+};

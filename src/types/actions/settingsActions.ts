@@ -6,4 +6,9 @@ type changeColorTheme = {
   colorTheme: ColorThemes;
 };
 
-export type SettingsAction = changeColorTheme;
+type changeViewType = {
+  type: SettingsActionsConstants.CHANGE_VIEW_TYPE;
+  viewType: 'list' | 'grid';
+};
+
+export type SettingsAction = changeColorTheme | changeViewType;
