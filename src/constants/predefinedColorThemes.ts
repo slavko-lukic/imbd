@@ -1,5 +1,5 @@
 import {ColorThemes} from '../enums/colorThemes';
-import {ColorTheme} from '../models/ColorTheme';
+import {ColorTheme} from '../models';
 import colors, {
   nordicThemeColors,
   palenightThemeColors,

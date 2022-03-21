@@ -10,8 +10,7 @@ import {HEADER_ICON_SIZE} from '../constants/dimensions';
 import {cardOnlyTopShadow} from '../constants/styling';
 import {AppRoute} from '../enums/routes';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
-import {Cast} from '../models/Cast';
-import {Crew} from '../models/Crew';
+import {Cast, Crew} from '../models';
 import {RootStackNavigatorParams} from '../navigation/RootStackNavigator';
 
 type FullCreditsScreenProps = StackScreenProps<
@@ -20,7 +19,7 @@ type FullCreditsScreenProps = StackScreenProps<
 >;
 
 const FullCreditsScreen: FC<FullCreditsScreenProps> = ({route, navigation}) => {
-  const dataSource = route.params.dataSource;
+  const items = route.params.items;
   const groupName = route.params.groupName;
 
   const {surfaceStyle, colorTheme, primaryVariantColorForegroundStyle} =
@@ -46,7 +45,7 @@ const FullCreditsScreen: FC<FullCreditsScreenProps> = ({route, navigation}) => {
         role={getRole(item)}
       />
     ),
-    [dataSource],
+    [items],
   );
 
   const keyExtractor = (item: Cast | Crew) => {
@@ -66,7 +65,7 @@ const FullCreditsScreen: FC<FullCreditsScreenProps> = ({route, navigation}) => {
     <Text
       numberOfLines={1}
       style={[{fontSize: 17}, primaryVariantColorForegroundStyle]}>
-      All {groupName} ({dataSource.length})
+      All {groupName} ({items.length})
     </Text>
   );
 
@@ -80,7 +79,7 @@ const FullCreditsScreen: FC<FullCreditsScreenProps> = ({route, navigation}) => {
         initialNumToRender={20}
         maxToRenderPerBatch={50}
         style={styles.list}
-        data={dataSource as Array<Cast | Crew>}
+        data={items as Array<Cast | Crew>}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
         ListFooterComponent={<VerticalSpacing spacing={60} />}

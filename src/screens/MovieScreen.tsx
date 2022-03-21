@@ -201,18 +201,18 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
             {/* cast */}
             <View style={styles.castMembersContainer}>
               <MovieCreditGroup
-                numberOfItemsToShow={8}
+                itemsDisplayLimit={8}
                 groupName="Cast"
-                dataSource={movie.cast}
+                items={movie.cast}
               />
             </View>
 
             {/* crew */}
             <View style={styles.crewMembersContainer}>
               <MovieCreditGroup
-                numberOfItemsToShow={6}
+                itemsDisplayLimit={6}
                 groupName="Crew"
-                dataSource={movie.crew}
+                items={movie.crew}
               />
             </View>
           </View>

@@ -30,10 +30,13 @@ const MovieCreditCard: FC<MovieCreditCardProps> = ({name, role, picture}) => {
           {name}
         </Text>
         <Text
+          style={[foregroundStyle, {flexWrap: 'wrap', marginHorizontal: 4}]}>
+          -
+        </Text>
+        <Text
           numberOfLines={1}
           style={[foregroundStyle, {flex: 1, flexWrap: 'wrap'}]}>
-          {' '}
-          - {role}
+          {role}
         </Text>
       </View>
     </View>

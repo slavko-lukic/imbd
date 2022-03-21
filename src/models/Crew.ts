@@ -1,4 +1,4 @@
-import {Credit} from './Credit';
+import {Credit} from '.';
 
 export interface Crew extends Credit {
   job: string;

@@ -11,15 +11,14 @@ import SearchScreen from '../screens/SearchScreen';
 import MovieScreen from '../screens/MovieScreen';
 import {DetailedMovie} from '../models/Movie';
 import FullCreditsScreen from '../screens/FullCreditsScreen';
-import {Cast} from '../models/Cast';
-import {Crew} from '../models/Crew';
+import {Cast, Crew} from '../models';
 
 export type RootStackNavigatorParams = {
   [AppRoute.HOME]: undefined;
   [AppRoute.SETTINGS]: undefined;
   [AppRoute.SEARCH]: undefined;
   [AppRoute.MOVIE]: DetailedMovie;
-  [AppRoute.FULL_CREDITS]: {dataSource: Cast[] | Crew[]; groupName: string};
+  [AppRoute.FULL_CREDITS]: {items: Cast[] | Crew[]; groupName: string};
 };
 
 const RootStack = createStackNavigator<RootStackNavigatorParams>();

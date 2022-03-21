@@ -2,7 +2,6 @@ import React, {FC} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import {WithSpringConfig} from 'react-native-reanimated';
 import {IMAGE_BASE_URL} from '../constants/api';
-import {Movie} from '../models/Movie';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
 import moment from 'moment';
@@ -12,6 +11,7 @@ import {
   ACTIVE_OPACITY_STRONG,
   ACTIVE_OPACITY_WEAK,
 } from '../constants/miscellaneous';
+import {Movie} from '../models';
 
 interface MovieCardProps {
   movie: Movie;

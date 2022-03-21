@@ -4,8 +4,7 @@ import React, {FC} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {AppRoute} from '../enums/routes';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
-import {Cast} from '../models/Cast';
-import {Crew} from '../models/Crew';
+import {Cast, Crew} from '../models';
 import {RootStackNavigatorParams} from '../navigation/RootStackNavigator';
 import MovieCreditCard from './MovieCreditCard';
 
@@ -16,14 +15,14 @@ type MovieScreenProp = StackNavigationProp<
 
 interface MovieCreditGroupProps {
   groupName: string;
-  dataSource: Cast[] | Crew[];
-  numberOfItemsToShow?: number;
+  items: Cast[] | Crew[];
+  itemsDisplayLimit?: number;
 }
 
 const MovieCreditGroup: FC<MovieCreditGroupProps> = ({
   groupName,
-  dataSource,
-  numberOfItemsToShow,
+  items,
+  itemsDisplayLimit,
 }) => {
   const navigation = useNavigation<MovieScreenProp>();
   const {accentVariantColorForegroundStyle, foregroundVariantStyle} =
@@ -38,34 +37,29 @@ const MovieCreditGroup: FC<MovieCreditGroupProps> = ({
 
   const goToFullCreditsList = () => {
     navigation.navigate(AppRoute.FULL_CREDITS, {
-      dataSource: dataSource,
+      items: items,
       groupName: groupName,
     });
   };
 
-  const mapItems = () => {
-    const itemsForRender: JSX.Element[] = dataSource
-      .slice(0, numberOfItemsToShow)
-      .map(credit => {
-        return (
-          <MovieCreditCard
-            key={credit.credit_id}
-            name={credit.name}
-            picture={credit.profile_path}
-            role={getRole(credit)}
-          />
-        );
-      });
-    return itemsForRender;
-  };
+  const movieCreditCards = items.slice(0, itemsDisplayLimit).map(credit => {
+    return (
+      <MovieCreditCard
+        key={credit.credit_id}
+        name={credit.name}
+        picture={credit.profile_path}
+        role={getRole(credit)}
+      />
+    );
+  });
 
   return (
     <>
       <View style={styles.titleContainer}>
         <Text style={[{fontSize: 16}, foregroundVariantStyle]}>
-          {groupName} ({dataSource.length})
+          {groupName} ({items.length})
         </Text>
-        {numberOfItemsToShow ? (
+        {itemsDisplayLimit ? (
           <Text
             onPress={goToFullCreditsList}
             style={[accentVariantColorForegroundStyle]}>
@@ -73,7 +67,7 @@ const MovieCreditGroup: FC<MovieCreditGroupProps> = ({
           </Text>
         ) : null}
       </View>
-      {mapItems()}
+      {movieCreditCards}
     </>
   );
 };

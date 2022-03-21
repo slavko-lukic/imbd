@@ -1,5 +1,4 @@
-import {Cast} from './Cast';
-import {Crew} from './Crew';
+import {Cast, Crew} from '.';
 
 export interface Movie {
   id: number;
