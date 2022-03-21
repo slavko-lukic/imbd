@@ -165,7 +165,7 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
               <Text
                 numberOfLines={1}
                 style={[{fontSize: 16}, primaryVariantColorForegroundStyle]}>
-                {moment(movie.release_date).year()}
+                {moment(movie.release_date).format('LL')}
               </Text>
               <MovieDurationLabel runtime={movie.runtime} />
             </View>
@@ -189,7 +189,7 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
             </View>
 
             {/* genres horizontal list */}
-            <GenresGroup style={styles.genresContainer} />
+            <GenresGroup genres={movie.genres} style={styles.genresContainer} />
 
             {/* movie description */}
             <View style={styles.descriptionContainer}>

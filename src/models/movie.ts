@@ -1,4 +1,4 @@
-import {Cast, Crew} from '.';
+import {Cast, Crew, Genre} from '.';
 
 export interface Movie {
   id: number;
@@ -17,4 +17,5 @@ export interface DetailedMovie extends Movie {
   cast: Cast[];
   crew: Crew[];
   runtime: number;
+  genres: Genre[];
 }

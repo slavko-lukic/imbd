@@ -58,9 +58,11 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
       params,
     );
     const detailsResponse = await axiosGet(`/movie/${movie.id}`, params);
+
     const detailedMovie: DetailedMovie = {
       ...movie,
       runtime: detailsResponse.data.runtime,
+      genres: detailsResponse.data.genres,
       cast: creditsResponse.data.cast,
       crew: creditsResponse.data.crew,
     };
