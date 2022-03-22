@@ -20,6 +20,7 @@ import MovieGridItem from '../components/MovieGridItem';
 import {useSelector} from 'react-redux';
 import {RootState} from '../store/reducers/rootReducer';
 import {MovieViewTypes} from '../enums/movieViewTypes';
+import MovieViewTypeSwitch from '../components/MovieViewTypeSwitch';
 
 type MoviesScreenProps = BottomTabScreenProps<
   BottomTabNavigatorParams,
@@ -102,13 +103,7 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
     <MovieListSelectorButton updateListData={listDataUpdateHandler} />
   );
   const headerRightButtons: JSX.Element[] = [
-    <Ionicons
-      key="settings-sharp"
-      name="settings-sharp"
-      color={colorTheme.foreground}
-      size={HEADER_ICON_SIZE}
-      onPress={goToSettings}
-    />,
+    <MovieViewTypeSwitch key={'movieViewTypeSwitch'} />,
     <Ionicons
       key="search"
       name="search"
