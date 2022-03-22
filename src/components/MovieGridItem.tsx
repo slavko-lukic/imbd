@@ -42,7 +42,9 @@ const MovieGridItem: FC<MovieGridItemProps> = ({movie, index, onPress}) => {
           uri: IMAGE_BASE_URL + movie.poster_path,
         }}>
         <View style={styles.titleBackground}>
-          <Text numberOfLines={1} style={[{fontSize: 16}, foregroundStyle]}>
+          <Text
+            numberOfLines={1}
+            style={[{fontSize: 16, color: colors.WHITE_DIMMED}]}>
             {movie.original_title}
           </Text>
         </View>
