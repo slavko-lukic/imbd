@@ -1,4 +1,5 @@
 export enum MovieViewTypes {
   GRID = 'grid',
-  CARDS = 'cards',
+  CARDS = 'card',
+  LIST = 'list',
 }

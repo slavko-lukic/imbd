@@ -33,6 +33,7 @@ const ConfigureMoviesScreen: FC<ConfigureMoviesScreenProps> = ({
   const viewTypes: Array<MovieViewTypes> = [
     MovieViewTypes.CARDS,
     MovieViewTypes.GRID,
+    MovieViewTypes.LIST,
   ];
 
   const {colorTheme, backgroundStyle} = useColorTheme();

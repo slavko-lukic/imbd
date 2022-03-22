@@ -1,11 +1,9 @@
 import React, {FC} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
-import {WithSpringConfig} from 'react-native-reanimated';
 import {IMAGE_BASE_URL} from '../constants/api';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
 import moment from 'moment';
 import {cardShadowStyle} from '../constants/styling';
-import SpringInView from './SpringInView';
 import {
   ACTIVE_OPACITY_STRONG,
   ACTIVE_OPACITY_WEAK,
@@ -26,7 +24,6 @@ const MovieListItem: FC<MovieListItemProps> = ({movie, index, onPress}) => {
     primaryColorForegroundStyle,
     foregroundStyle,
     accentVariantColorForegroundStyle,
-    foregroundVariantStyle,
   } = useColorTheme();
 
   return (

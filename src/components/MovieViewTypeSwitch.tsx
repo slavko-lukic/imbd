@@ -24,26 +24,14 @@ const MovieViewTypeSwitch: FC<MovieViewTypeSwitchProps> = () => {
 
   const rotation = useSharedValue(0);
 
-  const switchViewTypeSequence = () => {
-    rotation.value = withTiming(90, {}, isFinished => {
-      if (isFinished) {
-        runOnJS(switchViewType)();
-      }
+  const startSwitchSequence = () => {
+    rotation.value = withTiming(90, {duration: 200}, isFinished => {
+      if (isFinished) runOnJS(switchViewType)();
     });
   };
 
   const switchViewType = () => {
-    switch (currentViewType) {
-      case MovieViewTypes.CARDS:
-        dispatch(changeViewType(MovieViewTypes.GRID));
-        break;
-      case MovieViewTypes.GRID:
-        dispatch(changeViewType(MovieViewTypes.CARDS));
-        break;
-      default:
-        dispatch(changeViewType(MovieViewTypes.CARDS));
-        break;
-    }
+    dispatch(changeViewType(getNextViewType()));
   };
 
   useEffect(() => {
@@ -52,21 +40,30 @@ const MovieViewTypeSwitch: FC<MovieViewTypeSwitchProps> = () => {
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
-      transform: [
-        // {rotateX: rotation.value + 'deg'},
-        // {rotateY: rotation.value + 'deg'},
-        {rotateZ: rotation.value + 'deg'},
-      ],
+      transform: [{rotateY: rotation.value + 'deg'}],
     };
   }, []);
+
+  const getNextViewType = () => {
+    switch (currentViewType) {
+      case MovieViewTypes.CARDS:
+        return MovieViewTypes.GRID;
+      case MovieViewTypes.GRID:
+        return MovieViewTypes.LIST;
+      case MovieViewTypes.LIST:
+        return MovieViewTypes.CARDS;
+      default:
+        return MovieViewTypes.CARDS;
+    }
+  };
 
   return (
     <Animated.View style={animatedStyle}>
       <Ionicons
-        name={currentViewType === MovieViewTypes.CARDS ? 'grid' : 'card'}
+        name={getNextViewType()}
         color={colorTheme.foreground}
         size={HEADER_ICON_SIZE}
-        onPress={switchViewTypeSequence}
+        onPress={startSwitchSequence}
       />
     </Animated.View>
   );
