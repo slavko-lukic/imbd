@@ -17,6 +17,8 @@ import {useColorTheme} from '../hooks/styles/useColorTheme';
 import {axiosGet} from '../utilities/api';
 import {Crew} from '../models';
 import MovieGridItem from '../components/MovieGridItem';
+import {useSelector} from 'react-redux';
+import {RootState} from '../store/reducers/rootReducer';
 
 type MoviesScreenProps = BottomTabScreenProps<
   BottomTabNavigatorParams,
@@ -25,6 +27,10 @@ type MoviesScreenProps = BottomTabScreenProps<
 
 const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
   const {colorTheme, backgroundStyle} = useColorTheme();
+
+  const viewType = useSelector(
+    (state: RootState) => state.settings.movieViewType,
+  );
 
   const [listData, setListData] = useState<Movie[]>(SUGGESTED_MOVIES);
 
@@ -125,10 +131,12 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
         rightButtons={headerRightButtons}
       />
       <FlatList
-        numColumns={3}
-        ListFooterComponent={listFooter}
+        key={viewType}
+        keyExtractor={item => viewType + item.id}
+        numColumns={viewType === 'grid' ? 3 : undefined}
+        ListFooterComponent={viewType === 'grid' ? null : listFooter}
         data={listData}
-        renderItem={renderGridItems}
+        renderItem={viewType === 'grid' ? renderGridItems : renderListItems}
       />
     </SafeAreaView>
   );

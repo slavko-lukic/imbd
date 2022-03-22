@@ -33,7 +33,7 @@ const MovieGridItem: FC<MovieGridItemProps> = ({movie, index, onPress}) => {
         colorTheme.type === 'dark' ? ACTIVE_OPACITY_WEAK : ACTIVE_OPACITY_STRONG
       }
       offsetY={-100 * (index + 1)}
-      duration={100 * (index + 1)}
+      duration={150 * (index + 1)}
       style={[styles.card, surfaceVariantStyle]}>
       <ImageBackground
         style={styles.image}
