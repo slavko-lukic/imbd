@@ -1,5 +1,6 @@
 import {SettingsActionsConstants} from '../../constants/actions/settingsActionsConstants';
 import {ColorThemes} from '../../enums/colorThemes';
+import {MovieViewTypes} from '../../enums/movieViewTypes';
 
 type changeColorTheme = {
   type: SettingsActionsConstants.CHANGE_COLOR_THEME;
@@ -8,7 +9,7 @@ type changeColorTheme = {
 
 type changeViewType = {
   type: SettingsActionsConstants.CHANGE_VIEW_TYPE;
-  viewType: 'list' | 'grid';
+  viewType: MovieViewTypes;
 };
 
 export type SettingsAction = changeColorTheme | changeViewType;

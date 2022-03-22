@@ -19,6 +19,7 @@ import {Crew} from '../models';
 import MovieGridItem from '../components/MovieGridItem';
 import {useSelector} from 'react-redux';
 import {RootState} from '../store/reducers/rootReducer';
+import {MovieViewTypes} from '../enums/movieViewTypes';
 
 type MoviesScreenProps = BottomTabScreenProps<
   BottomTabNavigatorParams,
@@ -133,10 +134,14 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
       <FlatList
         key={viewType}
         keyExtractor={item => viewType + item.id}
-        numColumns={viewType === 'grid' ? 3 : undefined}
-        ListFooterComponent={viewType === 'grid' ? null : listFooter}
+        numColumns={viewType === MovieViewTypes.GRID ? 3 : undefined}
+        ListFooterComponent={
+          viewType === MovieViewTypes.GRID ? null : listFooter
+        }
         data={listData}
-        renderItem={viewType === 'grid' ? renderGridItems : renderListItems}
+        renderItem={
+          viewType === MovieViewTypes.GRID ? renderGridItems : renderListItems
+        }
       />
     </SafeAreaView>
   );

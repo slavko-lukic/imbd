@@ -14,6 +14,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../store/reducers/rootReducer';
 import {changeViewType} from '../../store/actions/settingsActions';
 import RadioButtonGroup from '../../components/RadioButtonGroup';
+import {MovieViewTypes} from '../../enums/movieViewTypes';
 
 type ConfigureMoviesScreenProps = StackScreenProps<
   SettingsStackNavigatorParams,
@@ -25,11 +26,14 @@ const ConfigureMoviesScreen: FC<ConfigureMoviesScreenProps> = ({
 }) => {
   const dispatch = useDispatch();
 
-  const viewType = useSelector(
+  const currentViewType = useSelector(
     (state: RootState) => state.settings.movieViewType,
   );
 
-  const viewTypes: Array<'list' | 'grid'> = ['grid', 'list'];
+  const viewTypes: Array<MovieViewTypes> = [
+    MovieViewTypes.CARDS,
+    MovieViewTypes.GRID,
+  ];
 
   const {colorTheme, backgroundStyle} = useColorTheme();
 
@@ -37,14 +41,14 @@ const ConfigureMoviesScreen: FC<ConfigureMoviesScreenProps> = ({
     navigation.goBack();
   };
 
-  const mappedViewTypes = viewTypes.map((type, index) => {
+  const mappedViewTypes = viewTypes.map((viewType, index) => {
     return (
       <RadioButton
-        key={type}
-        text={type[0].toUpperCase() + type.slice(1)}
+        key={viewType}
+        text={viewType[0].toUpperCase() + viewType.slice(1)}
         index={index}
-        isCurrentlyActive={type === viewType}
-        onPressHandler={() => dispatch(changeViewType(type))}
+        isCurrentlyActive={viewType === currentViewType}
+        onPressHandler={() => dispatch(changeViewType(viewType))}
       />
     );
   });
