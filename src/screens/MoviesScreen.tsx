@@ -21,6 +21,7 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../store/reducers/rootReducer';
 import {MovieViewTypes} from '../enums/movieViewTypes';
 import MovieViewTypeSwitch from '../components/MovieViewTypeSwitch';
+import MovieListItem from '../components/MovieListItem';
 
 type MoviesScreenProps = BottomTabScreenProps<
   BottomTabNavigatorParams,
@@ -85,8 +86,12 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
     navigation.navigate(AppRoute.MOVIE, detailedMovie);
   };
 
-  const renderListItems: ListRenderItem<Movie> = ({item, index}) => (
+  const renderCardItems: ListRenderItem<Movie> = ({item, index}) => (
     <MovieCard movie={item} index={index} onPress={() => goToMovie(item)} />
+  );
+
+  const renderCardItems2: ListRenderItem<Movie> = ({item, index}) => (
+    <MovieListItem movie={item} index={index} onPress={() => goToMovie(item)} />
   );
 
   const renderGridItems: ListRenderItem<Movie> = ({item, index}) => {
@@ -135,7 +140,7 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
         }
         data={listData}
         renderItem={
-          viewType === MovieViewTypes.GRID ? renderGridItems : renderListItems
+          viewType === MovieViewTypes.GRID ? renderGridItems : renderCardItems2
         }
       />
     </SafeAreaView>
