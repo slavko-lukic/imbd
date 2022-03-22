@@ -68,6 +68,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.GREY_1_80,
     height: 26,
     justifyContent: 'center',
-    paddingLeft: 5,
+    paddingHorizontal: 4,
   },
 });
