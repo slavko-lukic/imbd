@@ -161,6 +161,7 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
         rightButtons={headerRightButtons}
       />
       <FlatList
+        showsVerticalScrollIndicator={false}
         key={currentViewType}
         keyExtractor={item => currentViewType + item.id}
         numColumns={currentViewType === MovieViewTypes.GRID ? 3 : undefined}
