@@ -1,5 +1,6 @@
 import React, {FC, useEffect} from 'react';
 import Animated, {
+  interpolate,
   runOnJS,
   useAnimatedStyle,
   useSharedValue,
@@ -41,6 +42,7 @@ const MovieViewTypeSwitch: FC<MovieViewTypeSwitchProps> = () => {
   const animatedStyle = useAnimatedStyle(() => {
     return {
       transform: [{rotateY: rotation.value + 'deg'}],
+      opacity: interpolate(rotation.value, [0, 90], [1, 0]),
     };
   }, []);
 
@@ -60,6 +62,7 @@ const MovieViewTypeSwitch: FC<MovieViewTypeSwitchProps> = () => {
   return (
     <Animated.View style={animatedStyle}>
       <Ionicons
+        suppressHighlighting
         name={getNextViewType()}
         color={colorTheme.foreground}
         size={HEADER_ICON_SIZE}
