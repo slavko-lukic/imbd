@@ -5,7 +5,6 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MainHeader from '../../components/MainHeader';
 import RadioButtonGroup from '../../components/RadioButtonGroup';
-import SelectThemeRadioButton from '../../components/SelectThemeRadioButton';
 import SettingsGroup from '../../components/SettingsGroup';
 import {HEADER_ICON_SIZE} from '../../constants/dimensions';
 import {availableColorThemes} from '../../constants/predefinedColorThemes';
@@ -13,6 +12,7 @@ import {AppRoute} from '../../enums/routes';
 import {useColorTheme} from '../../hooks/styles/useColorTheme';
 import {ColorTheme} from '../../models';
 import {SettingsStackNavigatorParams} from '../../navigation/SettingsNavigator';
+import RadioButton from '../../components/RadioButton';
 
 type ColorThemeScreenProps = StackScreenProps<
   SettingsStackNavigatorParams,
@@ -20,33 +20,37 @@ type ColorThemeScreenProps = StackScreenProps<
 >;
 
 const ColorThemeScreen: FC<ColorThemeScreenProps> = ({navigation}) => {
-  const {colorTheme, backgroundStyle} = useColorTheme();
+  const {colorTheme, backgroundStyle, setColorTheme} = useColorTheme();
 
   const goBack = () => {
     navigation.goBack();
   };
 
   const mapDarkThemes = () => {
-    return availableColorThemes.map((colorTheme: ColorTheme, index: number) => {
-      if (colorTheme.type === 'dark')
+    return availableColorThemes.map((theme: ColorTheme, index: number) => {
+      if (theme.type === 'dark')
         return (
-          <SelectThemeRadioButton
-            key={colorTheme.themeName}
-            colorThemeName={colorTheme.themeName}
+          <RadioButton
+            key={theme.themeName}
+            text={theme.themeName}
             index={index}
+            isCurrentlyActive={theme.themeName === colorTheme.themeName}
+            onPressHandler={() => setColorTheme(theme.themeName)}
           />
         );
     });
   };
 
   const mapLightThemes = () => {
-    return availableColorThemes.map((colorTheme: ColorTheme, index: number) => {
-      if (colorTheme.type === 'light')
+    return availableColorThemes.map((theme: ColorTheme, index: number) => {
+      if (theme.type === 'light')
         return (
-          <SelectThemeRadioButton
-            key={colorTheme.themeName}
-            colorThemeName={colorTheme.themeName}
+          <RadioButton
+            key={theme.themeName}
+            text={theme.themeName}
             index={index}
+            isCurrentlyActive={theme.themeName === colorTheme.themeName}
+            onPressHandler={() => setColorTheme(theme.themeName)}
           />
         );
     });

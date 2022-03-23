@@ -8,4 +8,5 @@ export enum AppRoute {
   SEARCH = 'Search',
   MOVIE = 'Movie',
   FULL_CREDITS = 'Full credits',
+  CONFIGURE_MOVIES = 'Configure movies',
 }

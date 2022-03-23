@@ -11,27 +11,25 @@ import {ColorThemes} from '../enums/colorThemes';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
 import FadeInView from './FadeInView';
 
-interface SelectThemeRadioButtonProps {
-  colorThemeName: ColorThemes;
+interface RadioButtonProps {
+  text: string;
   index?: number;
+  isCurrentlyActive?: boolean;
+  onPressHandler?: () => void;
 }
 
-const SelectThemeRadioButton: FC<SelectThemeRadioButtonProps> = ({
-  colorThemeName,
+const RadioButton: FC<RadioButtonProps> = ({
+  text,
   index = 1,
+  isCurrentlyActive = false,
+  onPressHandler,
 }) => {
-  const {
-    colorTheme,
-    setColorTheme,
-    foregroundStyle,
-    primaryColorForegroundStyle,
-  } = useColorTheme();
+  const {colorTheme, foregroundStyle, primaryColorForegroundStyle} =
+    useColorTheme();
 
-  const isCurrentlyActive = colorTheme.themeName === colorThemeName;
-
-  const onPressHandler = () => {
-    setColorTheme(colorThemeName);
-  };
+  // const onPressHandler = () => {
+  //   setColorTheme(colorThemeName);
+  // };
 
   return (
     <FadeInView
@@ -57,14 +55,14 @@ const SelectThemeRadioButton: FC<SelectThemeRadioButtonProps> = ({
             {fontSize: 16, marginHorizontal: 10},
             isCurrentlyActive ? primaryColorForegroundStyle : foregroundStyle,
           ]}>
-          {colorThemeName}
+          {text}
         </Text>
       </TouchableOpacity>
     </FadeInView>
   );
 };
 
-export default SelectThemeRadioButton;
+export default RadioButton;
 
 const styles = StyleSheet.create({
   container: {

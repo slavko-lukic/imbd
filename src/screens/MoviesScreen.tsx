@@ -1,5 +1,5 @@
 import React, {FC, useCallback, useState} from 'react';
-import {FlatList, ListRenderItem, StyleSheet, View} from 'react-native';
+import {FlatList, ListRenderItem, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import MainHeader from '../components/MainHeader';
 import {MovieListTypes} from '../enums/movieListTypes';
@@ -15,7 +15,13 @@ import {BottomTabNavigatorParams} from '../navigation/BottomTabs';
 import VerticalSpacing from '../components/VerticalSpacing';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
 import {axiosGet} from '../utilities/api';
-import {Cast, Crew} from '../models';
+import {Crew} from '../models';
+import MovieGridItem from '../components/MovieGridItem';
+import {useSelector} from 'react-redux';
+import {RootState} from '../store/reducers/rootReducer';
+import {MovieViewTypes} from '../enums/movieViewTypes';
+import MovieViewTypeSwitch from '../components/MovieViewTypeSwitch';
+import MovieListItem from '../components/MovieListItem';
 
 type MoviesScreenProps = BottomTabScreenProps<
   BottomTabNavigatorParams,
@@ -24,6 +30,10 @@ type MoviesScreenProps = BottomTabScreenProps<
 
 const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
   const {colorTheme, backgroundStyle} = useColorTheme();
+
+  const currentViewType = useSelector(
+    (state: RootState) => state.settings.movieViewType,
+  );
 
   const [listData, setListData] = useState<Movie[]>(SUGGESTED_MOVIES);
 
@@ -46,6 +56,10 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
 
   const goToSettings = () => {
     navigation.navigate(AppRoute.SETTINGS);
+  };
+
+  const goToSearch = () => {
+    navigation.navigate(AppRoute.SEARCH);
   };
 
   const goToMovie = async (movie: Movie) => {
@@ -76,17 +90,52 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
     navigation.navigate(AppRoute.MOVIE, detailedMovie);
   };
 
-  const renderItem: ListRenderItem<Movie> = ({item, index}) => (
-    <MovieCard movie={item} index={index} onPress={() => goToMovie(item)} />
-  );
+  const renderItem: ListRenderItem<Movie> = ({item, index}) => {
+    switch (currentViewType) {
+      case MovieViewTypes.CARDS:
+        return (
+          <MovieCard
+            movie={item}
+            index={index}
+            onPress={() => goToMovie(item)}
+          />
+        );
+      case MovieViewTypes.LIST:
+        return (
+          <MovieListItem
+            movie={item}
+            index={index}
+            onPress={() => goToMovie(item)}
+          />
+        );
+      case MovieViewTypes.GRID:
+        return (
+          <MovieGridItem
+            movie={item}
+            index={index}
+            onPress={() => goToMovie(item)}
+          />
+        );
+      default:
+        return (
+          <MovieCard
+            movie={item}
+            index={index}
+            onPress={() => goToMovie(item)}
+          />
+        );
+    }
+  };
 
   const headerLeftButton: JSX.Element = (
     <MovieListSelectorButton updateListData={listDataUpdateHandler} />
   );
   const headerRightButtons: JSX.Element[] = [
+    <MovieViewTypeSwitch key={'movieViewTypeSwitch'} />,
     <Ionicons
       key="settings-sharp"
       name="settings-sharp"
+      style={{marginLeft: 10}}
       color={colorTheme.foreground}
       size={HEADER_ICON_SIZE}
       onPress={goToSettings}
@@ -97,9 +146,7 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
       style={{marginLeft: 10}}
       color={colorTheme.foreground}
       size={HEADER_ICON_SIZE}
-      onPress={() => {
-        navigation.navigate(AppRoute.SEARCH);
-      }}
+      onPress={goToSearch}
     />,
   ];
 
@@ -114,7 +161,13 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
         rightButtons={headerRightButtons}
       />
       <FlatList
-        ListFooterComponent={listFooter}
+        showsVerticalScrollIndicator={false}
+        key={currentViewType}
+        keyExtractor={item => currentViewType + item.id}
+        numColumns={currentViewType === MovieViewTypes.GRID ? 3 : undefined}
+        ListFooterComponent={
+          currentViewType === MovieViewTypes.GRID ? null : listFooter
+        }
         data={listData}
         renderItem={renderItem}
       />
