@@ -4,7 +4,6 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import MainHeader from '../components/MainHeader';
 import {MovieListTypes} from '../enums/movieListTypes';
 import MovieCard from '../components/MovieCard';
-import {SUGGESTED_MOVIES, WATCHED_MOVIES, WATCHLIST} from '../mock/movies_mock';
 import {DetailedMovie, Movie} from '../models/Movie';
 import MovieListSelectorButton from '../components/MovieListSelectorButton';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -35,21 +34,21 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
     (state: RootState) => state.settings.movieViewType,
   );
 
-  const [listData, setListData] = useState<Movie[]>(SUGGESTED_MOVIES);
+  const [listData, setListData] = useState<Movie[]>([]);
 
   const listDataUpdateHandler = useCallback((displayedList: MovieListTypes) => {
     switch (displayedList) {
       case MovieListTypes.WATCHLIST:
-        setListData(WATCHLIST);
+        setListData([]);
         break;
       case MovieListTypes.SUGGESTIONS:
-        setListData(SUGGESTED_MOVIES);
+        setListData([]);
         break;
       case MovieListTypes.WATCHED:
-        setListData(WATCHED_MOVIES);
+        setListData([]);
         break;
       default:
-        setListData(SUGGESTED_MOVIES);
+        setListData([]);
         break;
     }
   }, []);
@@ -81,6 +80,7 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
 
     const detailedMovie: DetailedMovie = {
       ...movie,
+      backdrop_path: detailsResponse.data.backdrop_path,
       runtime: detailsResponse.data.runtime,
       genres: detailsResponse.data.genres,
       cast: creditsResponse.data.cast,

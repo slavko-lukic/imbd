@@ -51,7 +51,7 @@ const MovieListItem: FC<MovieListItemProps> = ({movie, onPress}) => {
               {fontSize: 15, flex: 1, marginRight: 5},
               primaryColorForegroundStyle,
             ]}>
-            {movie.original_title}
+            {movie.title}
           </Text>
           <Text numberOfLines={1} style={accentVariantColorForegroundStyle}>
             {moment(movie.release_date).year()}

@@ -125,7 +125,7 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
               primaryVariantColorForegroundStyle,
               headerAnimatedStyle,
             ]}>
-            {movie.original_title} ({moment(movie.release_date).year()})
+            {movie.origititlenal_title} ({moment(movie.release_date).year()})
           </Animated.Text>
         }
         leftButton={headerLeftButton}
@@ -156,7 +156,7 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
             <View style={styles.titleContainer}>
               <Text
                 style={[{fontSize: 32}, primaryVariantColorForegroundStyle]}>
-                {movie.original_title}
+                {movie.title}
               </Text>
             </View>
 

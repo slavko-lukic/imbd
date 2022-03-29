@@ -59,7 +59,7 @@ const MovieCard: FC<MovieCardProps> = ({movie, onPress}) => {
           <Text
             numberOfLines={1}
             style={[{fontSize: 18}, primaryColorForegroundStyle]}>
-            {movie.original_title}
+            {movie.title}
           </Text>
 
           <Text style={[{marginTop: 5}, foregroundStyle]} numberOfLines={9}>

@@ -46,7 +46,7 @@ const MovieGridItem: FC<MovieGridItemProps> = ({movie, onPress}) => {
           <Text
             numberOfLines={1}
             style={[{fontSize: 16, color: colors.WHITE_DIMMED}]}>
-            {movie.original_title}
+            {movie.title}
           </Text>
         </View>
       </ImageBackground>
