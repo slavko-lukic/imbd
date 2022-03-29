@@ -1,5 +1,5 @@
 import React, {FC, useEffect, useState} from 'react';
-import {Pressable, StyleSheet, Text} from 'react-native';
+import {StyleSheet, Text} from 'react-native';
 import Animated, {
   runOnJS,
   useAnimatedStyle,
@@ -7,7 +7,6 @@ import Animated, {
   withDelay,
   withTiming,
 } from 'react-native-reanimated';
-import colors from '../constants/colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {MovieListTypes} from '../enums/movieListTypes';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
@@ -23,7 +22,7 @@ const MovieListSelectorButton: FC<MovieListSelectorButtonProps> = ({
   const {colorTheme} = useColorTheme();
 
   const [displayedList, setDisplayedList] = useState<MovieListTypes>(
-    MovieListTypes.SUGGESTIONS,
+    MovieListTypes.POPULAR,
   );
 
   const positionX = useSharedValue(0);
@@ -38,13 +37,13 @@ const MovieListSelectorButton: FC<MovieListSelectorButtonProps> = ({
         setDisplayedList(MovieListTypes.WATCHLIST);
         break;
       case MovieListTypes.WATCHLIST:
-        setDisplayedList(MovieListTypes.SUGGESTIONS);
+        setDisplayedList(MovieListTypes.POPULAR);
         break;
-      case MovieListTypes.SUGGESTIONS:
+      case MovieListTypes.POPULAR:
         setDisplayedList(MovieListTypes.WATCHED);
         break;
       default:
-        setDisplayedList(MovieListTypes.SUGGESTIONS);
+        setDisplayedList(MovieListTypes.POPULAR);
         break;
     }
   };

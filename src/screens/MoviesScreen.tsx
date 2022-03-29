@@ -41,7 +41,7 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
       case MovieListTypes.WATCHLIST:
         setListData([]);
         break;
-      case MovieListTypes.SUGGESTIONS:
+      case MovieListTypes.POPULAR:
         setListData([]);
         break;
       case MovieListTypes.WATCHED:
