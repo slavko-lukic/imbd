@@ -1,4 +1,4 @@
-import React, {FC, useCallback, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {FlatList, ListRenderItem, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import MainHeader from '../components/MainHeader';
@@ -21,11 +21,21 @@ import {RootState} from '../store/reducers/rootReducer';
 import {MovieViewTypes} from '../enums/movieViewTypes';
 import MovieViewTypeSwitch from '../components/MovieViewTypeSwitch';
 import MovieListItem from '../components/MovieListItem';
+import {useQuery} from 'react-query';
 
 type MoviesScreenProps = BottomTabScreenProps<
   BottomTabNavigatorParams,
   AppRoute.MOVIES
 >;
+
+const fetchPopular = async () => {
+  const params = {
+    api_key: 'e0966f5c25707b5d4f4f5a1670429967',
+    language: 'en-US',
+  };
+  const popular = await axiosGet(`/movie/popular`, params);
+  return popular.data.results;
+};
 
 const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
   const {colorTheme, backgroundStyle} = useColorTheme();
@@ -34,24 +44,45 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
     (state: RootState) => state.settings.movieViewType,
   );
 
+  const [currentDisplayedList, setCurrentDisplayedList] =
+    useState<MovieListTypes>(MovieListTypes.POPULAR);
   const [listData, setListData] = useState<Movie[]>([]);
 
-  const listDataUpdateHandler = useCallback((displayedList: MovieListTypes) => {
-    switch (displayedList) {
-      case MovieListTypes.WATCHLIST:
-        setListData([]);
-        break;
+  const popularMoviesQuery = useQuery('popular', fetchPopular);
+
+  useEffect(() => {
+    switch (currentDisplayedList) {
       case MovieListTypes.POPULAR:
-        setListData([]);
+        setListData(popularMoviesQuery.data);
         break;
       case MovieListTypes.WATCHED:
-        setListData([]);
+        setListData(popularMoviesQuery.data.slice(0, 3));
+        break;
+      case MovieListTypes.WATCHLIST:
+        setListData(popularMoviesQuery.data.slice(3, 6));
         break;
       default:
-        setListData([]);
+        setListData(popularMoviesQuery.data);
         break;
     }
-  }, []);
+  }, [currentDisplayedList, popularMoviesQuery.data]);
+
+  const switchCurrentDisplayedList = () => {
+    switch (currentDisplayedList) {
+      case MovieListTypes.POPULAR:
+        setCurrentDisplayedList(MovieListTypes.WATCHED);
+        break;
+      case MovieListTypes.WATCHED:
+        setCurrentDisplayedList(MovieListTypes.WATCHLIST);
+        break;
+      case MovieListTypes.WATCHLIST:
+        setCurrentDisplayedList(MovieListTypes.POPULAR);
+        break;
+      default:
+        setCurrentDisplayedList(MovieListTypes.POPULAR);
+        break;
+    }
+  };
 
   const goToSettings = () => {
     navigation.navigate(AppRoute.SETTINGS);
@@ -128,7 +159,10 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
   };
 
   const headerLeftButton: JSX.Element = (
-    <MovieListSelectorButton updateListData={listDataUpdateHandler} />
+    <MovieListSelectorButton
+      title={currentDisplayedList}
+      onPress={switchCurrentDisplayedList}
+    />
   );
   const headerRightButtons: JSX.Element[] = [
     <MovieViewTypeSwitch key={'movieViewTypeSwitch'} />,
