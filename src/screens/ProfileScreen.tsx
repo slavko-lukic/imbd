@@ -36,7 +36,11 @@ const ProfileScreen: FC<ProfileScreenProps> = ({navigation}) => {
     <SafeAreaView edges={['top']} style={[styles.screenContaner]}>
       <MainHeader rightButtons={headerRightButton} />
       <View style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
-        <AppleWatchBreathing />
+        <AppleWatchBreathing
+          numberOfCircles={7}
+          startColor="#aaffbe"
+          endColor="#affafd"
+        />
       </View>
     </SafeAreaView>
   );

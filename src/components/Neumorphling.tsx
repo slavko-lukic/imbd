@@ -1,7 +1,7 @@
 import React, {FC, useState} from 'react';
 import {Pressable, View, ViewProps, ViewStyle} from 'react-native';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
-import {shadeColor} from '../utilities/colors';
+import {shadeColor} from '../utilities/colors.old';
 
 interface NeumorphlingProps extends ViewProps {
   backgroundColor: string;

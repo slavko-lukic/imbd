@@ -93,6 +93,7 @@ const AppleWatchBreathing: FC<AppleWatchBreathingProps> = ({
           .map((e, i) => {
             return (
               <AnimatedG
+                key={i}
                 rotation={((i * 360) / numberOfCircles).toString()}
                 style={animatedRotation}>
                 <AnimatedCircle
