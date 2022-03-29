@@ -38,8 +38,8 @@ const ProfileScreen: FC<ProfileScreenProps> = ({navigation}) => {
       <View style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
         <AppleWatchBreathing
           numberOfCircles={7}
-          startColor="#aaffbe"
-          endColor="#affafd"
+          startColor="#ffccaa"
+          endColor="#ccbbaa"
         />
       </View>
     </SafeAreaView>

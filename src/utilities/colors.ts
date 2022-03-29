@@ -1,4 +1,5 @@
 /**
+ *
  * Generates color gradients between start and end color.
  * Only accepts full or shorthend hex representations.
  * RGB, RGBA and hex with opacity are not supported.
@@ -52,6 +53,7 @@ export const calculateGradient = (
 };
 
 /**
+ *
  * Checks if given color is valid hex value.
  * Valid formats:
  * - #rrggbb
@@ -98,6 +100,11 @@ export const adjustHexOpacity = (color: string, opacity = 1) => {
   return color + Math.ceil(255 * opacity).toString(16); // alpha added to color
 };
 
+/**
+ *
+ * @param color - Input color.
+ * @returns Object containing individual rgb values
+ */
 const extractIndividualRGB = (color: string) => {
   if (color.length < 5) color = shorthend2fullHex(color);
 
