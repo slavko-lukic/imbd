@@ -49,6 +49,8 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
   const [listData, setListData] = useState<Movie[]>([]);
 
   const popularMoviesQuery = useQuery('popular', fetchPopular);
+  const watched = useSelector((state: RootState) => state.movies.watched);
+  const watchlist = useSelector((state: RootState) => state.movies.watchlist);
 
   useEffect(() => {
     switch (currentDisplayedList) {
@@ -56,10 +58,10 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
         setListData(popularMoviesQuery.data);
         break;
       case MovieListTypes.WATCHED:
-        setListData(popularMoviesQuery.data.slice(0, 3));
+        setListData(watched);
         break;
       case MovieListTypes.WATCHLIST:
-        setListData(popularMoviesQuery.data.slice(3, 6));
+        setListData(watchlist);
         break;
       default:
         setListData(popularMoviesQuery.data);
