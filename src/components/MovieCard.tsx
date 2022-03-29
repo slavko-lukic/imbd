@@ -18,9 +18,7 @@ interface MovieCardProps {
   onPress?: () => void;
 }
 
-const MovieCard: FC<MovieCardProps> = ({movie, index, onPress}) => {
-  const cardOffsetY = -((index + 1) * 1200);
-
+const MovieCard: FC<MovieCardProps> = ({movie, onPress}) => {
   const springAnimationConfig: WithSpringConfig = {
     damping: 18,
     mass: 1,
@@ -36,7 +34,6 @@ const MovieCard: FC<MovieCardProps> = ({movie, index, onPress}) => {
     primaryColorForegroundStyle,
     foregroundStyle,
     accentVariantColorForegroundStyle,
-    foregroundVariantStyle,
   } = useColorTheme();
 
   return (
@@ -45,7 +42,7 @@ const MovieCard: FC<MovieCardProps> = ({movie, index, onPress}) => {
       activeOpacity={
         colorTheme.type === 'dark' ? ACTIVE_OPACITY_WEAK : ACTIVE_OPACITY_STRONG
       }
-      offsetY={cardOffsetY}
+      offsetX={-800}
       springAnimationConfig={springAnimationConfig}
       style={[styles.card, cardShadowStyle, surfaceVariantStyle]}>
       <View style={styles.imageContainer}>

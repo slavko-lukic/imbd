@@ -10,6 +10,7 @@ import {
 } from '../constants/miscellaneous';
 import {Movie} from '../models';
 import FadeInView from './FadeInView';
+import {randomIntFromInterval} from '../utilities/misc';
 
 interface MovieListItemProps {
   movie: Movie;
@@ -17,7 +18,7 @@ interface MovieListItemProps {
   onPress?: () => void;
 }
 
-const MovieListItem: FC<MovieListItemProps> = ({movie, index, onPress}) => {
+const MovieListItem: FC<MovieListItemProps> = ({movie, onPress}) => {
   const {
     colorTheme,
     surfaceVariantStyle,
@@ -32,9 +33,8 @@ const MovieListItem: FC<MovieListItemProps> = ({movie, index, onPress}) => {
       activeOpacity={
         colorTheme.type === 'dark' ? ACTIVE_OPACITY_WEAK : ACTIVE_OPACITY_STRONG
       }
-      duration={700}
-      delay={100 * (index + 1)}
-      offsetX={-500}
+      duration={100 * randomIntFromInterval(5, 10)}
+      offsetX={-200 * randomIntFromInterval(3, 6)}
       style={[styles.cardContainer, cardShadowStyle, surfaceVariantStyle]}>
       <Image
         style={styles.image}

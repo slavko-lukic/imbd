@@ -16,6 +16,7 @@ import {
 import {Movie} from '../models';
 import FadeInView from './FadeInView';
 import colors from '../constants/colors';
+import {randomIntFromInterval} from '../utilities/misc';
 
 interface MovieGridItemProps {
   movie: Movie;
@@ -23,8 +24,8 @@ interface MovieGridItemProps {
   onPress?: () => void;
 }
 
-const MovieGridItem: FC<MovieGridItemProps> = ({movie, index, onPress}) => {
-  const {colorTheme, surfaceVariantStyle, foregroundStyle} = useColorTheme();
+const MovieGridItem: FC<MovieGridItemProps> = ({movie, onPress}) => {
+  const {colorTheme, surfaceVariantStyle} = useColorTheme();
 
   return (
     <FadeInView
@@ -32,8 +33,8 @@ const MovieGridItem: FC<MovieGridItemProps> = ({movie, index, onPress}) => {
       activeOpacity={
         colorTheme.type === 'dark' ? ACTIVE_OPACITY_WEAK : ACTIVE_OPACITY_STRONG
       }
-      offsetY={-100 * (index + 1)}
-      duration={150 * (index + 1)}
+      offsetY={-100 - randomIntFromInterval(0, 300)}
+      duration={150 * randomIntFromInterval(3, 7)}
       style={[styles.card, surfaceVariantStyle]}>
       <ImageBackground
         style={styles.image}
