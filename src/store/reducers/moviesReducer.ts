@@ -10,9 +10,39 @@ const initialState: MoviesReducerState = {
 const moviesReducer = (state = initialState, action: MoviesAction) => {
   switch (action.type) {
     case MoviesActionsConstants.ADD_TO_WATCHED:
-      return {...state, watched: [...state.watched, action.movie]};
+      // remove movie from watchlist first
+      const updatedWatchlist = state.watchlist.filter(movie => {
+        return movie.id !== action.movie.id;
+      });
+
+      const indexInWatched = state.watched.findIndex(
+        movie => movie.id === action.movie.id,
+      );
+
+      return {
+        ...state,
+        watched:
+          indexInWatched === -1
+            ? [...state.watched, action.movie]
+            : [...state.watched],
+        watchlist: [...updatedWatchlist],
+      };
     case MoviesActionsConstants.ADD_TO_WATCHLIST:
-      return {...state, watchlist: [...state.watchlist, action.movie]};
+      const updatedWatched = state.watched.filter(movie => {
+        return movie.id !== action.movie.id;
+      });
+      const indexInWatchlist = state.watchlist.findIndex(
+        movie => movie.id === action.movie.id,
+      );
+
+      return {
+        ...state,
+        watchlist:
+          indexInWatchlist === -1
+            ? [...state.watchlist, action.movie]
+            : [...state.watchlist],
+        watched: [...updatedWatched],
+      };
     default:
       return state;
   }

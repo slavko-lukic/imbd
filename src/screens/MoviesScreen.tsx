@@ -67,7 +67,7 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
         setListData(popularMoviesQuery.data);
         break;
     }
-  }, [currentDisplayedList, popularMoviesQuery.data]);
+  }, [currentDisplayedList, popularMoviesQuery.data, watched, watchlist]);
 
   const switchCurrentDisplayedList = () => {
     switch (currentDisplayedList) {
