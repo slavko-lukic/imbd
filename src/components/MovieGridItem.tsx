@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, memo} from 'react';
 import {
   Dimensions,
   ImageBackground,
@@ -20,7 +20,6 @@ import {randomIntFromInterval} from '../utilities/misc';
 
 interface MovieGridItemProps {
   movie: Movie;
-  index: number;
   onPress?: () => void;
 }
 
@@ -54,11 +53,11 @@ const MovieGridItem: FC<MovieGridItemProps> = ({movie, onPress}) => {
   );
 };
 
-export default MovieGridItem;
+export default memo(MovieGridItem);
 
 const styles = StyleSheet.create({
   card: {
-    height: 230,
+    height: 200,
   },
   image: {
     flex: 1,

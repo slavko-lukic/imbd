@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useCallback, useMemo, useState} from 'react';
 import {FlatList, ListRenderItem, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import MainHeader from '../components/MainHeader';
@@ -21,21 +21,12 @@ import {RootState} from '../store/reducers/rootReducer';
 import {MovieViewTypes} from '../enums/movieViewTypes';
 import MovieViewTypeSwitch from '../components/MovieViewTypeSwitch';
 import MovieListItem from '../components/MovieListItem';
-import {useQuery} from 'react-query';
+import {usePopularMovies} from '../hooks/api/usePopularMovies';
 
 type MoviesScreenProps = BottomTabScreenProps<
   BottomTabNavigatorParams,
   AppRoute.MOVIES
 >;
-
-const fetchPopular = async () => {
-  const params = {
-    api_key: 'e0966f5c25707b5d4f4f5a1670429967',
-    language: 'en-US',
-  };
-  const popular = await axiosGet(`/movie/popular`, params);
-  return popular.data.results;
-};
 
 const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
   const {colorTheme, backgroundStyle} = useColorTheme();
@@ -46,28 +37,23 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
 
   const [currentDisplayedList, setCurrentDisplayedList] =
     useState<MovieListTypes>(MovieListTypes.POPULAR);
-  const [listData, setListData] = useState<Movie[]>([]);
 
-  const popularMoviesQuery = useQuery('popular', fetchPopular);
   const watched = useSelector((state: RootState) => state.movies.watched);
   const watchlist = useSelector((state: RootState) => state.movies.watchlist);
+  const {popularMovies, isFetching, fetchNextPage} = usePopularMovies();
 
-  useEffect(() => {
+  const listData = useMemo(() => {
     switch (currentDisplayedList) {
       case MovieListTypes.POPULAR:
-        setListData(popularMoviesQuery.data);
-        break;
+        return popularMovies;
       case MovieListTypes.WATCHED:
-        setListData(watched);
-        break;
+        return watched;
       case MovieListTypes.WATCHLIST:
-        setListData(watchlist);
-        break;
+        return watchlist;
       default:
-        setListData(popularMoviesQuery.data);
-        break;
+        return popularMovies;
     }
-  }, [currentDisplayedList, popularMoviesQuery.data, watched, watchlist]);
+  }, [currentDisplayedList, popularMovies, watched, watchlist]);
 
   const switchCurrentDisplayedList = () => {
     switch (currentDisplayedList) {
@@ -94,7 +80,15 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
     navigation.navigate(AppRoute.SEARCH);
   };
 
-  const goToMovie = async (movie: Movie) => {
+  const loadMoreMovies = () => {
+    if (!isFetching) fetchNextPage();
+  };
+
+  const keyExtractor = (item: Movie) => {
+    return currentViewType + item.id;
+  };
+
+  const goToMovie = useCallback(async (movie: Movie) => {
     const params = {
       api_key: 'e0966f5c25707b5d4f4f5a1670429967',
       language: 'en-US',
@@ -121,44 +115,23 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
     };
 
     navigation.navigate(AppRoute.MOVIE, detailedMovie);
-  };
+  }, []);
 
-  const renderItem: ListRenderItem<Movie> = ({item, index}) => {
-    switch (currentViewType) {
-      case MovieViewTypes.CARDS:
-        return (
-          <MovieCard
-            movie={item}
-            index={index}
-            onPress={() => goToMovie(item)}
-          />
-        );
-      case MovieViewTypes.LIST:
-        return (
-          <MovieListItem
-            movie={item}
-            index={index}
-            onPress={() => goToMovie(item)}
-          />
-        );
-      case MovieViewTypes.GRID:
-        return (
-          <MovieGridItem
-            movie={item}
-            index={index}
-            onPress={() => goToMovie(item)}
-          />
-        );
-      default:
-        return (
-          <MovieCard
-            movie={item}
-            index={index}
-            onPress={() => goToMovie(item)}
-          />
-        );
-    }
-  };
+  const renderItem: ListRenderItem<Movie> = useCallback(
+    ({item}) => {
+      switch (currentViewType) {
+        case MovieViewTypes.CARDS:
+          return <MovieCard movie={item} onPress={() => goToMovie(item)} />;
+        case MovieViewTypes.LIST:
+          return <MovieListItem movie={item} onPress={() => goToMovie(item)} />;
+        case MovieViewTypes.GRID:
+          return <MovieGridItem movie={item} onPress={() => goToMovie(item)} />;
+        default:
+          return <MovieCard movie={item} onPress={() => goToMovie(item)} />;
+      }
+    },
+    [currentViewType],
+  );
 
   const headerLeftButton: JSX.Element = (
     <MovieListSelectorButton
@@ -196,16 +169,18 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
         leftButton={headerLeftButton}
         rightButtons={headerRightButtons}
       />
+
       <FlatList
         showsVerticalScrollIndicator={false}
         key={currentViewType}
-        keyExtractor={item => currentViewType + item.id}
+        keyExtractor={keyExtractor}
         numColumns={currentViewType === MovieViewTypes.GRID ? 3 : undefined}
         ListFooterComponent={
           currentViewType === MovieViewTypes.GRID ? null : listFooter
         }
         data={listData}
         renderItem={renderItem}
+        onEndReached={loadMoreMovies}
       />
     </SafeAreaView>
   );

@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, memo} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import {IMAGE_BASE_URL} from '../constants/api';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
@@ -14,7 +14,6 @@ import {randomIntFromInterval} from '../utilities/misc';
 
 interface MovieListItemProps {
   movie: Movie;
-  index: number;
   onPress?: () => void;
 }
 
@@ -67,7 +66,7 @@ const MovieListItem: FC<MovieListItemProps> = ({movie, onPress}) => {
   );
 };
 
-export default MovieListItem;
+export default memo(MovieListItem);
 
 const styles = StyleSheet.create({
   cardContainer: {

@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, memo} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import {WithSpringConfig} from 'react-native-reanimated';
 import {IMAGE_BASE_URL} from '../constants/api';
@@ -14,7 +14,6 @@ import {Movie} from '../models';
 
 interface MovieCardProps {
   movie: Movie;
-  index: number;
   onPress?: () => void;
 }
 
@@ -76,7 +75,7 @@ const MovieCard: FC<MovieCardProps> = ({movie, onPress}) => {
   );
 };
 
-export default MovieCard;
+export default memo(MovieCard);
 
 const styles = StyleSheet.create({
   card: {
