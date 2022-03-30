@@ -1,10 +1,9 @@
-import React, {FC, useCallback, useState} from 'react';
+import React, {FC, useCallback, useMemo, useState} from 'react';
 import {FlatList, ListRenderItem, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import MainHeader from '../components/MainHeader';
 import {MovieListTypes} from '../enums/movieListTypes';
 import MovieCard from '../components/MovieCard';
-import {SUGGESTED_MOVIES, WATCHED_MOVIES, WATCHLIST} from '../mock/movies_mock';
 import {DetailedMovie, Movie} from '../models/Movie';
 import MovieListSelectorButton from '../components/MovieListSelectorButton';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -22,6 +21,7 @@ import {RootState} from '../store/reducers/rootReducer';
 import {MovieViewTypes} from '../enums/movieViewTypes';
 import MovieViewTypeSwitch from '../components/MovieViewTypeSwitch';
 import MovieListItem from '../components/MovieListItem';
+import {usePopularMovies} from '../hooks/api/usePopularMovies';
 
 type MoviesScreenProps = BottomTabScreenProps<
   BottomTabNavigatorParams,
@@ -35,24 +35,42 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
     (state: RootState) => state.settings.movieViewType,
   );
 
-  const [listData, setListData] = useState<Movie[]>(SUGGESTED_MOVIES);
+  const [currentDisplayedList, setCurrentDisplayedList] =
+    useState<MovieListTypes>(MovieListTypes.POPULAR);
 
-  const listDataUpdateHandler = useCallback((displayedList: MovieListTypes) => {
-    switch (displayedList) {
+  const watched = useSelector((state: RootState) => state.movies.watched);
+  const watchlist = useSelector((state: RootState) => state.movies.watchlist);
+  const {popularMovies, isFetching, fetchNextPage} = usePopularMovies();
+
+  const listData = useMemo(() => {
+    switch (currentDisplayedList) {
+      case MovieListTypes.POPULAR:
+        return popularMovies;
+      case MovieListTypes.WATCHED:
+        return watched;
       case MovieListTypes.WATCHLIST:
-        setListData(WATCHLIST);
-        break;
-      case MovieListTypes.SUGGESTIONS:
-        setListData(SUGGESTED_MOVIES);
+        return watchlist;
+      default:
+        return popularMovies;
+    }
+  }, [currentDisplayedList, popularMovies, watched, watchlist]);
+
+  const switchCurrentDisplayedList = () => {
+    switch (currentDisplayedList) {
+      case MovieListTypes.POPULAR:
+        setCurrentDisplayedList(MovieListTypes.WATCHED);
         break;
       case MovieListTypes.WATCHED:
-        setListData(WATCHED_MOVIES);
+        setCurrentDisplayedList(MovieListTypes.WATCHLIST);
+        break;
+      case MovieListTypes.WATCHLIST:
+        setCurrentDisplayedList(MovieListTypes.POPULAR);
         break;
       default:
-        setListData(SUGGESTED_MOVIES);
+        setCurrentDisplayedList(MovieListTypes.POPULAR);
         break;
     }
-  }, []);
+  };
 
   const goToSettings = () => {
     navigation.navigate(AppRoute.SETTINGS);
@@ -62,7 +80,15 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
     navigation.navigate(AppRoute.SEARCH);
   };
 
-  const goToMovie = async (movie: Movie) => {
+  const loadMoreMovies = () => {
+    if (!isFetching) fetchNextPage();
+  };
+
+  const keyExtractor = (item: Movie) => {
+    return currentViewType + item.id;
+  };
+
+  const goToMovie = useCallback(async (movie: Movie) => {
     const params = {
       api_key: 'e0966f5c25707b5d4f4f5a1670429967',
       language: 'en-US',
@@ -81,6 +107,7 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
 
     const detailedMovie: DetailedMovie = {
       ...movie,
+      backdrop_path: detailsResponse.data.backdrop_path,
       runtime: detailsResponse.data.runtime,
       genres: detailsResponse.data.genres,
       cast: creditsResponse.data.cast,
@@ -88,47 +115,29 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
     };
 
     navigation.navigate(AppRoute.MOVIE, detailedMovie);
-  };
+  }, []);
 
-  const renderItem: ListRenderItem<Movie> = ({item, index}) => {
-    switch (currentViewType) {
-      case MovieViewTypes.CARDS:
-        return (
-          <MovieCard
-            movie={item}
-            index={index}
-            onPress={() => goToMovie(item)}
-          />
-        );
-      case MovieViewTypes.LIST:
-        return (
-          <MovieListItem
-            movie={item}
-            index={index}
-            onPress={() => goToMovie(item)}
-          />
-        );
-      case MovieViewTypes.GRID:
-        return (
-          <MovieGridItem
-            movie={item}
-            index={index}
-            onPress={() => goToMovie(item)}
-          />
-        );
-      default:
-        return (
-          <MovieCard
-            movie={item}
-            index={index}
-            onPress={() => goToMovie(item)}
-          />
-        );
-    }
-  };
+  const renderItem: ListRenderItem<Movie> = useCallback(
+    ({item}) => {
+      switch (currentViewType) {
+        case MovieViewTypes.CARDS:
+          return <MovieCard movie={item} onPress={() => goToMovie(item)} />;
+        case MovieViewTypes.LIST:
+          return <MovieListItem movie={item} onPress={() => goToMovie(item)} />;
+        case MovieViewTypes.GRID:
+          return <MovieGridItem movie={item} onPress={() => goToMovie(item)} />;
+        default:
+          return <MovieCard movie={item} onPress={() => goToMovie(item)} />;
+      }
+    },
+    [currentViewType],
+  );
 
   const headerLeftButton: JSX.Element = (
-    <MovieListSelectorButton updateListData={listDataUpdateHandler} />
+    <MovieListSelectorButton
+      title={currentDisplayedList}
+      onPress={switchCurrentDisplayedList}
+    />
   );
   const headerRightButtons: JSX.Element[] = [
     <MovieViewTypeSwitch key={'movieViewTypeSwitch'} />,
@@ -160,16 +169,18 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
         leftButton={headerLeftButton}
         rightButtons={headerRightButtons}
       />
+
       <FlatList
         showsVerticalScrollIndicator={false}
         key={currentViewType}
-        keyExtractor={item => currentViewType + item.id}
+        keyExtractor={keyExtractor}
         numColumns={currentViewType === MovieViewTypes.GRID ? 3 : undefined}
         ListFooterComponent={
           currentViewType === MovieViewTypes.GRID ? null : listFooter
         }
         data={listData}
         renderItem={renderItem}
+        onEndReached={loadMoreMovies}
       />
     </SafeAreaView>
   );

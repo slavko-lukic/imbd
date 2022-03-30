@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, memo} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import {IMAGE_BASE_URL} from '../constants/api';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
@@ -10,14 +10,14 @@ import {
 } from '../constants/miscellaneous';
 import {Movie} from '../models';
 import FadeInView from './FadeInView';
+import {randomIntFromInterval} from '../utilities/misc';
 
 interface MovieListItemProps {
   movie: Movie;
-  index: number;
   onPress?: () => void;
 }
 
-const MovieListItem: FC<MovieListItemProps> = ({movie, index, onPress}) => {
+const MovieListItem: FC<MovieListItemProps> = ({movie, onPress}) => {
   const {
     colorTheme,
     surfaceVariantStyle,
@@ -32,9 +32,8 @@ const MovieListItem: FC<MovieListItemProps> = ({movie, index, onPress}) => {
       activeOpacity={
         colorTheme.type === 'dark' ? ACTIVE_OPACITY_WEAK : ACTIVE_OPACITY_STRONG
       }
-      duration={700}
-      delay={100 * (index + 1)}
-      offsetX={-500}
+      duration={100 * randomIntFromInterval(5, 10)}
+      offsetX={-200 * randomIntFromInterval(3, 6)}
       style={[styles.cardContainer, cardShadowStyle, surfaceVariantStyle]}>
       <Image
         style={styles.image}
@@ -51,7 +50,7 @@ const MovieListItem: FC<MovieListItemProps> = ({movie, index, onPress}) => {
               {fontSize: 15, flex: 1, marginRight: 5},
               primaryColorForegroundStyle,
             ]}>
-            {movie.original_title}
+            {movie.title}
           </Text>
           <Text numberOfLines={1} style={accentVariantColorForegroundStyle}>
             {moment(movie.release_date).year()}
@@ -67,7 +66,7 @@ const MovieListItem: FC<MovieListItemProps> = ({movie, index, onPress}) => {
   );
 };
 
-export default MovieListItem;
+export default memo(MovieListItem);
 
 const styles = StyleSheet.create({
   cardContainer: {

@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, memo} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import {WithSpringConfig} from 'react-native-reanimated';
 import {IMAGE_BASE_URL} from '../constants/api';
@@ -14,13 +14,10 @@ import {Movie} from '../models';
 
 interface MovieCardProps {
   movie: Movie;
-  index: number;
   onPress?: () => void;
 }
 
-const MovieCard: FC<MovieCardProps> = ({movie, index, onPress}) => {
-  const cardOffsetY = -((index + 1) * 1200);
-
+const MovieCard: FC<MovieCardProps> = ({movie, onPress}) => {
   const springAnimationConfig: WithSpringConfig = {
     damping: 18,
     mass: 1,
@@ -36,7 +33,6 @@ const MovieCard: FC<MovieCardProps> = ({movie, index, onPress}) => {
     primaryColorForegroundStyle,
     foregroundStyle,
     accentVariantColorForegroundStyle,
-    foregroundVariantStyle,
   } = useColorTheme();
 
   return (
@@ -45,7 +41,7 @@ const MovieCard: FC<MovieCardProps> = ({movie, index, onPress}) => {
       activeOpacity={
         colorTheme.type === 'dark' ? ACTIVE_OPACITY_WEAK : ACTIVE_OPACITY_STRONG
       }
-      offsetY={cardOffsetY}
+      offsetX={-800}
       springAnimationConfig={springAnimationConfig}
       style={[styles.card, cardShadowStyle, surfaceVariantStyle]}>
       <View style={styles.imageContainer}>
@@ -62,7 +58,7 @@ const MovieCard: FC<MovieCardProps> = ({movie, index, onPress}) => {
           <Text
             numberOfLines={1}
             style={[{fontSize: 18}, primaryColorForegroundStyle]}>
-            {movie.original_title}
+            {movie.title}
           </Text>
 
           <Text style={[{marginTop: 5}, foregroundStyle]} numberOfLines={9}>
@@ -79,7 +75,7 @@ const MovieCard: FC<MovieCardProps> = ({movie, index, onPress}) => {
   );
 };
 
-export default MovieCard;
+export default memo(MovieCard);
 
 const styles = StyleSheet.create({
   card: {

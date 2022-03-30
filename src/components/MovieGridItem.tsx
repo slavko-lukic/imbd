@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, memo} from 'react';
 import {
   Dimensions,
   ImageBackground,
@@ -16,15 +16,15 @@ import {
 import {Movie} from '../models';
 import FadeInView from './FadeInView';
 import colors from '../constants/colors';
+import {randomIntFromInterval} from '../utilities/misc';
 
 interface MovieGridItemProps {
   movie: Movie;
-  index: number;
   onPress?: () => void;
 }
 
-const MovieGridItem: FC<MovieGridItemProps> = ({movie, index, onPress}) => {
-  const {colorTheme, surfaceVariantStyle, foregroundStyle} = useColorTheme();
+const MovieGridItem: FC<MovieGridItemProps> = ({movie, onPress}) => {
+  const {colorTheme, surfaceVariantStyle} = useColorTheme();
 
   return (
     <FadeInView
@@ -32,9 +32,9 @@ const MovieGridItem: FC<MovieGridItemProps> = ({movie, index, onPress}) => {
       activeOpacity={
         colorTheme.type === 'dark' ? ACTIVE_OPACITY_WEAK : ACTIVE_OPACITY_STRONG
       }
-      offsetY={-100 * (index + 1)}
-      duration={150 * (index + 1)}
-      style={[styles.card, surfaceVariantStyle]}>
+      offsetY={-100 - randomIntFromInterval(0, 300)}
+      duration={150 * randomIntFromInterval(3, 7)}
+      style={[surfaceVariantStyle]}>
       <ImageBackground
         style={styles.image}
         resizeMode={'cover'}
@@ -45,7 +45,7 @@ const MovieGridItem: FC<MovieGridItemProps> = ({movie, index, onPress}) => {
           <Text
             numberOfLines={1}
             style={[{fontSize: 16, color: colors.WHITE_DIMMED}]}>
-            {movie.original_title}
+            {movie.title}
           </Text>
         </View>
       </ImageBackground>
@@ -53,15 +53,14 @@ const MovieGridItem: FC<MovieGridItemProps> = ({movie, index, onPress}) => {
   );
 };
 
-export default MovieGridItem;
+export default memo(MovieGridItem);
 
 const styles = StyleSheet.create({
-  card: {
-    height: 230,
-  },
   image: {
     flex: 1,
     width: Dimensions.get('window').width / 3,
+    height: undefined,
+    aspectRatio: 2 / 3,
     justifyContent: 'flex-end',
   },
   titleBackground: {

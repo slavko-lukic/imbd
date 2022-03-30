@@ -29,6 +29,8 @@ const ToggleSwitch: FC<ToggleSwitchProps> = ({
   currentlyActive = 'none',
   width,
   height,
+  leftOptionOnPress,
+  rightOptionOnPress,
 }) => {
   const {colorTheme, foregroundStyle, foregroundContrastVariantStyle} =
     useColorTheme();
@@ -58,6 +60,7 @@ const ToggleSwitch: FC<ToggleSwitchProps> = ({
       backgroundColor={colorTheme.surface}>
       <View style={styles.container}>
         <TouchableOpacity
+          onPress={leftOptionOnPress}
           activeOpacity={
             colorTheme.type === 'dark'
               ? ACTIVE_OPACITY_WEAK
@@ -74,6 +77,7 @@ const ToggleSwitch: FC<ToggleSwitchProps> = ({
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
+          onPress={rightOptionOnPress}
           activeOpacity={
             colorTheme.type === 'dark'
               ? ACTIVE_OPACITY_WEAK

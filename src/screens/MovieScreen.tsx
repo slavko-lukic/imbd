@@ -33,6 +33,8 @@ import {useColorTheme} from '../hooks/styles/useColorTheme';
 import {RootStackNavigatorParams} from '../navigation/RootStackNavigator';
 import BouncyHeartSwitch from '../components/BouncyHeartSwitch';
 import MovieCreditGroup from '../components/MovieCreditGroup';
+import {useDispatch} from 'react-redux';
+import {addToWatched, addToWatchlist} from '../store/actions/moviesActions';
 
 type MovieScreenProps = StackScreenProps<
   RootStackNavigatorParams,
@@ -42,6 +44,8 @@ type MovieScreenProps = StackScreenProps<
 const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
   const movie = route.params;
   const [isHeaderTitleShown, setIsHeaderTitleShown] = useState(false);
+
+  const dispatch = useDispatch();
 
   const {
     primaryVariantColorForegroundStyle,
@@ -125,7 +129,7 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
               primaryVariantColorForegroundStyle,
               headerAnimatedStyle,
             ]}>
-            {movie.original_title} ({moment(movie.release_date).year()})
+            {movie.title} ({moment(movie.release_date).year()})
           </Animated.Text>
         }
         leftButton={headerLeftButton}
@@ -156,7 +160,7 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
             <View style={styles.titleContainer}>
               <Text
                 style={[{fontSize: 32}, primaryVariantColorForegroundStyle]}>
-                {movie.original_title}
+                {movie.title}
               </Text>
             </View>
 
@@ -179,6 +183,8 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
             {/* watchlist and watched switch and like button */}
             <View style={styles.buttonsContainer}>
               <ToggleSwitch
+                leftOptionOnPress={() => dispatch(addToWatchlist(movie))}
+                rightOptionOnPress={() => dispatch(addToWatched(movie))}
                 currentlyActive="right"
                 width={80}
                 height={22}
