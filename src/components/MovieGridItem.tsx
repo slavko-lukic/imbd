@@ -34,7 +34,7 @@ const MovieGridItem: FC<MovieGridItemProps> = ({movie, onPress}) => {
       }
       offsetY={-100 - randomIntFromInterval(0, 300)}
       duration={150 * randomIntFromInterval(3, 7)}
-      style={[styles.card, surfaceVariantStyle]}>
+      style={[surfaceVariantStyle]}>
       <ImageBackground
         style={styles.image}
         resizeMode={'cover'}
@@ -56,12 +56,11 @@ const MovieGridItem: FC<MovieGridItemProps> = ({movie, onPress}) => {
 export default memo(MovieGridItem);
 
 const styles = StyleSheet.create({
-  card: {
-    height: 200,
-  },
   image: {
     flex: 1,
     width: Dimensions.get('window').width / 3,
+    height: undefined,
+    aspectRatio: 2 / 3,
     justifyContent: 'flex-end',
   },
   titleBackground: {
