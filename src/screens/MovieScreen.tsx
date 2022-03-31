@@ -33,8 +33,9 @@ import {useColorTheme} from '../hooks/styles/useColorTheme';
 import {RootStackNavigatorParams} from '../navigation/RootStackNavigator';
 import BouncyHeartSwitch from '../components/BouncyHeartSwitch';
 import MovieCreditGroup from '../components/MovieCreditGroup';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {addToWatched, addToWatchlist} from '../store/actions/moviesActions';
+import {RootState} from '../store/reducers/rootReducer';
 
 type MovieScreenProps = StackScreenProps<
   RootStackNavigatorParams,
@@ -47,6 +48,13 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
 
   const dispatch = useDispatch();
 
+  const isInWatched = useSelector((state: RootState) =>
+    state.movies.watched.some(e => e.id === movie.id),
+  );
+  const isInWatchist = useSelector((state: RootState) =>
+    state.movies.watchlist.some(e => e.id === movie.id),
+  );
+
   const {
     primaryVariantColorForegroundStyle,
     foregroundStyle,
@@ -57,6 +65,7 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
   const goBack = () => {
     navigation.goBack();
   };
+
   const headerTitleOpacity = useSharedValue(0);
   const scrollY = useSharedValue(0);
   const opacity = useSharedValue(0);
@@ -185,7 +194,8 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
               <ToggleSwitch
                 leftOptionOnPress={() => dispatch(addToWatchlist(movie))}
                 rightOptionOnPress={() => dispatch(addToWatched(movie))}
-                currentlyActive="right"
+                leftOptionActive={isInWatchist}
+                rightOptionActive={isInWatched}
                 width={80}
                 height={22}
                 leftOptionText="watchlist"

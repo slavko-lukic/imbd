@@ -8,40 +8,55 @@ const initialState: MoviesReducerState = {
 };
 
 const moviesReducer = (state = initialState, action: MoviesAction) => {
+  let updatedWatchlist = [...state.watchlist];
+  let updatedWatched = [...state.watched];
+
   switch (action.type) {
     case MoviesActionsConstants.ADD_TO_WATCHED:
       // remove movie from watchlist first
-      const updatedWatchlist = state.watchlist.filter(movie => {
+      updatedWatchlist = updatedWatchlist.filter(movie => {
         return movie.id !== action.movie.id;
       });
 
-      const indexInWatched = state.watched.findIndex(
+      // check if movie already exists in list
+      const indexInWatched = updatedWatched.findIndex(
         movie => movie.id === action.movie.id,
       );
 
+      // if movie doesn't exist in list, add it, otherwise, remove it
+      if (indexInWatched === -1) {
+        updatedWatched.push(action.movie);
+      } else {
+        updatedWatched.splice(indexInWatched, 1);
+      }
+
       return {
         ...state,
-        watched:
-          indexInWatched === -1
-            ? [...state.watched, action.movie]
-            : [...state.watched],
+        watched: [...updatedWatched],
         watchlist: [...updatedWatchlist],
       };
     case MoviesActionsConstants.ADD_TO_WATCHLIST:
-      const updatedWatched = state.watched.filter(movie => {
+      // remove movie from watched first
+      updatedWatched = updatedWatched.filter(movie => {
         return movie.id !== action.movie.id;
       });
-      const indexInWatchlist = state.watchlist.findIndex(
+
+      // check if movie already exists in list
+      const indexInWatchlist = updatedWatchlist.findIndex(
         movie => movie.id === action.movie.id,
       );
 
+      // if movie doesn't exist in list, add it, otherwise, remove it
+      if (indexInWatchlist === -1) {
+        updatedWatchlist.push(action.movie);
+      } else {
+        updatedWatchlist.splice(indexInWatchlist, 1);
+      }
+
       return {
         ...state,
-        watchlist:
-          indexInWatchlist === -1
-            ? [...state.watchlist, action.movie]
-            : [...state.watchlist],
         watched: [...updatedWatched],
+        watchlist: [...updatedWatchlist],
       };
     default:
       return state;

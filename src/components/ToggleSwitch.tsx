@@ -18,7 +18,8 @@ interface ToggleSwitchProps {
   rightOptionText: string;
   leftOptionOnPress?: () => void;
   rightOptionOnPress?: () => void;
-  currentlyActive?: 'left' | 'right' | 'none';
+  leftOptionActive?: boolean;
+  rightOptionActive?: boolean;
   width?: number;
   height?: number;
 }
@@ -26,7 +27,8 @@ interface ToggleSwitchProps {
 const ToggleSwitch: FC<ToggleSwitchProps> = ({
   leftOptionText,
   rightOptionText,
-  currentlyActive = 'none',
+  leftOptionActive = false,
+  rightOptionActive = false,
   width,
   height,
   leftOptionOnPress,
@@ -38,19 +40,17 @@ const ToggleSwitch: FC<ToggleSwitchProps> = ({
   const leftButtonStyle: ViewStyle = {
     width: width,
     height: height,
-    backgroundColor:
-      currentlyActive === 'left'
-        ? colorTheme.accentVariant
-        : colorTheme.surface,
+    backgroundColor: leftOptionActive
+      ? colorTheme.accentVariant
+      : colorTheme.surface,
   };
 
   const rightButtonStyle: ViewStyle = {
     width: width,
     height: height,
-    backgroundColor:
-      currentlyActive === 'right'
-        ? colorTheme.accentVariant
-        : colorTheme.surface,
+    backgroundColor: rightOptionActive
+      ? colorTheme.accentVariant
+      : colorTheme.surface,
   };
 
   return (
@@ -69,7 +69,7 @@ const ToggleSwitch: FC<ToggleSwitchProps> = ({
           style={[styles.center, leftButtonStyle]}>
           <Text
             style={
-              currentlyActive === 'left'
+              leftOptionActive
                 ? foregroundContrastVariantStyle
                 : foregroundStyle
             }>
@@ -86,7 +86,7 @@ const ToggleSwitch: FC<ToggleSwitchProps> = ({
           style={[styles.center, rightButtonStyle]}>
           <Text
             style={
-              currentlyActive === 'right'
+              rightOptionActive
                 ? foregroundContrastVariantStyle
                 : foregroundStyle
             }>
