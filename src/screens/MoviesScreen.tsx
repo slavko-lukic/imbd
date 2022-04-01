@@ -4,7 +4,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import MainHeader from '../components/MainHeader';
 import {MovieListTypes} from '../enums/movieListTypes';
 import MovieCard from '../components/MovieCard';
-import {DetailedMovie, Movie} from '../models/Movie';
+import {Movie} from '../models/Movie';
 import MovieListSelectorButton from '../components/MovieListSelectorButton';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {HEADER_ICON_SIZE} from '../constants/dimensions';
@@ -13,8 +13,6 @@ import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {BottomTabNavigatorParams} from '../navigation/BottomTabs';
 import VerticalSpacing from '../components/VerticalSpacing';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
-import {axiosGet} from '../utilities/api';
-import {Crew} from '../models';
 import MovieGridItem from '../components/MovieGridItem';
 import {useSelector} from 'react-redux';
 import {RootState} from '../store/reducers/rootReducer';
@@ -88,46 +86,17 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
     return currentViewType + item.id;
   };
 
-  const goToMovie = useCallback(async (movie: Movie) => {
-    const params = {
-      api_key: 'e0966f5c25707b5d4f4f5a1670429967',
-      language: 'en-US',
-    };
-
-    const creditsResponse = await axiosGet(
-      `/movie/${movie.id}/credits`,
-      params,
-    );
-    const detailsResponse = await axiosGet(`/movie/${movie.id}`, params);
-
-    const movieCrew: Crew[] = creditsResponse.data.crew;
-
-    const directorsIndex = movieCrew.findIndex(cast => cast.job === 'Director');
-    movieCrew.unshift(...movieCrew.splice(directorsIndex, 1));
-
-    const detailedMovie: DetailedMovie = {
-      ...movie,
-      backdrop_path: detailsResponse.data.backdrop_path,
-      runtime: detailsResponse.data.runtime,
-      genres: detailsResponse.data.genres,
-      cast: creditsResponse.data.cast,
-      crew: movieCrew,
-    };
-
-    navigation.navigate(AppRoute.MOVIE, detailedMovie);
-  }, []);
-
   const renderItem: ListRenderItem<Movie> = useCallback(
     ({item}) => {
       switch (currentViewType) {
         case MovieViewTypes.CARDS:
-          return <MovieCard movie={item} onPress={() => goToMovie(item)} />;
+          return <MovieCard movie={item} />;
         case MovieViewTypes.LIST:
-          return <MovieListItem movie={item} onPress={() => goToMovie(item)} />;
+          return <MovieListItem movie={item} />;
         case MovieViewTypes.GRID:
-          return <MovieGridItem movie={item} onPress={() => goToMovie(item)} />;
+          return <MovieGridItem movie={item} />;
         default:
-          return <MovieCard movie={item} onPress={() => goToMovie(item)} />;
+          return <MovieCard movie={item} />;
       }
     },
     [currentViewType],

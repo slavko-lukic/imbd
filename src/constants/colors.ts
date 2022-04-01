@@ -3,6 +3,7 @@ export default {
   WHITE: 'rgb(254,254,254)',
   WHITE_DIMMED: 'rgb(240, 240, 240)',
   GREY_1: 'rgb(28,28,30)',
+  GREY_1_60: 'rgba(28,28,50, 0.6)',
   GREY_1_80: 'rgba(28,28,30, 0.8)',
   GREY_2: 'rgb(48,38,40)',
   GREY_3: 'rgb(144,143,148)',

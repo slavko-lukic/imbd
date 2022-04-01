@@ -28,7 +28,7 @@ const SearchScreen: FC<SearchScreenProps> = ({navigation}) => {
   const {searchResults, search, isLoading, fetchNextPage} = useSearch();
 
   const renderItem: ListRenderItem<Movie> = useCallback(({item}) => {
-    return <MovieListItem movie={item} onPress={() => {}} />;
+    return <MovieListItem movie={item} />;
   }, []);
 
   const loadMoreMovies = () => {
