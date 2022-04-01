@@ -1,11 +1,6 @@
 import {StackScreenProps} from '@react-navigation/stack';
 import React, {FC, useCallback, useState} from 'react';
-import {
-  ActivityIndicator,
-  FlatList,
-  ListRenderItem,
-  StyleSheet,
-} from 'react-native';
+import {FlatList, ListRenderItem, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MainHeader from '../components/MainHeader';
@@ -19,40 +14,29 @@ import {useSearch} from '../hooks/api/useSearch';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
 import {Movie} from '../models';
 import {RootStackNavigatorParams} from '../navigation/RootStackNavigator';
-import {axiosGet} from '../utilities/api';
 
 type SearchScreenProps = StackScreenProps<
   RootStackNavigatorParams,
   AppRoute.SEARCH
 >;
 
-const fetchSearchResults = async (query: string) => {
-  if (!query) return [];
-
-  const params = {
-    api_key: 'e0966f5c25707b5d4f4f5a1670429967',
-    query: query,
-    include_adult: false,
-  };
-
-  const searchResults = await axiosGet(`/search/movie`, params);
-
-  return searchResults.data.results;
-};
-
 const SearchScreen: FC<SearchScreenProps> = ({navigation}) => {
   const {backgroundStyle, colorTheme} = useColorTheme();
 
   const [queryText, setQueryText] = useState('');
 
-  const {data, refetch, isLoading} = useSearch(queryText);
+  const {searchResults, search, isLoading, fetchNextPage} = useSearch();
 
   const renderItem: ListRenderItem<Movie> = useCallback(({item}) => {
     return <MovieListItem movie={item} onPress={() => {}} />;
   }, []);
 
+  const loadMoreMovies = () => {
+    if (!isLoading) fetchNextPage();
+  };
+
   const onSearch = () => {
-    if (queryText) refetch();
+    if (queryText) search(queryText);
   };
 
   const middlePart: JSX.Element = (
@@ -91,20 +75,13 @@ const SearchScreen: FC<SearchScreenProps> = ({navigation}) => {
         middleElement={middlePart}
         rightButtons={headerRightButton}
       />
-      {isLoading ? (
-        <ActivityIndicator
-          color={colorTheme.primaryVariant}
-          size={'large'}
-          style={styles.loading}
-        />
-      ) : (
-        <FlatList
-          showsVerticalScrollIndicator={false}
-          ListFooterComponent={<VerticalSpacing spacing={60} />}
-          data={data}
-          renderItem={renderItem}
-        />
-      )}
+      <FlatList
+        showsVerticalScrollIndicator={false}
+        ListFooterComponent={<VerticalSpacing spacing={60} />}
+        data={searchResults}
+        renderItem={renderItem}
+        onEndReached={loadMoreMovies}
+      />
     </SafeAreaView>
   );
 };
