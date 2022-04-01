@@ -8,8 +8,11 @@ import Animated, {
 } from 'react-native-reanimated';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
 
-interface SearchBarProps {}
-const SearchBar: FC<SearchBarProps> = () => {
+interface SearchBarProps {
+  value?: string | undefined;
+  onChangeText?: ((text: string) => void) | undefined;
+}
+const SearchBar: FC<SearchBarProps> = ({value, onChangeText}) => {
   const {
     primaryVariantColorForegroundStyle,
     borderForegroundColorStyle,
@@ -39,6 +42,9 @@ const SearchBar: FC<SearchBarProps> = () => {
           borderForegroundColorStyle,
         ]}>
         <TextInput
+          autoCorrect={false}
+          onChangeText={onChangeText}
+          value={value}
           placeholder="Search..."
           placeholderTextColor={colorTheme.foregroundVariant}
           style={[styles.inputField, foregroundStyle]}
