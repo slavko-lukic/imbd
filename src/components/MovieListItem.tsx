@@ -8,7 +8,7 @@ import {
   ACTIVE_OPACITY_STRONG,
   ACTIVE_OPACITY_WEAK,
 } from '../constants/miscellaneous';
-import {Crew, DetailedMovie, Movie} from '../models';
+import {Crew, DetailedMovie, Movie, Video} from '../models';
 import FadeInView from './FadeInView';
 import {randomIntFromInterval} from '../utilities/misc';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -43,7 +43,6 @@ const MovieListItem: FC<MovieListItemProps> = ({movie}) => {
     setLoading(true);
     const params = {
       api_key: 'e0966f5c25707b5d4f4f5a1670429967',
-      language: 'en-US',
     };
 
     const creditsResponse = await axiosGet(
@@ -57,9 +56,21 @@ const MovieListItem: FC<MovieListItemProps> = ({movie}) => {
     const directorsIndex = movieCrew.findIndex(cast => cast.job === 'Director');
     movieCrew.unshift(...movieCrew.splice(directorsIndex, 1));
 
+    const videosResponse = await axiosGet(`/movie/${movie.id}/videos`, params);
+    const videos: Video[] = videosResponse.data.results;
+
+    const youtubeTrailer = videos.find(video => {
+      return (
+        video.site === 'YouTube' &&
+        video.type === 'Trailer' &&
+        video.official == true
+      );
+    });
+
     const detailedMovie: DetailedMovie = {
       ...movie,
       backdrop_path: detailsResponse.data.backdrop_path,
+      trailer_id: youtubeTrailer?.key,
       runtime: detailsResponse.data.runtime,
       genres: detailsResponse.data.genres,
       cast: creditsResponse.data.cast,

@@ -209,10 +209,12 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
             <GenresGroup genres={movie.genres} style={styles.genresContainer} />
 
             {/* embedded video player */}
-            <YoutubeEmbedVideoView
-              videoKey="w0HgHet0sxg"
-              style={styles.embeddedPlayer}
-            />
+            {movie.trailer_id ? (
+              <YoutubeEmbedVideoView
+                videoKey={movie.trailer_id}
+                style={styles.embeddedPlayer}
+              />
+            ) : null}
 
             {/* movie description */}
             <View style={styles.descriptionContainer}>
@@ -288,11 +290,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
 
-    marginTop: 20,
+    marginTop: 10,
   },
 
   genresContainer: {
-    marginTop: 20,
+    marginTop: 10,
   },
   descriptionContainer: {
     marginTop: 20,
