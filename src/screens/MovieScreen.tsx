@@ -36,6 +36,7 @@ import MovieCreditGroup from '../components/MovieCreditGroup';
 import {useDispatch, useSelector} from 'react-redux';
 import {addToWatched, addToWatchlist} from '../store/actions/moviesActions';
 import {RootState} from '../store/reducers/rootReducer';
+import YoutubeEmbedVideoView from '../components/YoutubeEmbedVideoView';
 
 type MovieScreenProps = StackScreenProps<
   RootStackNavigatorParams,
@@ -207,6 +208,12 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
             {/* genres horizontal list */}
             <GenresGroup genres={movie.genres} style={styles.genresContainer} />
 
+            {/* embedded video player */}
+            <YoutubeEmbedVideoView
+              videoKey="w0HgHet0sxg"
+              style={styles.embeddedPlayer}
+            />
+
             {/* movie description */}
             <View style={styles.descriptionContainer}>
               <Text style={[{fontSize: 16}, foregroundStyle]}>
@@ -296,5 +303,8 @@ const styles = StyleSheet.create({
   crewMembersContainer: {
     marginTop: 20,
     marginBottom: 30,
+  },
+  embeddedPlayer: {
+    marginTop: 20,
   },
 });
