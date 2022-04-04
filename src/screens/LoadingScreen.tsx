@@ -1,3 +1,4 @@
+import {StackActions} from '@react-navigation/native';
 import {StackScreenProps} from '@react-navigation/stack';
 import React, {FC, useEffect} from 'react';
 import {Image, StatusBar, StyleSheet} from 'react-native';
@@ -35,8 +36,8 @@ const LoadingScreen: FC<LoadingScreenProps> = ({navigation}) => {
     opacityProgress.value = withDelay(400, withTiming(1, {duration: 500}));
     loadingProgress.value = withRepeat(
       withSequence(
-        withTiming(1, {duration: 120, easing: Easing.bounce}),
-        withTiming(-1, {duration: 120, easing: Easing.bounce}),
+        withTiming(1, {duration: 70, easing: Easing.bounce}),
+        withTiming(-1, {duration: 70, easing: Easing.bounce}),
       ),
       -1,
     );
@@ -48,7 +49,10 @@ const LoadingScreen: FC<LoadingScreenProps> = ({navigation}) => {
       -1,
     );
 
-    let timer = setTimeout(() => navigation.navigate(AppRoute.HOME), 3000);
+    let timer = setTimeout(
+      () => navigation.dispatch(StackActions.replace(AppRoute.HOME)),
+      3000,
+    );
 
     return () => {
       clearTimeout(timer);
