@@ -1,7 +1,7 @@
 import {StackActions} from '@react-navigation/native';
 import {StackScreenProps} from '@react-navigation/stack';
 import React, {FC, useEffect} from 'react';
-import {Image, StatusBar, StyleSheet} from 'react-native';
+import {Alert, Image, StatusBar, StyleSheet} from 'react-native';
 import Animated, {
   Easing,
   useAnimatedStyle,
@@ -16,6 +16,7 @@ import {nordicThemeColors} from '../constants/colors';
 import {AppRoute} from '../enums/routes';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
 import {RootStackNavigatorParams} from '../navigation/RootStackNavigator';
+import messaging from '@react-native-firebase/messaging';
 
 const logo = require('../assets/images/logo.png');
 const AnimatedImage = Animated.createAnimatedComponent(Image);
@@ -31,6 +32,21 @@ const LoadingScreen: FC<LoadingScreenProps> = ({navigation}) => {
   const loadingProgress = useSharedValue(-1);
   const bounceProgress = useSharedValue(0);
   const opacityProgress = useSharedValue(0);
+
+  useEffect(() => {
+    requestUserPermission();
+  }, []);
+
+  const requestUserPermission = async () => {
+    let authStatus = 0;
+    try {
+      authStatus = await messaging().requestPermission();
+    } catch (e: any) {
+      console.log(e.message);
+    }
+
+    Alert.alert('Authorization status:', authStatus.toString());
+  };
 
   useEffect(() => {
     opacityProgress.value = withDelay(400, withTiming(1, {duration: 500}));
