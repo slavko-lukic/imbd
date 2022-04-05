@@ -1,5 +1,5 @@
 import React, {FC, memo, useCallback, useState} from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Alert, Image, StyleSheet, Text, View} from 'react-native';
 import {IMAGE_BASE_URL} from '../constants/api';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
 import moment from 'moment';
@@ -8,15 +8,15 @@ import {
   ACTIVE_OPACITY_STRONG,
   ACTIVE_OPACITY_WEAK,
 } from '../constants/miscellaneous';
-import {Crew, DetailedMovie, Movie, Video} from '../models';
+import {Movie} from '../models';
 import FadeInView from './FadeInView';
 import {randomIntFromInterval} from '../utilities/misc';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackNavigatorParams} from '../navigation/RootStackNavigator';
 import {AppRoute} from '../enums/routes';
 import {useNavigation} from '@react-navigation/native';
-import {axiosGet} from '../utilities/api';
 import LoadingOverlay from './LoadingOverlay';
+import {composeDetailedMovie} from '../utilities/movies';
 
 type MovieScreenProp = StackNavigationProp<
   RootStackNavigatorParams,
@@ -41,41 +41,17 @@ const MovieListItem: FC<MovieListItemProps> = ({movie}) => {
 
   const goToMovie = useCallback(async () => {
     setLoading(true);
-    const params = {
-      api_key: 'e0966f5c25707b5d4f4f5a1670429967',
-    };
 
-    const creditsResponse = await axiosGet(
-      `/movie/${movie.id}/credits`,
-      params,
-    );
-    const detailsResponse = await axiosGet(`/movie/${movie.id}`, params);
+    const detailedMovie = await composeDetailedMovie(movie);
 
-    const movieCrew: Crew[] = creditsResponse.data.crew;
-
-    const directorsIndex = movieCrew.findIndex(cast => cast.job === 'Director');
-    movieCrew.unshift(...movieCrew.splice(directorsIndex, 1));
-
-    const videosResponse = await axiosGet(`/movie/${movie.id}/videos`, params);
-    const videos: Video[] = videosResponse.data.results;
-
-    const youtubeTrailer = videos.find(video => {
-      return (
-        video.site === 'YouTube' &&
-        video.type === 'Trailer' &&
-        video.official == true
+    if (!detailedMovie) {
+      setLoading(false);
+      Alert.alert(
+        'Network Error',
+        'Failed to fetch movied details. Check your internet connection.',
       );
-    });
-
-    const detailedMovie: DetailedMovie = {
-      ...movie,
-      backdrop_path: detailsResponse.data.backdrop_path,
-      trailer_id: youtubeTrailer?.key,
-      runtime: detailsResponse.data.runtime,
-      genres: detailsResponse.data.genres,
-      cast: creditsResponse.data.cast,
-      crew: movieCrew,
-    };
+      return;
+    }
 
     navigation.navigate(AppRoute.MOVIE, detailedMovie);
     setLoading(false);

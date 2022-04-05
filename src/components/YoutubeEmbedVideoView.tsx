@@ -14,7 +14,11 @@ const YoutubeEmbedVideoView: FC<YoutubeEmbedVideoViewProps> = ({
     <View {...otherProps}>
       <WebView
         style={styles.video}
-        javaScriptEnabled={true}
+        containerStyle={styles.video}
+        automaticallyAdjustContentInsets={false}
+        bounces={false}
+        allowsInlineMediaPlayback
+        javaScriptEnabled
         source={{
           uri: `https://www.youtube.com/embed/${videoKey}`,
         }}
