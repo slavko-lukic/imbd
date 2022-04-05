@@ -8,13 +8,16 @@ import MoviesScreen from '../screens/MoviesScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {RouteProp} from '@react-navigation/native';
-import {useColorTheme} from '../hooks/useColorTheme';
+import {useColorTheme} from '../hooks/styles/useColorTheme';
 import colors from '../constants/colors';
+import {Movie} from '../models';
 
 export type BottomTabNavigatorParams = {
   [AppRoute.MOVIES]: undefined;
   [AppRoute.PROFILE]: undefined;
   [AppRoute.SETTINGS]: undefined;
+  [AppRoute.SEARCH]: undefined;
+  [AppRoute.MOVIE]: Movie;
 };
 
 const Tabs = createBottomTabNavigator<BottomTabNavigatorParams>();

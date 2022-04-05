@@ -9,8 +9,8 @@ import SettingsGroupItem from '../components/SettingsGroupItem';
 import VerticalSpacing from '../components/VerticalSpacing';
 import {HEADER_ICON_SIZE} from '../constants/dimensions';
 import {AppRoute} from '../enums/routes';
-import {useColorTheme} from '../hooks/useColorTheme';
-import {SettingsItem} from '../models/SettingsItem';
+import {useColorTheme} from '../hooks/styles/useColorTheme';
+import {SettingsItem} from '../models';
 import {SettingsStackNavigatorParams} from '../navigation/SettingsNavigator';
 
 type SettingsScreenProps = StackScreenProps<
@@ -29,13 +29,21 @@ const SettingsScreen: FC<SettingsScreenProps> = ({navigation}) => {
     navigation.push(AppRoute.COLOR_THEME);
   };
 
+  const onConfigureMoviesPressHandler = () => {
+    navigation.push(AppRoute.CONFIGURE_MOVIES);
+  };
+
   const generalSettingsItems: SettingsItem[] = [
     {
       settingName: 'Select color theme',
       icon: 'color-palette',
       onPress: onSelectThemePressHandler,
     },
-    {settingName: 'Configure beer', icon: 'beer'},
+    {
+      settingName: 'Configure movies',
+      icon: 'videocam',
+      onPress: onConfigureMoviesPressHandler,
+    },
     {settingName: 'Saturn options', icon: 'planet'},
     {settingName: 'Pizza setup', icon: 'pizza'},
   ];

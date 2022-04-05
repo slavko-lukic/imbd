@@ -1,34 +1,32 @@
-import React, {FC, useEffect} from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-  WithSpringConfig,
-} from 'react-native-reanimated';
+import React, {FC, memo, useCallback, useState} from 'react';
+import {Alert, Image, StyleSheet, Text, View} from 'react-native';
+import {WithSpringConfig} from 'react-native-reanimated';
 import {IMAGE_BASE_URL} from '../constants/api';
-import {Movie} from '../models/Movie';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import {useColorTheme} from '../hooks/useColorTheme';
+import {useColorTheme} from '../hooks/styles/useColorTheme';
 import moment from 'moment';
 import {cardShadowStyle} from '../constants/styling';
+import SpringInView from './SpringInView';
+import {
+  ACTIVE_OPACITY_STRONG,
+  ACTIVE_OPACITY_WEAK,
+} from '../constants/miscellaneous';
+import {Movie} from '../models';
+import {AppRoute} from '../enums/routes';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {RootStackNavigatorParams} from '../navigation/RootStackNavigator';
+import LoadingOverlay from './LoadingOverlay';
+import {composeDetailedMovie} from '../utilities/movies';
 
+type MovieScreenProp = StackNavigationProp<
+  RootStackNavigatorParams,
+  AppRoute.MOVIE
+>;
 interface MovieCardProps {
   movie: Movie;
-  index: number;
 }
 
-const MovieCard: FC<MovieCardProps> = ({movie, index}) => {
-  const movieCardY = useSharedValue(-((index + 1) * 1200));
-  const {
-    colorTheme,
-    surfaceStyle,
-    primaryColorForegroundStyle,
-    foregroundStyle,
-    accentVariantColorForegroundStyle,
-    foregroundVariantStyle,
-  } = useColorTheme();
-
+const MovieCard: FC<MovieCardProps> = ({movie}) => {
   const springAnimationConfig: WithSpringConfig = {
     damping: 18,
     mass: 1,
@@ -38,24 +36,45 @@ const MovieCard: FC<MovieCardProps> = ({movie, index}) => {
     restDisplacementThreshold: 0.001,
   };
 
-  const springAnimation: number = withSpring(0, springAnimationConfig);
+  const {
+    colorTheme,
+    surfaceVariantStyle,
+    primaryColorForegroundStyle,
+    foregroundStyle,
+    accentVariantColorForegroundStyle,
+  } = useColorTheme();
 
-  const movieCardAnimatedStyle = useAnimatedStyle(() => {
-    return {transform: [{translateY: movieCardY.value}]};
-  }, []);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    movieCardY.value = springAnimation;
-  }, []);
+  const navigation = useNavigation<MovieScreenProp>();
+
+  const goToMovie = useCallback(async () => {
+    setLoading(true);
+
+    const detailedMovie = await composeDetailedMovie(movie);
+
+    if (!detailedMovie) {
+      setLoading(false);
+      Alert.alert(
+        'Network Error',
+        'Failed to fetch movied details. Check your internet connection.',
+      );
+      return;
+    }
+
+    navigation.navigate(AppRoute.MOVIE, detailedMovie);
+    setLoading(false);
+  }, [movie]);
 
   return (
-    <Animated.View
-      style={[
-        styles.card,
-        movieCardAnimatedStyle,
-        cardShadowStyle,
-        surfaceStyle,
-      ]}>
+    <SpringInView
+      onPress={() => goToMovie()}
+      activeOpacity={
+        colorTheme.type === 'dark' ? ACTIVE_OPACITY_WEAK : ACTIVE_OPACITY_STRONG
+      }
+      offsetX={-800}
+      springAnimationConfig={springAnimationConfig}
+      style={[styles.card, cardShadowStyle, surfaceVariantStyle]}>
       <View style={styles.imageContainer}>
         <Image
           style={styles.image}
@@ -70,7 +89,7 @@ const MovieCard: FC<MovieCardProps> = ({movie, index}) => {
           <Text
             numberOfLines={1}
             style={[{fontSize: 18}, primaryColorForegroundStyle]}>
-            {movie.original_title}
+            {movie.title}
           </Text>
 
           <Text style={[{marginTop: 5}, foregroundStyle]} numberOfLines={9}>
@@ -81,20 +100,14 @@ const MovieCard: FC<MovieCardProps> = ({movie, index}) => {
           <Text style={accentVariantColorForegroundStyle}>
             {moment(movie.release_date).year()}
           </Text>
-          <View style={styles.timeContainer}>
-            <Ionicons size={15} color={colorTheme.accentVariant} name="time" />
-            <Text
-              style={[{fontSize: 14, marginLeft: 3}, foregroundVariantStyle]}>
-              1h 53m
-            </Text>
-          </View>
         </View>
       </View>
-    </Animated.View>
+      {loading ? <LoadingOverlay /> : null}
+    </SpringInView>
   );
 };
 
-export default MovieCard;
+export default memo(MovieCard);
 
 const styles = StyleSheet.create({
   card: {
@@ -123,13 +136,8 @@ const styles = StyleSheet.create({
   mainDataContainer: {},
   miscDataContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
 
     alignItems: 'flex-end',
-  },
-  timeContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 });

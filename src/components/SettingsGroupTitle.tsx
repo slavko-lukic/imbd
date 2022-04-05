@@ -1,28 +1,13 @@
-import React, {FC, useEffect} from 'react';
+import React, {FC} from 'react';
 import {Text} from 'react-native';
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withDelay,
-  withTiming,
-} from 'react-native-reanimated';
-import {useColorTheme} from '../hooks/useColorTheme';
+import {useColorTheme} from '../hooks/styles/useColorTheme';
+import FadeInView from './FadeInView';
 
 const SettingsGroupTitle: FC = ({children}) => {
   const {foregroundStyle} = useColorTheme();
 
-  const opacity = useSharedValue(0);
-
-  useEffect(() => {
-    opacity.value = withDelay(900, withTiming(1, {duration: 500}));
-  }, []);
-
-  const animatedStyle = useAnimatedStyle(() => {
-    return {opacity: opacity.value};
-  }, []);
-
   return (
-    <Animated.View style={animatedStyle}>
+    <FadeInView delay={900}>
       <Text
         numberOfLines={1}
         style={[
@@ -35,7 +20,7 @@ const SettingsGroupTitle: FC = ({children}) => {
         ]}>
         {children}
       </Text>
-    </Animated.View>
+    </FadeInView>
   );
 };
 

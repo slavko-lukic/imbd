@@ -3,9 +3,11 @@ export default {
   WHITE: 'rgb(254,254,254)',
   WHITE_DIMMED: 'rgb(240, 240, 240)',
   GREY_1: 'rgb(28,28,30)',
+  GREY_1_60: 'rgba(28,28,50, 0.6)',
   GREY_1_80: 'rgba(28,28,30, 0.8)',
-  GREY_2: 'rgb(144,143,148)',
-  GREY_3: 'rgb(204,203,208)',
+  GREY_2: 'rgb(48,38,40)',
+  GREY_3: 'rgb(144,143,148)',
+  GREY_4: 'rgb(204,203,208)',
 
   IOS_BLUE: 'rgb(14,137,255)',
   GOLD: 'rgb(230, 195, 0)',
@@ -43,4 +45,20 @@ export const solarizedThemeColors = {
 
   ACCENT: 'rgb(14,137,255)',
   ACCENT_VARIANT: 'rgb(0, 105, 204)',
+};
+
+export const palenightThemeColors = {
+  SURFACE: 'rgb(47,51,72)',
+  SURFACE_VARIANT: 'rgb(48, 55, 93)',
+
+  BACKGROUND: 'rgb(30, 33, 46)',
+
+  FOREGROUND: 'rgb(199,206,219)',
+  FOREGROUND_VARIANT: 'rgb(177, 187, 205)',
+
+  PRIMARY: 'rgb(246,95,124)',
+  PRIMARY_VARIANT: 'rgb(244, 62, 99)',
+
+  ACCENT: 'rgb(251,210,109)',
+  ACCENT_VARIANT: 'rgb(250, 195, 56)',
 };

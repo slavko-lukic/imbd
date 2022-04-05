@@ -1,5 +1,5 @@
 export enum MovieListTypes {
   WATCHLIST = 'watchlist',
-  SUGGESTIONS = 'suggestions',
+  POPULAR = 'popular',
   WATCHED = 'watched',
 }

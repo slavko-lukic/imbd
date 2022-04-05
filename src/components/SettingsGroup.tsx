@@ -15,7 +15,7 @@ const SettingsGroup: FC<SettingsGroupProps> = ({
   hasBottomBorder = true,
 }) => {
   const bottomBorderStyle: StyleProp<ViewStyle> = {
-    borderBottomColor: colors.GREY_2,
+    borderBottomColor: colors.GREY_3,
     borderBottomWidth: 0.5,
   };
 
