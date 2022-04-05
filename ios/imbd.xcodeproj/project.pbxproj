@@ -11,7 +11,7 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		2479471727FC38EC00D654D7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2479471627FC38EC00D654D7 /* GoogleService-Info.plist */; };
+		2479471C27FC503800D654D7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2479471B27FC503800D654D7 /* GoogleService-Info.plist */; };
 		60CE96DA23BC056134A6EBE7 /* libPods-imbd-imbdTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EE75CCEBC3E0B880A9E9E6C /* libPods-imbd-imbdTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		EA16F375E92E75A823046C0C /* libPods-imbd.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 561DBDA5ACFE35E4DF2B3D94 /* libPods-imbd.a */; };
@@ -38,7 +38,8 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = imbd/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = imbd/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = imbd/main.m; sourceTree = "<group>"; };
-		2479471627FC38EC00D654D7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		2479471827FC4F9D00D654D7 /* imbd.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = imbd.entitlements; path = imbd/imbd.entitlements; sourceTree = "<group>"; };
+		2479471B27FC503800D654D7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		24C41D4927CD165D00CBE3D8 /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		24C41D4A27CD165D00CBE3D8 /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		4EE75CCEBC3E0B880A9E9E6C /* libPods-imbd-imbdTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-imbd-imbdTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -90,6 +91,7 @@
 		13B07FAE1A68108700A75B9A /* imbd */ = {
 			isa = PBXGroup;
 			children = (
+				2479471827FC4F9D00D654D7 /* imbd.entitlements */,
 				24C41D4827CD157A00CBE3D8 /* Fonts */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -130,7 +132,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				2479471627FC38EC00D654D7 /* GoogleService-Info.plist */,
+				2479471B27FC503800D654D7 /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* imbd */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* imbdTests */,
@@ -260,7 +262,7 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				2479471727FC38EC00D654D7 /* GoogleService-Info.plist in Resources */,
+				2479471C27FC503800D654D7 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -513,8 +515,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = imbd/imbd.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4SMM4QF7Q8;
+				DEVELOPMENT_TEAM = RC7W8BPRW2;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = imbd/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.3;
@@ -527,7 +530,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.imbd.movies;
 				PRODUCT_NAME = imbd;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -541,8 +544,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = imbd/imbd.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4SMM4QF7Q8;
+				DEVELOPMENT_TEAM = RC7W8BPRW2;
 				INFOPLIST_FILE = imbd/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.3;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -554,7 +558,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.imbd.movies;
 				PRODUCT_NAME = imbd;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";

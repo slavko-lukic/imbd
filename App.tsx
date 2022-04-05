@@ -7,6 +7,7 @@ import {persistor, store} from './src/store/storeConfig';
 import {PersistGate} from 'redux-persist/integration/react';
 import {QueryClient, QueryClientProvider} from 'react-query';
 import {LogBox} from 'react-native';
+import {useNotificationHandler} from './src/hooks/notifications/useNotificationHandler';
 
 const queryClient = new QueryClient();
 
@@ -15,6 +16,11 @@ LogBox.ignoreLogs([
 ]);
 
 const App = () => {
+  useNotificationHandler(remoteMessage => {
+    if (!remoteMessage) return;
+    console.log('hello!', remoteMessage);
+  });
+
   return (
     <SafeAreaProvider>
       <NavigationContainer theme={DarkTheme}>

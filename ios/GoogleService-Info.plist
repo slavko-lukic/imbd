@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>727693346313-hddr9lamenlh9ib7p98gkh3ckhlog928.apps.googleusercontent.com</string>
+	<string>727693346313-4denr1bgrda3pd15u9k2rllaeob5k6do.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.727693346313-hddr9lamenlh9ib7p98gkh3ckhlog928</string>
+	<string>com.googleusercontent.apps.727693346313-4denr1bgrda3pd15u9k2rllaeob5k6do</string>
 	<key>API_KEY</key>
 	<string>AIzaSyCC_4sKVthCOlDMooYE-Yr0PoBS89KqIEg</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>org.reactjs.native.example.imbd</string>
+	<string>com.imbd.movies</string>
 	<key>PROJECT_ID</key>
 	<string>imbd-bb5d9</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:727693346313:ios:f4dae5a6baf711c6739ad8</string>
+	<string>1:727693346313:ios:362f0a57147c2912739ad8</string>
 </dict>
 </plist>

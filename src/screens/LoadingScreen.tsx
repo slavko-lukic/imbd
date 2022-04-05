@@ -43,6 +43,12 @@ const LoadingScreen: FC<LoadingScreenProps> = ({navigation}) => {
     if (!minimumTimePassed) return;
     if (fcmAuthStatus === messaging.AuthorizationStatus.NOT_DETERMINED) return;
 
+    messaging()
+      .getToken()
+      .then(token => {
+        console.log(token);
+      });
+
     navigation.dispatch(StackActions.replace(AppRoute.HOME));
   }, [minimumTimePassed, fcmAuthStatus]);
 
