@@ -12,9 +12,11 @@ import MovieScreen from '../screens/MovieScreen';
 import {DetailedMovie} from '../models/Movie';
 import FullCreditsScreen from '../screens/FullCreditsScreen';
 import {Cast, Crew} from '../models';
+import LoadingScreen from '../screens/LoadingScreen';
 
 export type RootStackNavigatorParams = {
   [AppRoute.HOME]: undefined;
+  [AppRoute.LOADING]: undefined;
   [AppRoute.SETTINGS]: undefined;
   [AppRoute.SEARCH]: undefined;
   [AppRoute.MOVIE]: DetailedMovie;
@@ -74,6 +76,7 @@ const RootStackNavigator = () => {
 
   return (
     <RootStack.Navigator screenOptions={navigatorOptions}>
+      <RootStack.Screen name={AppRoute.LOADING} component={LoadingScreen} />
       <RootStack.Screen name={AppRoute.HOME} component={BottomTabs} />
       <RootStack.Screen
         name={AppRoute.SETTINGS}

@@ -11,6 +11,7 @@ export interface Movie {
 export interface DetailedMovie extends Movie {
   backdrop_path: string;
   runtime: number;
+  trailer_id?: string;
   cast: Cast[];
   crew: Crew[];
   genres: Genre[];
