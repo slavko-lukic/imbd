@@ -12,7 +12,7 @@ import AnimatedLoadingLogo from '../components/AnimatedLoadingLogo';
 import {useQuitStateNotificationHandler} from '../hooks/notifications/useQuitStateNotificationHandler';
 import {composeDetailedMovie} from '../utilities/movies';
 import {useMinimumTimePassed} from '../hooks/misc/useMinimumTimePassed';
-import dynamicLinks from '@react-native-firebase/dynamic-links';
+import {useQuitStateDynamicLinkHandler} from '../hooks/dynamicLinks/useQuitStateDynamicLinkHandler';
 
 type LoadingScreenProps = StackScreenProps<
   RootStackNavigatorParams,
@@ -28,38 +28,31 @@ const LoadingScreen: FC<LoadingScreenProps> = ({navigation}) => {
   );
   const [routes, setRoutes] = useState<any[]>([]);
 
+  const updateRoutes = (movieId: number) => {
+    composeDetailedMovie(movieId).then(detailedMovie => {
+      if (detailedMovie)
+        setRoutes(prev => [
+          ...prev,
+          {name: AppRoute.MOVIE, params: detailedMovie},
+        ]);
+    });
+  };
+
   useQuitStateNotificationHandler(remoteMessage => {
     if (!remoteMessage || !remoteMessage.data) return;
 
     if (remoteMessage.data.type === 'movie') {
-      composeDetailedMovie(parseInt(remoteMessage.data.id)).then(
-        detailedMovie => {
-          if (detailedMovie)
-            setRoutes(prev => [
-              ...prev,
-              {name: AppRoute.MOVIE, params: detailedMovie},
-            ]);
-        },
-      );
+      updateRoutes(parseInt(remoteMessage.data.id));
     }
   });
 
-  useEffect(() => {
-    dynamicLinks()
-      .getInitialLink()
-      .then(initialLink => {
-        if (!initialLink?.url) return;
-        const movieId = initialLink?.url.split('/').slice(-1)[0].split('-')[0];
-        if (movieId)
-          composeDetailedMovie(parseInt(movieId)).then(detailedMovie => {
-            if (detailedMovie)
-              setRoutes(prev => [
-                ...prev,
-                {name: AppRoute.MOVIE, params: detailedMovie},
-              ]);
-          });
-      });
-  }, []);
+  useQuitStateDynamicLinkHandler(dynamicLink => {
+    if (!dynamicLink || !dynamicLink.url) return;
+
+    updateRoutes(
+      parseInt(dynamicLink?.url.split('/').slice(-1)[0].split('-')[0]),
+    );
+  });
 
   // request user permission for notifications
   useEffect(() => {

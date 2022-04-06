@@ -2,9 +2,8 @@ import {
   NavigationContainer,
   DarkTheme,
   useNavigationContainerRef,
-  LinkingOptions,
 } from '@react-navigation/native';
-import React, {useEffect} from 'react';
+import React from 'react';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {Provider} from 'react-redux';
 import RootStackNavigator, {
@@ -13,12 +12,11 @@ import RootStackNavigator, {
 import {persistor, store} from './src/store/storeConfig';
 import {PersistGate} from 'redux-persist/integration/react';
 import {QueryClient, QueryClientProvider} from 'react-query';
-import {Linking, LogBox} from 'react-native';
+import {LogBox} from 'react-native';
 import {useBackgroundStateNotificationHandler} from './src/hooks/notifications/useBackgroundStateNotificationHandler';
 import {composeDetailedMovie} from './src/utilities/movies';
 import {AppRoute} from './src/enums/routes';
-import {utils} from '@react-native-firebase/app';
-import dynamicLinks from '@react-native-firebase/dynamic-links';
+import {useBackgroundStateDynamicLinkHandler} from './src/hooks/dynamicLinks/useBackgroundStateDynamicLinkHandler';
 
 const queryClient = new QueryClient();
 
@@ -43,18 +41,11 @@ const App = () => {
     }
   });
 
-  useEffect(() => {
-    const unsubscribeFirebase = dynamicLinks().onLink(({url}) => {
-      if (!url) return;
+  useBackgroundStateDynamicLinkHandler(dynamicLink => {
+    if (!dynamicLink || !dynamicLink.url) return;
 
-      const movieId = url.split('/').slice(-1)[0].split('-')[0];
-      if (movieId) goToMovie(parseInt(movieId));
-    });
-
-    return () => {
-      unsubscribeFirebase();
-    };
-  }, []);
+    goToMovie(parseInt(dynamicLink?.url.split('/').slice(-1)[0].split('-')[0]));
+  });
 
   return (
     <SafeAreaProvider>
