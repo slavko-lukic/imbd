@@ -1,4 +1,4 @@
-import {StackActions} from '@react-navigation/native';
+import {CommonActions} from '@react-navigation/native';
 import {StackScreenProps} from '@react-navigation/stack';
 import React, {FC, useEffect, useState} from 'react';
 import {StatusBar, StyleSheet} from 'react-native';
@@ -9,6 +9,9 @@ import {RootStackNavigatorParams} from '../navigation/RootStackNavigator';
 import messaging from '@react-native-firebase/messaging';
 import {FcmRequestUserPermission} from '../utilities/notifications';
 import AnimatedLoadingLogo from '../components/AnimatedLoadingLogo';
+import {useQuitStateNotificationHandler} from '../hooks/notifications/useQuitStateNotificationHandler';
+import {composeDetailedMovie} from '../utilities/movies';
+import {useMinimumTimePassed} from '../hooks/misc/useMinimumTimePassed';
 
 type LoadingScreenProps = StackScreenProps<
   RootStackNavigatorParams,
@@ -17,25 +20,34 @@ type LoadingScreenProps = StackScreenProps<
 
 const LoadingScreen: FC<LoadingScreenProps> = ({navigation}) => {
   const {colorTheme, backgroundStyle} = useColorTheme();
+  const minimumTimePassed = useMinimumTimePassed(3500);
 
   const [fcmAuthStatus, setFcmAuthStatus] = useState(
     messaging.AuthorizationStatus.NOT_DETERMINED,
   );
-  const [minimumTimePassed, setMinimumTimePassed] = useState(false);
+  const [routes, setRoutes] = useState<any[]>([]);
+
+  useQuitStateNotificationHandler(remoteMessage => {
+    if (!remoteMessage || !remoteMessage.data) return;
+
+    if (remoteMessage.data.type === 'movie') {
+      composeDetailedMovie(parseInt(remoteMessage.data.id)).then(
+        detailedMovie => {
+          if (detailedMovie)
+            setRoutes(prev => [
+              ...prev,
+              {name: AppRoute.MOVIE, params: detailedMovie},
+            ]);
+        },
+      );
+    }
+  });
 
   // request user permission for notifications
   useEffect(() => {
     FcmRequestUserPermission().then(status => {
       if (status != undefined) setFcmAuthStatus(status);
     });
-  }, []);
-
-  // set timer to measure minimum user needs to spend on loading
-  useEffect(() => {
-    let timer = setTimeout(() => setMinimumTimePassed(true), 3000);
-    return () => {
-      clearTimeout(timer);
-    };
   }, []);
 
   // when conditions are met, navigate to next screen
@@ -49,7 +61,11 @@ const LoadingScreen: FC<LoadingScreenProps> = ({navigation}) => {
         console.log(token);
       });
 
-    navigation.dispatch(StackActions.replace(AppRoute.HOME));
+    navigation.dispatch(
+      CommonActions.reset({
+        routes: [{name: AppRoute.HOME}, ...routes],
+      }),
+    );
   }, [minimumTimePassed, fcmAuthStatus]);
 
   return (
