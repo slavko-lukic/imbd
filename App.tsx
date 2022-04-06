@@ -1,13 +1,21 @@
-import {NavigationContainer, DarkTheme} from '@react-navigation/native';
+import {
+  NavigationContainer,
+  DarkTheme,
+  useNavigationContainerRef,
+} from '@react-navigation/native';
 import React from 'react';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {Provider} from 'react-redux';
-import RootStackNavigator from './src/navigation/RootStackNavigator';
+import RootStackNavigator, {
+  RootStackNavigatorParams,
+} from './src/navigation/RootStackNavigator';
 import {persistor, store} from './src/store/storeConfig';
 import {PersistGate} from 'redux-persist/integration/react';
 import {QueryClient, QueryClientProvider} from 'react-query';
 import {LogBox} from 'react-native';
-import {useNotificationHandler} from './src/hooks/notifications/useNotificationHandler';
+import {useBackgroundStateNotificationHandler} from './src/hooks/notifications/useBackgroundStateNotificationHandler';
+import {composeDetailedMovie} from './src/utilities/movies';
+import {AppRoute} from './src/enums/routes';
 
 const queryClient = new QueryClient();
 
@@ -16,14 +24,24 @@ LogBox.ignoreLogs([
 ]);
 
 const App = () => {
-  useNotificationHandler(remoteMessage => {
-    if (!remoteMessage) return;
-    console.log('hello!', remoteMessage);
+  const navigationRef = useNavigationContainerRef<RootStackNavigatorParams>();
+
+  useBackgroundStateNotificationHandler(remoteMessage => {
+    if (!remoteMessage || !remoteMessage.data) return;
+
+    if (remoteMessage.data.type === 'movie') {
+      composeDetailedMovie(parseInt(remoteMessage.data.id)).then(
+        detailedMovie => {
+          if (detailedMovie)
+            navigationRef.navigate(AppRoute.MOVIE, detailedMovie);
+        },
+      );
+    }
   });
 
   return (
     <SafeAreaProvider>
-      <NavigationContainer theme={DarkTheme}>
+      <NavigationContainer ref={navigationRef} theme={DarkTheme}>
         <QueryClientProvider client={queryClient}>
           <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
