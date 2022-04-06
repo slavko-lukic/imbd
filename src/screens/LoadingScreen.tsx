@@ -12,6 +12,7 @@ import AnimatedLoadingLogo from '../components/AnimatedLoadingLogo';
 import {useQuitStateNotificationHandler} from '../hooks/notifications/useQuitStateNotificationHandler';
 import {composeDetailedMovie} from '../utilities/movies';
 import {useMinimumTimePassed} from '../hooks/misc/useMinimumTimePassed';
+import dynamicLinks from '@react-native-firebase/dynamic-links';
 
 type LoadingScreenProps = StackScreenProps<
   RootStackNavigatorParams,
@@ -42,6 +43,23 @@ const LoadingScreen: FC<LoadingScreenProps> = ({navigation}) => {
       );
     }
   });
+
+  useEffect(() => {
+    dynamicLinks()
+      .getInitialLink()
+      .then(initialLink => {
+        if (!initialLink?.url) return;
+        const movieId = initialLink?.url.split('/').slice(-1)[0].split('-')[0];
+        if (movieId)
+          composeDetailedMovie(parseInt(movieId)).then(detailedMovie => {
+            if (detailedMovie)
+              setRoutes(prev => [
+                ...prev,
+                {name: AppRoute.MOVIE, params: detailedMovie},
+              ]);
+          });
+      });
+  }, []);
 
   // request user permission for notifications
   useEffect(() => {
