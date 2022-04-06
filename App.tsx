@@ -27,22 +27,19 @@ LogBox.ignoreLogs([
 const App = () => {
   const navigationRef = useNavigationContainerRef<RootStackNavigatorParams>();
 
-  const goToMovie = (movieId: number) => {
-    composeDetailedMovie(movieId).then(detailedMovie => {
-      if (detailedMovie) navigationRef.navigate(AppRoute.MOVIE, detailedMovie);
-    });
+  const goToMovie = async (movieId: number) => {
+    const detailedMovie = await composeDetailedMovie(movieId);
+    if (detailedMovie) navigationRef.navigate(AppRoute.MOVIE, detailedMovie);
   };
 
   useBackgroundStateNotificationHandler(remoteMessage => {
-    if (!remoteMessage || !remoteMessage.data) return;
+    if (!remoteMessage.data || !remoteMessage.data.id) return;
 
-    if (remoteMessage.data.type === 'movie') {
-      goToMovie(parseInt(remoteMessage.data.id));
-    }
+    goToMovie(parseInt(remoteMessage.data.id));
   });
 
   useBackgroundStateDynamicLinkHandler(dynamicLink => {
-    if (!dynamicLink || !dynamicLink.url) return;
+    if (!dynamicLink.url) return;
 
     goToMovie(parseInt(dynamicLink?.url.split('/').slice(-1)[0].split('-')[0]));
   });

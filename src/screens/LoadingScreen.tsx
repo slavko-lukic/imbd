@@ -28,30 +28,45 @@ const LoadingScreen: FC<LoadingScreenProps> = ({navigation}) => {
   );
   const [routes, setRoutes] = useState<any[]>([]);
 
-  const updateRoutes = (movieId: number) => {
-    composeDetailedMovie(movieId).then(detailedMovie => {
-      if (detailedMovie)
-        setRoutes(prev => [
-          ...prev,
-          {name: AppRoute.MOVIE, params: detailedMovie},
-        ]);
-    });
+  const [notificationsHandled, setNotificationsHandled] = useState(false);
+  const [dynamicLinkHandled, setDynamicLinkHandled] = useState(false);
+
+  const updateRoutes = async (movieId: number) => {
+    const detailedMovie = await composeDetailedMovie(movieId);
+
+    if (detailedMovie)
+      setRoutes(prev => [
+        ...prev,
+        {name: AppRoute.MOVIE, params: detailedMovie},
+      ]);
   };
 
   useQuitStateNotificationHandler(remoteMessage => {
-    if (!remoteMessage || !remoteMessage.data) return;
-
-    if (remoteMessage.data.type === 'movie') {
-      updateRoutes(parseInt(remoteMessage.data.id));
+    if (!remoteMessage || !remoteMessage.data) {
+      // app was not opened through notification
+      setNotificationsHandled(true);
+      return;
     }
+
+    // app was opened through notification
+    updateRoutes(parseInt(remoteMessage.data.id)).then(() => {
+      setNotificationsHandled(true);
+    });
   });
 
   useQuitStateDynamicLinkHandler(dynamicLink => {
-    if (!dynamicLink || !dynamicLink.url) return;
+    if (!dynamicLink || !dynamicLink.url) {
+      // app was not opened through dynamic link
+      setDynamicLinkHandled(true);
+      return;
+    }
 
+    // app was opened through dynamic link
     updateRoutes(
       parseInt(dynamicLink?.url.split('/').slice(-1)[0].split('-')[0]),
-    );
+    ).then(() => {
+      setDynamicLinkHandled(true);
+    });
   });
 
   // request user permission for notifications
@@ -63,8 +78,15 @@ const LoadingScreen: FC<LoadingScreenProps> = ({navigation}) => {
 
   // when conditions are met, navigate to next screen
   useEffect(() => {
-    if (!minimumTimePassed) return;
-    if (fcmAuthStatus === messaging.AuthorizationStatus.NOT_DETERMINED) return;
+    // guard -> don't navigate to app until notifications and dynamic links are handled
+    // or if user didn't finish setting up notification preferences
+    if (
+      !minimumTimePassed ||
+      !notificationsHandled ||
+      !dynamicLinkHandled ||
+      fcmAuthStatus === messaging.AuthorizationStatus.NOT_DETERMINED
+    )
+      return;
 
     messaging()
       .getToken()
@@ -77,7 +99,12 @@ const LoadingScreen: FC<LoadingScreenProps> = ({navigation}) => {
         routes: [{name: AppRoute.HOME}, ...routes],
       }),
     );
-  }, [minimumTimePassed, fcmAuthStatus]);
+  }, [
+    minimumTimePassed,
+    fcmAuthStatus,
+    dynamicLinkHandled,
+    notificationsHandled,
+  ]);
 
   return (
     <SafeAreaView style={[styles.screenContaner, backgroundStyle]}>

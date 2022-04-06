@@ -5,7 +5,7 @@ import {useEffect} from 'react';
 
 export const useBackgroundStateNotificationHandler = (
   notificationHandler: (
-    remoteMessage: FirebaseMessagingTypes.RemoteMessage | null,
+    remoteMessage: FirebaseMessagingTypes.RemoteMessage,
   ) => void,
 ) => {
   useEffect(() => {
