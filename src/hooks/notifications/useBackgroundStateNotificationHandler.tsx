@@ -3,6 +3,11 @@ import messaging, {
 } from '@react-native-firebase/messaging';
 import {useEffect} from 'react';
 
+/**
+ *
+ * @param notificationHandler - Callback that is executed when listener catches notification event
+ * with notification data as parameter.
+ */
 export const useBackgroundStateNotificationHandler = (
   notificationHandler: (
     remoteMessage: FirebaseMessagingTypes.RemoteMessage,
