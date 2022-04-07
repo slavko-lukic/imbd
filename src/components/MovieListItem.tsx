@@ -42,7 +42,7 @@ const MovieListItem: FC<MovieListItemProps> = ({movie}) => {
   const goToMovie = useCallback(async () => {
     setLoading(true);
 
-    const detailedMovie = await composeDetailedMovie(movie);
+    const detailedMovie = await composeDetailedMovie(movie.id);
 
     if (!detailedMovie) {
       setLoading(false);

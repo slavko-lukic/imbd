@@ -5,14 +5,11 @@ const params = {
   api_key: 'e0966f5c25707b5d4f4f5a1670429967',
 };
 
-export const composeDetailedMovie = async (movie: Movie) => {
+export const composeDetailedMovie = async (movieId: number) => {
   try {
-    const creditsResponse = await axiosGet(
-      `/movie/${movie.id}/credits`,
-      params,
-    );
-    const detailsResponse = await axiosGet(`/movie/${movie.id}`, params);
-    const videosResponse = await axiosGet(`/movie/${movie.id}/videos`, params);
+    const creditsResponse = await axiosGet(`/movie/${movieId}/credits`, params);
+    const detailsResponse = await axiosGet(`/movie/${movieId}`, params);
+    const videosResponse = await axiosGet(`/movie/${movieId}/videos`, params);
 
     const movieCrew: Crew[] = creditsResponse.data.crew;
 
@@ -30,7 +27,11 @@ export const composeDetailedMovie = async (movie: Movie) => {
     });
 
     let detailedMovie: DetailedMovie = {
-      ...movie,
+      id: detailsResponse.data.id,
+      title: detailsResponse.data.title,
+      release_date: detailsResponse.data.release_date,
+      overview: detailsResponse.data.overview,
+      poster_path: detailsResponse.data.poster_path,
       backdrop_path: detailsResponse.data.backdrop_path,
       trailer_id: youtubeTrailer?.key,
       runtime: detailsResponse.data.runtime,
