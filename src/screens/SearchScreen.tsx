@@ -103,31 +103,3 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-
-// const goToMovie = useCallback(async (movie: Movie) => {
-//   const params = {
-//     api_key: 'e0966f5c25707b5d4f4f5a1670429967',
-//   };
-
-//   const creditsResponse = await axiosGet(
-//     `/movie/${movie.id}/credits`,
-//     params,
-//   );
-//   const detailsResponse = await axiosGet(`/movie/${movie.id}`, params);
-
-//   const movieCrew: Crew[] = creditsResponse.data.crew;
-
-//   const directorsIndex = movieCrew.findIndex(cast => cast.job === 'Director');
-//   movieCrew.unshift(...movieCrew.splice(directorsIndex, 1));
-
-//   const detailedMovie: DetailedMovie = {
-//     ...movie,
-//     backdrop_path: detailsResponse.data.backdrop_path,
-//     runtime: detailsResponse.data.runtime,
-//     genres: detailsResponse.data.genres,
-//     cast: creditsResponse.data.cast,
-//     crew: movieCrew,
-//   };
-
-//   navigation.navigate(AppRoute.MOVIE, detailedMovie);
-// }, []);

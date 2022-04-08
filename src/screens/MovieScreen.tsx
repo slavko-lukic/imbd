@@ -32,7 +32,7 @@ import {AppRoute} from '../enums/routes';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
 import {RootStackNavigatorParams} from '../navigation/RootStackNavigator';
 import BouncyHeartSwitch from '../components/BouncyHeartSwitch';
-import MovieCreditGroup from '../components/MovieCreditGroup';
+import CreditGroup from '../components/CreditGroup';
 import {useDispatch, useSelector} from 'react-redux';
 import {addToWatched, addToWatchlist} from '../store/actions/moviesActions';
 import {RootState} from '../store/reducers/rootReducer';
@@ -225,16 +225,15 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
 
             {/* cast */}
             <View style={styles.castMembersContainer}>
-              <MovieCreditGroup
+              <CreditGroup
                 itemsDisplayLimit={8}
                 groupName="Cast"
                 items={movie.cast}
               />
             </View>
 
-            {/* crew */}
             <View style={styles.crewMembersContainer}>
-              <MovieCreditGroup
+              <CreditGroup
                 itemsDisplayLimit={6}
                 groupName="Crew"
                 items={movie.crew}

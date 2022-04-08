@@ -4,7 +4,7 @@ import React, {FC} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {AppRoute} from '../enums/routes';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
-import {Cast, Crew} from '../models';
+import {MovieCast, MovieCrew} from '../models';
 import {RootStackNavigatorParams} from '../navigation/RootStackNavigator';
 import MovieCreditCard from './MovieCreditCard';
 
@@ -13,13 +13,13 @@ type MovieScreenProp = StackNavigationProp<
   AppRoute.FULL_CREDITS
 >;
 
-interface MovieCreditGroupProps {
+interface CreditGroupProps {
   groupName: string;
-  items: Cast[] | Crew[];
+  items: MovieCast[] | MovieCrew[];
   itemsDisplayLimit?: number;
 }
 
-const MovieCreditGroup: FC<MovieCreditGroupProps> = ({
+const CreditGroup: FC<CreditGroupProps> = ({
   groupName,
   items,
   itemsDisplayLimit,
@@ -28,7 +28,7 @@ const MovieCreditGroup: FC<MovieCreditGroupProps> = ({
   const {accentVariantColorForegroundStyle, foregroundVariantStyle} =
     useColorTheme();
 
-  const getRole = (credit: Cast | Crew): string => {
+  const getRole = (credit: MovieCast | MovieCrew): string => {
     if ('job' in credit) {
       return credit.job;
     }
@@ -72,7 +72,7 @@ const MovieCreditGroup: FC<MovieCreditGroupProps> = ({
   );
 };
 
-export default MovieCreditGroup;
+export default CreditGroup;
 
 const styles = StyleSheet.create({
   titleContainer: {
