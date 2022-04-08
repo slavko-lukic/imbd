@@ -11,8 +11,9 @@ import SearchScreen from '../screens/SearchScreen';
 import MovieScreen from '../screens/MovieScreen';
 import {DetailedMovie} from '../models/Movie';
 import FullCreditsScreen from '../screens/FullCreditsScreen';
-import {Cast, Crew} from '../models';
+import {Cast, Crew, Person} from '../models';
 import LoadingScreen from '../screens/LoadingScreen';
+import PersonScreen from '../screens/PersonScreen';
 
 export type RootStackNavigatorParams = {
   [AppRoute.HOME]: undefined;
@@ -21,6 +22,7 @@ export type RootStackNavigatorParams = {
   [AppRoute.SEARCH]: undefined;
   [AppRoute.MOVIE]: DetailedMovie;
   [AppRoute.FULL_CREDITS]: {items: Cast[] | Crew[]; groupName: string};
+  [AppRoute.PERSON]: Person;
 };
 
 const RootStack = createStackNavigator<RootStackNavigatorParams>();
@@ -95,6 +97,7 @@ const RootStackNavigator = () => {
         component={FullCreditsScreen}
         options={slideFromBottomModalScreenOptions}
       />
+      <RootStack.Screen name={AppRoute.PERSON} component={PersonScreen} />
     </RootStack.Navigator>
   );
 };
