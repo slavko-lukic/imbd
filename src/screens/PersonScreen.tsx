@@ -24,6 +24,8 @@ type PersonScreenProps = StackScreenProps<
   AppRoute.PERSON
 >;
 
+const placeholderImage = require('../assets/images/profile_placeholder.png');
+
 const PersonScreen: FC<PersonScreenProps> = ({route, navigation}) => {
   const person = route.params;
 
@@ -105,9 +107,13 @@ const PersonScreen: FC<PersonScreenProps> = ({route, navigation}) => {
         <View style={styles.basicInfoContainer}>
           <Image
             style={styles.image}
-            source={{
-              uri: IMAGE_BASE_URL + person.profile_path,
-            }}
+            source={
+              person.profile_path
+                ? {
+                    uri: IMAGE_BASE_URL + person.profile_path,
+                  }
+                : placeholderImage
+            }
           />
           <View style={styles.detailsContainer}>
             <Text style={[{fontSize: 24}, primaryVariantColorForegroundStyle]}>
