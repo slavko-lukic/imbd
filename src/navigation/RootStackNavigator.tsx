@@ -11,7 +11,7 @@ import SearchScreen from '../screens/SearchScreen';
 import MovieScreen from '../screens/MovieScreen';
 import {DetailedMovie} from '../models/Movie';
 import FullCreditsScreen from '../screens/FullCreditsScreen';
-import {MovieCast, MovieCrew, Person} from '../models';
+import {MovieCast, MovieCrew, Person, PersonCast, PersonCrew} from '../models';
 import LoadingScreen from '../screens/LoadingScreen';
 import PersonScreen from '../screens/PersonScreen';
 
@@ -22,7 +22,7 @@ export type RootStackNavigatorParams = {
   [AppRoute.SEARCH]: undefined;
   [AppRoute.MOVIE]: DetailedMovie;
   [AppRoute.FULL_CREDITS]: {
-    items: MovieCast[] | MovieCrew[];
+    items: MovieCast[] | MovieCrew[] | PersonCast[] | PersonCrew[];
     groupName: string;
   };
   [AppRoute.PERSON]: Person;

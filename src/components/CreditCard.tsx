@@ -1,4 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
 import React, {FC, useState} from 'react';
 import {Alert, Image, StyleSheet, Text, View} from 'react-native';
 import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
@@ -6,47 +7,64 @@ import {IMAGE_BASE_URL} from '../constants/api';
 import {cardShadowStyle} from '../constants/styling';
 import {AppRoute} from '../enums/routes';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
-import {Person} from '../models';
-import {axiosGet} from '../utilities/api';
+import {RootStackNavigatorParams} from '../navigation/RootStackNavigator';
+import {composeDetailedMovie} from '../utilities/movies';
+import {composePerson} from '../utilities/people';
 import LoadingOverlay from './LoadingOverlay';
 
 const placeholderImage = require('../assets/images/profile_placeholder.png');
+
+type RootScreenProp = StackNavigationProp<
+  RootStackNavigatorParams,
+  AppRoute.PERSON
+>;
 interface CreditCardProps {
   name: string;
   picture: string;
   role: string;
+  id: number;
+  type: 'movie' | 'person';
 }
 
-const CreditCard: FC<CreditCardProps> = ({name, role, picture}) => {
+const CreditCard: FC<CreditCardProps> = ({name, role, picture, id, type}) => {
   const {surfaceVariantStyle, foregroundStyle, accentColorForegroundStyle} =
     useColorTheme();
   const [loading, setLoading] = useState(false);
-  const navigation = useNavigation();
+  const navigation = useNavigation<RootScreenProp>();
 
-  const n = async () => {
+  const goToPerson = async () => {
     setLoading(true);
-    const params = {
-      api_key: 'e0966f5c25707b5d4f4f5a1670429967',
-    };
-    const personResponse = await axiosGet(`/person/${25072}`, params);
-    const person: Person = personResponse.data;
-
+    const person = await composePerson(id);
     if (!person) {
       setLoading(false);
       Alert.alert(
         'Network Error',
-        'Failed to fetch movied details. Check your internet connection.',
+        'Failed to fetch person details. Check your internet connection.',
       );
       return;
     }
-
     navigation.navigate(AppRoute.PERSON, person);
+    setLoading(false);
+  };
+
+  const goToMovie = async () => {
+    setLoading(true);
+    const detailedMovie = await composeDetailedMovie(id);
+    if (!detailedMovie) {
+      setLoading(false);
+      Alert.alert(
+        'Network Error',
+        'Failed to fetch movie details. Check your internet connection.',
+      );
+      return;
+    }
+    navigation.navigate(AppRoute.MOVIE, detailedMovie);
     setLoading(false);
   };
 
   return (
     <TouchableWithoutFeedback
-      onPress={n}
+      onPress={type === 'movie' ? () => goToMovie() : () => goToPerson()}
       style={[styles.cardContainer, surfaceVariantStyle, cardShadowStyle]}>
       <Image
         style={styles.image}

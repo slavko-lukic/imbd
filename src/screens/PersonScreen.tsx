@@ -10,8 +10,8 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import {SafeAreaView} from 'react-native-safe-area-context';
-
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import CreditGroup from '../components/CreditGroup';
 import MainHeader from '../components/MainHeader';
 import {IMAGE_BASE_URL} from '../constants/api';
 import {HEADER_ICON_SIZE} from '../constants/dimensions';
@@ -26,6 +26,7 @@ type PersonScreenProps = StackScreenProps<
 
 const PersonScreen: FC<PersonScreenProps> = ({route, navigation}) => {
   const person = route.params;
+
   const {
     backgroundStyle,
     primaryVariantColorForegroundStyle,
@@ -74,22 +75,25 @@ const PersonScreen: FC<PersonScreenProps> = ({route, navigation}) => {
       onPress={goBack}
     />
   );
+
+  const headerMiddleElement: JSX.Element = (
+    <Animated.Text
+      numberOfLines={1}
+      style={[
+        {fontSize: 17},
+        primaryVariantColorForegroundStyle,
+        headerAnimatedStyle,
+      ]}>
+      {person.name}
+    </Animated.Text>
+  );
+
   return (
     <SafeAreaView
       edges={['top']}
       style={[styles.screenContaner, backgroundStyle]}>
       <MainHeader
-        middleElement={
-          <Animated.Text
-            numberOfLines={1}
-            style={[
-              {fontSize: 17},
-              primaryVariantColorForegroundStyle,
-              headerAnimatedStyle,
-            ]}>
-            {person.name}
-          </Animated.Text>
-        }
+        middleElement={headerMiddleElement}
         leftButton={headerLeftButton}
       />
       <Animated.ScrollView
@@ -98,17 +102,14 @@ const PersonScreen: FC<PersonScreenProps> = ({route, navigation}) => {
         onScroll={scrollHandler}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}>
-        <View
-          style={{
-            flexDirection: 'row',
-          }}>
+        <View style={styles.basicInfoContainer}>
           <Image
             style={styles.image}
             source={{
               uri: IMAGE_BASE_URL + person.profile_path,
             }}
           />
-          <View style={styles.basicInfoContainer}>
+          <View style={styles.detailsContainer}>
             <Text style={[{fontSize: 24}, primaryVariantColorForegroundStyle]}>
               {person.name}
             </Text>
@@ -148,6 +149,24 @@ const PersonScreen: FC<PersonScreenProps> = ({route, navigation}) => {
             </Text>
           </View>
         </View>
+
+        {/* cast */}
+        <View style={styles.castMembersContainer}>
+          <CreditGroup
+            itemsDisplayLimit={8}
+            groupName="Cast"
+            items={person.cast}
+          />
+        </View>
+
+        {/* crew */}
+        <View style={styles.crewMembersContainer}>
+          <CreditGroup
+            itemsDisplayLimit={6}
+            groupName="Crew"
+            items={person.crew}
+          />
+        </View>
       </Animated.ScrollView>
     </SafeAreaView>
   );
@@ -162,6 +181,9 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   basicInfoContainer: {
+    flexDirection: 'row',
+  },
+  detailsContainer: {
     flex: 1,
     paddingLeft: 20,
   },
@@ -170,5 +192,12 @@ const styles = StyleSheet.create({
     height: 200,
     aspectRatio: 0.67 / 1,
     borderRadius: 10,
+  },
+  castMembersContainer: {
+    marginTop: 20,
+  },
+  crewMembersContainer: {
+    marginTop: 20,
+    marginBottom: 30,
   },
 });

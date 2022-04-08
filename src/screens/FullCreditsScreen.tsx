@@ -10,7 +10,7 @@ import {HEADER_ICON_SIZE} from '../constants/dimensions';
 import {cardOnlyTopShadow} from '../constants/styling';
 import {AppRoute} from '../enums/routes';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
-import {MovieCast, MovieCrew} from '../models';
+import {MovieCast, MovieCrew, PersonCast, PersonCrew} from '../models';
 import {RootStackNavigatorParams} from '../navigation/RootStackNavigator';
 
 type FullCreditsScreenProps = StackScreenProps<
@@ -25,23 +25,56 @@ const FullCreditsScreen: FC<FullCreditsScreenProps> = ({route, navigation}) => {
   const {surfaceStyle, colorTheme, primaryVariantColorForegroundStyle} =
     useColorTheme();
 
-  const getRole = (credit: MovieCast | MovieCrew): string => {
+  const getRole = (
+    credit: MovieCast | MovieCrew | PersonCast | PersonCrew,
+  ): string => {
     if ('job' in credit) {
       return credit.job;
     }
     return credit.character;
   };
 
+  const getType = (
+    credit: MovieCast | MovieCrew | PersonCast | PersonCrew,
+  ): 'person' | 'movie' => {
+    if ('name' in credit) {
+      return 'person';
+    }
+    return 'movie';
+  };
+
+  const getName = (
+    credit: MovieCast | MovieCrew | PersonCast | PersonCrew,
+  ): string => {
+    if ('name' in credit) {
+      return credit.name;
+    }
+    return credit.title;
+  };
+
+  const getPicture = (
+    credit: MovieCast | MovieCrew | PersonCast | PersonCrew,
+  ): string => {
+    if ('profile_path' in credit) {
+      return credit.profile_path;
+    }
+    return credit.poster_path;
+  };
+
   const goBack = () => {
     navigation.goBack();
   };
 
-  const renderItem: ListRenderItem<MovieCast | MovieCrew> = useCallback(
+  const renderItem: ListRenderItem<
+    MovieCast | MovieCrew | PersonCast | PersonCrew
+  > = useCallback(
     ({item}) => (
       <CreditCard
         key={item.credit_id}
-        name={item.name}
-        picture={item.profile_path}
+        id={item.id}
+        type={getType(item)}
+        name={getName(item)}
+        picture={getPicture(item)}
         role={getRole(item)}
       />
     ),

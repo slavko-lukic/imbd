@@ -26,7 +26,7 @@ export const composeDetailedMovie = async (movieId: number) => {
       );
     });
 
-    let detailedMovie: DetailedMovie = {
+    const detailedMovie: DetailedMovie = {
       id: detailsResponse.data.id,
       title: detailsResponse.data.title,
       release_date: detailsResponse.data.release_date,

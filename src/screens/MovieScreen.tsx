@@ -232,6 +232,7 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
               />
             </View>
 
+            {/* crew */}
             <View style={styles.crewMembersContainer}>
               <CreditGroup
                 itemsDisplayLimit={6}

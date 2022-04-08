@@ -1,3 +1,5 @@
+import {PersonCast, PersonCrew} from '.';
+
 export interface Person {
   biography: string;
   birthday: string;
@@ -7,4 +9,6 @@ export interface Person {
   place_of_birth: string;
   popularity: number;
   profile_path: string;
+  cast: PersonCast[];
+  crew: PersonCrew[];
 }
