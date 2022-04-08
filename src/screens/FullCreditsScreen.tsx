@@ -4,13 +4,13 @@ import {StyleSheet, ListRenderItem, View, Text} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MiniHeader from '../components/MiniHeader';
-import MovieCreditCard from '../components/MovieCreditCard';
+import CreditCard from '../components/CreditCard';
 import VerticalSpacing from '../components/VerticalSpacing';
 import {HEADER_ICON_SIZE} from '../constants/dimensions';
 import {cardOnlyTopShadow} from '../constants/styling';
 import {AppRoute} from '../enums/routes';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
-import {Cast, Crew} from '../models';
+import {MovieCast, MovieCrew} from '../models';
 import {RootStackNavigatorParams} from '../navigation/RootStackNavigator';
 
 type FullCreditsScreenProps = StackScreenProps<
@@ -25,7 +25,7 @@ const FullCreditsScreen: FC<FullCreditsScreenProps> = ({route, navigation}) => {
   const {surfaceStyle, colorTheme, primaryVariantColorForegroundStyle} =
     useColorTheme();
 
-  const getRole = (credit: Cast | Crew): string => {
+  const getRole = (credit: MovieCast | MovieCrew): string => {
     if ('job' in credit) {
       return credit.job;
     }
@@ -36,9 +36,9 @@ const FullCreditsScreen: FC<FullCreditsScreenProps> = ({route, navigation}) => {
     navigation.goBack();
   };
 
-  const renderItem: ListRenderItem<Cast | Crew> = useCallback(
+  const renderItem: ListRenderItem<MovieCast | MovieCrew> = useCallback(
     ({item}) => (
-      <MovieCreditCard
+      <CreditCard
         key={item.credit_id}
         name={item.name}
         picture={item.profile_path}
@@ -48,7 +48,7 @@ const FullCreditsScreen: FC<FullCreditsScreenProps> = ({route, navigation}) => {
     [items],
   );
 
-  const keyExtractor = (item: Cast | Crew) => {
+  const keyExtractor = (item: MovieCast | MovieCrew) => {
     return item.credit_id + getRole(item);
   };
 
@@ -79,7 +79,7 @@ const FullCreditsScreen: FC<FullCreditsScreenProps> = ({route, navigation}) => {
         initialNumToRender={20}
         maxToRenderPerBatch={50}
         style={styles.list}
-        data={items as Array<Cast | Crew>}
+        data={items as Array<MovieCast | MovieCrew>}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
         ListFooterComponent={<VerticalSpacing spacing={60} />}

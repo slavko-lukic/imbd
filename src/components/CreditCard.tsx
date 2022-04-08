@@ -11,13 +11,13 @@ import {axiosGet} from '../utilities/api';
 import LoadingOverlay from './LoadingOverlay';
 
 const placeholderImage = require('../assets/images/profile_placeholder.png');
-interface MovieCreditCardProps {
+interface CreditCardProps {
   name: string;
   picture: string;
   role: string;
 }
 
-const MovieCreditCard: FC<MovieCreditCardProps> = ({name, role, picture}) => {
+const CreditCard: FC<CreditCardProps> = ({name, role, picture}) => {
   const {surfaceVariantStyle, foregroundStyle, accentColorForegroundStyle} =
     useColorTheme();
   const [loading, setLoading] = useState(false);
@@ -80,7 +80,7 @@ const MovieCreditCard: FC<MovieCreditCardProps> = ({name, role, picture}) => {
   );
 };
 
-export default MovieCreditCard;
+export default CreditCard;
 
 const styles = StyleSheet.create({
   cardContainer: {

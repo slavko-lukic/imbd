@@ -6,7 +6,7 @@ import {AppRoute} from '../enums/routes';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
 import {MovieCast, MovieCrew} from '../models';
 import {RootStackNavigatorParams} from '../navigation/RootStackNavigator';
-import MovieCreditCard from './MovieCreditCard';
+import CreditCard from './CreditCard';
 
 type MovieScreenProp = StackNavigationProp<
   RootStackNavigatorParams,
@@ -44,7 +44,7 @@ const CreditGroup: FC<CreditGroupProps> = ({
 
   const movieCreditCards = items.slice(0, itemsDisplayLimit).map(credit => {
     return (
-      <MovieCreditCard
+      <CreditCard
         key={credit.credit_id}
         name={credit.name}
         picture={credit.profile_path}
