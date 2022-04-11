@@ -10,4 +10,5 @@ export enum AppRoute {
   FULL_CREDITS = 'Full credits',
   CONFIGURE_MOVIES = 'Configure movies',
   LOADING = 'Loading',
+  PERSON = 'Person',
 }

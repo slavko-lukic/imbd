@@ -18,7 +18,7 @@ import {useNavigation} from '@react-navigation/native';
 import LoadingOverlay from './LoadingOverlay';
 import {composeDetailedMovie} from '../utilities/movies';
 
-type MovieScreenProp = StackNavigationProp<
+type RootScreenProp = StackNavigationProp<
   RootStackNavigatorParams,
   AppRoute.MOVIE
 >;
@@ -37,7 +37,7 @@ const MovieListItem: FC<MovieListItemProps> = ({movie}) => {
 
   const [loading, setLoading] = useState(false);
 
-  const navigation = useNavigation<MovieScreenProp>();
+  const navigation = useNavigation<RootScreenProp>();
 
   const goToMovie = useCallback(async () => {
     setLoading(true);

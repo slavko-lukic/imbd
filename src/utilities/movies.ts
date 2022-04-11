@@ -1,4 +1,4 @@
-import {Crew, DetailedMovie, Movie, Video} from '../models';
+import {DetailedMovie, MovieCrew, Video} from '../models';
 import {axiosGet} from './api';
 
 const params = {
@@ -11,7 +11,7 @@ export const composeDetailedMovie = async (movieId: number) => {
     const detailsResponse = await axiosGet(`/movie/${movieId}`, params);
     const videosResponse = await axiosGet(`/movie/${movieId}/videos`, params);
 
-    const movieCrew: Crew[] = creditsResponse.data.crew;
+    const movieCrew: MovieCrew[] = creditsResponse.data.crew;
 
     const directorsIndex = movieCrew.findIndex(cast => cast.job === 'Director');
     movieCrew.unshift(...movieCrew.splice(directorsIndex, 1));
@@ -26,7 +26,7 @@ export const composeDetailedMovie = async (movieId: number) => {
       );
     });
 
-    let detailedMovie: DetailedMovie = {
+    const detailedMovie: DetailedMovie = {
       id: detailsResponse.data.id,
       title: detailsResponse.data.title,
       release_date: detailsResponse.data.release_date,
