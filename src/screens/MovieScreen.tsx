@@ -38,9 +38,7 @@ import {addToWatched, addToWatchlist} from '../store/actions/moviesActions';
 import {RootState} from '../store/reducers/rootReducer';
 import YoutubeEmbedVideoView from '../components/YoutubeEmbedVideoView';
 import {useSimilarMovies} from '../hooks/api/useSimilarMovies';
-import {ScrollView} from 'react-native-gesture-handler';
-import {Movie} from '../models';
-import SimilarMovieCard from '../components/SimilarMovieCard';
+import HorizontalMovieList from '../components/HorizontalMovieList';
 
 type MovieScreenProps = StackScreenProps<
   RootStackNavigatorParams,
@@ -67,7 +65,6 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
     foregroundStyle,
     colorTheme,
     surfaceStyle,
-    surfaceVariantStyle,
   } = useColorTheme();
 
   const goBack = () => {
@@ -230,45 +227,16 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
               </Text>
             </View>
 
-            <Text
-              style={[
-                primaryVariantColorForegroundStyle,
-                {fontSize: 16, marginTop: 15},
-              ]}>
-              Similar Movies:
-            </Text>
-
-            <ScrollView
-              style={{marginTop: 5, overflow: 'visible'}}
-              horizontal
-              showsVerticalScrollIndicator={false}
-              showsHorizontalScrollIndicator={false}>
-              {similarMovies.length > 0 && similarMovies
-                ? similarMovies
-                    .filter(e => e.id !== movie.id)
-                    .map((movie: Movie) => {
-                      return <SimilarMovieCard key={movie.id} movie={movie} />;
-                    })
-                : Array(10)
-                    .fill('dummy')
-                    .map((e, i) => {
-                      return (
-                        <View
-                          key={i}
-                          style={[
-                            {
-                              height: 150,
-                              width: 100,
-                              marginRight: 10,
-                              borderRadius: 10,
-                              backgroundColor: 'red',
-                            },
-                            surfaceVariantStyle,
-                          ]}
-                        />
-                      );
-                    })}
-            </ScrollView>
+            <View style={styles.similarMoviesContainer}>
+              <Text
+                style={[primaryVariantColorForegroundStyle, {fontSize: 16}]}>
+                Similar Movies:
+              </Text>
+              <HorizontalMovieList
+                movies={similarMovies}
+                currentMovieId={movie.id}
+              />
+            </View>
 
             {/* cast */}
             <View style={styles.castMembersContainer}>
@@ -355,5 +323,8 @@ const styles = StyleSheet.create({
   },
   embeddedPlayer: {
     marginTop: 20,
+  },
+  similarMoviesContainer: {
+    marginTop: 15,
   },
 });
