@@ -37,6 +37,10 @@ import {useDispatch, useSelector} from 'react-redux';
 import {addToWatched, addToWatchlist} from '../store/actions/moviesActions';
 import {RootState} from '../store/reducers/rootReducer';
 import YoutubeEmbedVideoView from '../components/YoutubeEmbedVideoView';
+import {useSimilarMovies} from '../hooks/api/useSimilarMovies';
+import {ScrollView} from 'react-native-gesture-handler';
+import {Movie} from '../models';
+import SimilarMovieCard from '../components/SimilarMovieCard';
 
 type MovieScreenProps = StackScreenProps<
   RootStackNavigatorParams,
@@ -48,6 +52,8 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
   const [isHeaderTitleShown, setIsHeaderTitleShown] = useState(false);
 
   const dispatch = useDispatch();
+
+  const similarMovies = useSimilarMovies(movie.id);
 
   const isInWatched = useSelector((state: RootState) =>
     state.movies.watched.some(e => e.id === movie.id),
@@ -61,6 +67,7 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
     foregroundStyle,
     colorTheme,
     surfaceStyle,
+    surfaceVariantStyle,
   } = useColorTheme();
 
   const goBack = () => {
@@ -222,6 +229,46 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
                 {movie.overview}
               </Text>
             </View>
+
+            <Text
+              style={[
+                primaryVariantColorForegroundStyle,
+                {fontSize: 16, marginTop: 15},
+              ]}>
+              Similar Movies:
+            </Text>
+
+            <ScrollView
+              style={{marginTop: 5, overflow: 'visible'}}
+              horizontal
+              showsVerticalScrollIndicator={false}
+              showsHorizontalScrollIndicator={false}>
+              {similarMovies.length > 0 && similarMovies
+                ? similarMovies
+                    .filter(e => e.id !== movie.id)
+                    .map((movie: Movie) => {
+                      return <SimilarMovieCard key={movie.id} movie={movie} />;
+                    })
+                : Array(10)
+                    .fill('dummy')
+                    .map((e, i) => {
+                      return (
+                        <View
+                          key={i}
+                          style={[
+                            {
+                              height: 150,
+                              width: 100,
+                              marginRight: 10,
+                              borderRadius: 10,
+                              backgroundColor: 'red',
+                            },
+                            surfaceVariantStyle,
+                          ]}
+                        />
+                      );
+                    })}
+            </ScrollView>
 
             {/* cast */}
             <View style={styles.castMembersContainer}>

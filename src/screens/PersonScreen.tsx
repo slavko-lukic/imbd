@@ -31,7 +31,6 @@ const PersonScreen: FC<PersonScreenProps> = ({route, navigation}) => {
   const person = route.params;
 
   const {
-    surfaceVariantStyle,
     surfaceStyle,
     primaryVariantColorForegroundStyle,
     colorTheme,
