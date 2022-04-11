@@ -15,6 +15,7 @@ import CreditGroup from '../components/CreditGroup';
 import MainHeader from '../components/MainHeader';
 import {IMAGE_BASE_URL} from '../constants/api';
 import {HEADER_ICON_SIZE} from '../constants/dimensions';
+import {cardShadowStyle} from '../constants/styling';
 import {AppRoute} from '../enums/routes';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
 import {RootStackNavigatorParams} from '../navigation/RootStackNavigator';
@@ -30,7 +31,8 @@ const PersonScreen: FC<PersonScreenProps> = ({route, navigation}) => {
   const person = route.params;
 
   const {
-    backgroundStyle,
+    surfaceVariantStyle,
+    surfaceStyle,
     primaryVariantColorForegroundStyle,
     colorTheme,
     accentVariantColorForegroundStyle,
@@ -91,9 +93,7 @@ const PersonScreen: FC<PersonScreenProps> = ({route, navigation}) => {
   );
 
   return (
-    <SafeAreaView
-      edges={['top']}
-      style={[styles.screenContaner, backgroundStyle]}>
+    <SafeAreaView edges={['top']} style={[styles.screenContaner, surfaceStyle]}>
       <MainHeader
         middleElement={headerMiddleElement}
         leftButton={headerLeftButton}
@@ -105,16 +105,19 @@ const PersonScreen: FC<PersonScreenProps> = ({route, navigation}) => {
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}>
         <View style={styles.basicInfoContainer}>
-          <Image
-            style={styles.image}
-            source={
-              person.profile_path
-                ? {
-                    uri: IMAGE_BASE_URL + person.profile_path,
-                  }
-                : placeholderImage
-            }
-          />
+          <View style={cardShadowStyle}>
+            <Image
+              style={[styles.image]}
+              source={
+                person.profile_path
+                  ? {
+                      uri: IMAGE_BASE_URL + person.profile_path,
+                    }
+                  : placeholderImage
+              }
+            />
+          </View>
+
           <View style={styles.detailsContainer}>
             <Text style={[{fontSize: 24}, primaryVariantColorForegroundStyle]}>
               {person.name}
