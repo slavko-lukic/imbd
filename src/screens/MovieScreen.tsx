@@ -71,6 +71,10 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
     navigation.pop();
   };
 
+  const goGome = () => {
+    navigation.popToTop();
+  };
+
   const headerTitleOpacity = useSharedValue(0);
   const scrollY = useSharedValue(0);
   const opacity = useSharedValue(0);
@@ -132,21 +136,34 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
     />
   );
 
+  const headerMiddleElement: JSX.Element = (
+    <Animated.Text
+      numberOfLines={1}
+      style={[
+        {fontSize: 17},
+        primaryVariantColorForegroundStyle,
+        headerAnimatedStyle,
+      ]}>
+      {movie.title} ({moment(movie.release_date).year()})
+    </Animated.Text>
+  );
+
+  const headerRightButton: JSX.Element = (
+    <Ionicons
+      key={'home'}
+      name="home-sharp"
+      color={colorTheme.foreground}
+      size={HEADER_ICON_SIZE}
+      onPress={goGome}
+    />
+  );
+
   return (
     <SafeAreaView edges={['top']} style={[styles.screenContaner, surfaceStyle]}>
       <MainHeader
-        middleElement={
-          <Animated.Text
-            numberOfLines={1}
-            style={[
-              {fontSize: 17},
-              primaryVariantColorForegroundStyle,
-              headerAnimatedStyle,
-            ]}>
-            {movie.title} ({moment(movie.release_date).year()})
-          </Animated.Text>
-        }
+        middleElement={headerMiddleElement}
         leftButton={headerLeftButton}
+        rightButtons={[headerRightButton]}
       />
 
       {/* reflected image */}
