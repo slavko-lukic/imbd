@@ -65,7 +65,7 @@ const CreditGroup: FC<CreditGroupProps> = ({
   };
 
   const goToFullCreditsList = () => {
-    navigation.navigate(AppRoute.FULL_CREDITS, {
+    navigation.push(AppRoute.FULL_CREDITS, {
       items: items,
       groupName: groupName,
     });

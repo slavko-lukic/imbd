@@ -62,7 +62,7 @@ const FullCreditsScreen: FC<FullCreditsScreenProps> = ({route, navigation}) => {
   };
 
   const goBack = () => {
-    navigation.goBack();
+    navigation.pop();
   };
 
   const renderItem: ListRenderItem<

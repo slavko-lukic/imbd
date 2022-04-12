@@ -43,7 +43,7 @@ const CreditCard: FC<CreditCardProps> = ({name, role, picture, id, type}) => {
       );
       return;
     }
-    navigation.navigate(AppRoute.PERSON, person);
+    navigation.push(AppRoute.PERSON, person);
     setLoading(false);
   };
 
@@ -58,7 +58,7 @@ const CreditCard: FC<CreditCardProps> = ({name, role, picture, id, type}) => {
       );
       return;
     }
-    navigation.navigate(AppRoute.MOVIE, detailedMovie);
+    navigation.push(AppRoute.MOVIE, detailedMovie);
     setLoading(false);
   };
 

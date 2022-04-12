@@ -55,7 +55,7 @@ const MovieGridItem: FC<MovieGridItemProps> = ({movie}) => {
       return;
     }
 
-    navigation.navigate(AppRoute.MOVIE, detailedMovie);
+    navigation.push(AppRoute.MOVIE, detailedMovie);
     setLoading(false);
   }, [movie]);
 

@@ -42,7 +42,7 @@ const SimilarMovieCard: FC<SimilarMovieCardProps> = ({movie}) => {
       return;
     }
     setLoading(false);
-    navigation.navigate(AppRoute.MOVIE, detailedMovie);
+    navigation.push(AppRoute.MOVIE, detailedMovie);
   }, [movie]);
 
   return (

@@ -47,7 +47,7 @@ const PersonScreen: FC<PersonScreenProps> = ({route, navigation}) => {
   const scrollY = useSharedValue(0);
 
   const goBack = () => {
-    navigation.goBack();
+    navigation.pop();
   };
 
   useEffect(() => {

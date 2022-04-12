@@ -68,7 +68,7 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
   } = useColorTheme();
 
   const goBack = () => {
-    navigation.goBack();
+    navigation.pop();
   };
 
   const headerTitleOpacity = useSharedValue(0);
