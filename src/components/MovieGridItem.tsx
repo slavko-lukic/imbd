@@ -1,6 +1,7 @@
 import React, {FC, memo, useCallback, useState} from 'react';
 import {
   Alert,
+  AlertButton,
   Dimensions,
   ImageBackground,
   StyleSheet,
@@ -24,6 +25,10 @@ import {AppRoute} from '../enums/routes';
 import {useNavigation} from '@react-navigation/native';
 import LoadingOverlay from './LoadingOverlay';
 import {composeDetailedMovie} from '../utilities/movies';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../store/reducers/rootReducer';
+import {addToWatched, addToWatchlist} from '../store/actions/moviesActions';
+import moment from 'moment';
 
 type RootScreenProp = StackNavigationProp<
   RootStackNavigatorParams,
@@ -36,6 +41,15 @@ interface MovieGridItemProps {
 
 const MovieGridItem: FC<MovieGridItemProps> = ({movie}) => {
   const {colorTheme, surfaceVariantStyle} = useColorTheme();
+
+  const dispatch = useDispatch();
+
+  const isInWatched = useSelector((state: RootState) =>
+    state.movies.watched.some(e => e.id === movie.id),
+  );
+  const isInWatchist = useSelector((state: RootState) =>
+    state.movies.watchlist.some(e => e.id === movie.id),
+  );
 
   const [loading, setLoading] = useState(false);
 
@@ -59,9 +73,33 @@ const MovieGridItem: FC<MovieGridItemProps> = ({movie}) => {
     setLoading(false);
   }, [movie]);
 
+  const watchlistAlertButton: AlertButton = {
+    text: isInWatchist ? 'Remove from watchlist' : 'Add to watchlist',
+    onPress: () => dispatch(addToWatchlist(movie)),
+  };
+
+  const watchedAlertButton: AlertButton = {
+    text: isInWatched ? 'Remove from watched' : 'Add to watched',
+    onPress: () => dispatch(addToWatched(movie)),
+  };
+
+  const cancelAlertButton: AlertButton = {
+    text: 'Cancel',
+    style: 'destructive',
+  };
+
+  const showAlert = () => {
+    Alert.alert(
+      `${movie.title} (${moment(movie.release_date).year()})`,
+      undefined,
+      [watchlistAlertButton, watchedAlertButton, cancelAlertButton],
+    );
+  };
+
   return (
     <FadeInView
       onPress={() => goToMovie()}
+      onLongPress={showAlert}
       activeOpacity={
         colorTheme.type === 'dark' ? ACTIVE_OPACITY_WEAK : ACTIVE_OPACITY_STRONG
       }

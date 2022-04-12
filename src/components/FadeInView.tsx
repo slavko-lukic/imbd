@@ -45,6 +45,11 @@ export interface FadeInViewProps extends ViewProps {
   onPress?: () => void;
 
   /**
+   * Callback that executes when component is long pressed.
+   */
+  onLongPress?: () => void;
+
+  /**
    * Determines what the opacity of the wrapped view should be when touch is active
    * Defaults to 0.2.
    */
@@ -58,6 +63,7 @@ const FadeInView: FC<FadeInViewProps> = ({
   offsetX = 0,
   offsetY = 0,
   onPress,
+  onLongPress,
   activeOpacity,
   children,
   style,
@@ -87,10 +93,11 @@ const FadeInView: FC<FadeInViewProps> = ({
 
   return (
     <Animated.View style={animatedStyle} {...otherProps}>
-      {onPress ? (
+      {onPress || onLongPress ? (
         <TouchableOpacity
           activeOpacity={activeOpacity}
           onPress={onPress}
+          onLongPress={onLongPress}
           style={style}>
           {children}
         </TouchableOpacity>

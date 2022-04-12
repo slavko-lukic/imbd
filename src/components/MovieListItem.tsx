@@ -1,5 +1,5 @@
 import React, {FC, memo, useCallback, useState} from 'react';
-import {Alert, Image, StyleSheet, Text, View} from 'react-native';
+import {Alert, AlertButton, Image, StyleSheet, Text, View} from 'react-native';
 import {IMAGE_BASE_URL} from '../constants/api';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
 import moment from 'moment';
@@ -17,6 +17,9 @@ import {AppRoute} from '../enums/routes';
 import {useNavigation} from '@react-navigation/native';
 import LoadingOverlay from './LoadingOverlay';
 import {composeDetailedMovie} from '../utilities/movies';
+import {addToWatched, addToWatchlist} from '../store/actions/moviesActions';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../store/reducers/rootReducer';
 
 type RootScreenProp = StackNavigationProp<
   RootStackNavigatorParams,
@@ -34,6 +37,15 @@ const MovieListItem: FC<MovieListItemProps> = ({movie}) => {
     foregroundStyle,
     accentVariantColorForegroundStyle,
   } = useColorTheme();
+
+  const dispatch = useDispatch();
+
+  const isInWatched = useSelector((state: RootState) =>
+    state.movies.watched.some(e => e.id === movie.id),
+  );
+  const isInWatchist = useSelector((state: RootState) =>
+    state.movies.watchlist.some(e => e.id === movie.id),
+  );
 
   const [loading, setLoading] = useState(false);
 
@@ -57,8 +69,32 @@ const MovieListItem: FC<MovieListItemProps> = ({movie}) => {
     setLoading(false);
   }, [movie]);
 
+  const watchlistAlertButton: AlertButton = {
+    text: isInWatchist ? 'Remove from watchlist' : 'Add to watchlist',
+    onPress: () => dispatch(addToWatchlist(movie)),
+  };
+
+  const watchedAlertButton: AlertButton = {
+    text: isInWatched ? 'Remove from watched' : 'Add to watched',
+    onPress: () => dispatch(addToWatched(movie)),
+  };
+
+  const cancelAlertButton: AlertButton = {
+    text: 'Cancel',
+    style: 'destructive',
+  };
+
+  const showAlert = () => {
+    Alert.alert(
+      `${movie.title} (${moment(movie.release_date).year()})`,
+      undefined,
+      [watchlistAlertButton, watchedAlertButton, cancelAlertButton],
+    );
+  };
+
   return (
     <FadeInView
+      onLongPress={showAlert}
       onPress={() => goToMovie()}
       activeOpacity={
         colorTheme.type === 'dark' ? ACTIVE_OPACITY_WEAK : ACTIVE_OPACITY_STRONG
