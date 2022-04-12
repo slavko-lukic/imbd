@@ -1,4 +1,5 @@
-import {Cast, Crew, Genre} from '.';
+import {Genre, MovieCast} from '.';
+import {MovieCrew} from './Crew';
 
 export interface Movie {
   id: number;
@@ -12,7 +13,7 @@ export interface DetailedMovie extends Movie {
   backdrop_path: string;
   runtime: number;
   trailer_id?: string;
-  cast: Cast[];
-  crew: Crew[];
+  cast: MovieCast[];
+  crew: MovieCrew[];
   genres: Genre[];
 }

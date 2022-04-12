@@ -39,7 +39,7 @@ const ConfigureMoviesScreen: FC<ConfigureMoviesScreenProps> = ({
   const {colorTheme, backgroundStyle} = useColorTheme();
 
   const goBack = () => {
-    navigation.goBack();
+    navigation.pop();
   };
 
   const mappedViewTypes = viewTypes.map((viewType, index) => {

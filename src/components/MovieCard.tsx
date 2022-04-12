@@ -1,5 +1,5 @@
-import React, {FC, memo, useCallback, useState} from 'react';
-import {Alert, Image, StyleSheet, Text, View} from 'react-native';
+import React, {FC, memo} from 'react';
+import {Image, StyleSheet, Text, View} from 'react-native';
 import {WithSpringConfig} from 'react-native-reanimated';
 import {IMAGE_BASE_URL} from '../constants/api';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
@@ -11,17 +11,9 @@ import {
   ACTIVE_OPACITY_WEAK,
 } from '../constants/miscellaneous';
 import {Movie} from '../models';
-import {AppRoute} from '../enums/routes';
-import {useNavigation} from '@react-navigation/native';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {RootStackNavigatorParams} from '../navigation/RootStackNavigator';
 import LoadingOverlay from './LoadingOverlay';
-import {composeDetailedMovie} from '../utilities/movies';
+import {useMovieCollectionItem} from '../hooks/movies/useMovieCollectionItem';
 
-type MovieScreenProp = StackNavigationProp<
-  RootStackNavigatorParams,
-  AppRoute.MOVIE
->;
 interface MovieCardProps {
   movie: Movie;
 }
@@ -44,30 +36,11 @@ const MovieCard: FC<MovieCardProps> = ({movie}) => {
     accentVariantColorForegroundStyle,
   } = useColorTheme();
 
-  const [loading, setLoading] = useState(false);
-
-  const navigation = useNavigation<MovieScreenProp>();
-
-  const goToMovie = useCallback(async () => {
-    setLoading(true);
-
-    const detailedMovie = await composeDetailedMovie(movie.id);
-
-    if (!detailedMovie) {
-      setLoading(false);
-      Alert.alert(
-        'Network Error',
-        'Failed to fetch movied details. Check your internet connection.',
-      );
-      return;
-    }
-
-    navigation.navigate(AppRoute.MOVIE, detailedMovie);
-    setLoading(false);
-  }, [movie]);
+  const {goToMovie, showAlert, loading} = useMovieCollectionItem(movie);
 
   return (
     <SpringInView
+      onLongPress={showAlert}
       onPress={() => goToMovie()}
       activeOpacity={
         colorTheme.type === 'dark' ? ACTIVE_OPACITY_WEAK : ACTIVE_OPACITY_STRONG

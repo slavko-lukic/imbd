@@ -29,7 +29,7 @@ const App = () => {
 
   const goToMovie = async (movieId: number) => {
     const detailedMovie = await composeDetailedMovie(movieId);
-    if (detailedMovie) navigationRef.navigate(AppRoute.MOVIE, detailedMovie);
+    if (detailedMovie) navigationRef.push(AppRoute.MOVIE, detailedMovie);
   };
 
   useBackgroundStateNotificationHandler(remoteMessage => {

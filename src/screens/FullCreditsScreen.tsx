@@ -4,13 +4,13 @@ import {StyleSheet, ListRenderItem, View, Text} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MiniHeader from '../components/MiniHeader';
-import MovieCreditCard from '../components/MovieCreditCard';
+import CreditCard from '../components/CreditCard';
 import VerticalSpacing from '../components/VerticalSpacing';
 import {HEADER_ICON_SIZE} from '../constants/dimensions';
 import {cardOnlyTopShadow} from '../constants/styling';
 import {AppRoute} from '../enums/routes';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
-import {Cast, Crew} from '../models';
+import {MovieCast, MovieCrew, PersonCast, PersonCrew} from '../models';
 import {RootStackNavigatorParams} from '../navigation/RootStackNavigator';
 
 type FullCreditsScreenProps = StackScreenProps<
@@ -25,30 +25,63 @@ const FullCreditsScreen: FC<FullCreditsScreenProps> = ({route, navigation}) => {
   const {surfaceStyle, colorTheme, primaryVariantColorForegroundStyle} =
     useColorTheme();
 
-  const getRole = (credit: Cast | Crew): string => {
+  const getRole = (
+    credit: MovieCast | MovieCrew | PersonCast | PersonCrew,
+  ): string => {
     if ('job' in credit) {
       return credit.job;
     }
     return credit.character;
   };
 
-  const goBack = () => {
-    navigation.goBack();
+  const getType = (
+    credit: MovieCast | MovieCrew | PersonCast | PersonCrew,
+  ): 'person' | 'movie' => {
+    if ('name' in credit) {
+      return 'person';
+    }
+    return 'movie';
   };
 
-  const renderItem: ListRenderItem<Cast | Crew> = useCallback(
+  const getName = (
+    credit: MovieCast | MovieCrew | PersonCast | PersonCrew,
+  ): string => {
+    if ('name' in credit) {
+      return credit.name;
+    }
+    return credit.title;
+  };
+
+  const getPicture = (
+    credit: MovieCast | MovieCrew | PersonCast | PersonCrew,
+  ): string => {
+    if ('profile_path' in credit) {
+      return credit.profile_path;
+    }
+    return credit.poster_path;
+  };
+
+  const goBack = () => {
+    navigation.pop();
+  };
+
+  const renderItem: ListRenderItem<
+    MovieCast | MovieCrew | PersonCast | PersonCrew
+  > = useCallback(
     ({item}) => (
-      <MovieCreditCard
+      <CreditCard
         key={item.credit_id}
-        name={item.name}
-        picture={item.profile_path}
+        id={item.id}
+        type={getType(item)}
+        name={getName(item)}
+        picture={getPicture(item)}
         role={getRole(item)}
       />
     ),
     [items],
   );
 
-  const keyExtractor = (item: Cast | Crew) => {
+  const keyExtractor = (item: MovieCast | MovieCrew) => {
     return item.credit_id + getRole(item);
   };
 
@@ -79,7 +112,7 @@ const FullCreditsScreen: FC<FullCreditsScreenProps> = ({route, navigation}) => {
         initialNumToRender={20}
         maxToRenderPerBatch={50}
         style={styles.list}
-        data={items as Array<Cast | Crew>}
+        data={items as Array<MovieCast | MovieCrew>}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
         ListFooterComponent={<VerticalSpacing spacing={60} />}
@@ -97,7 +130,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
 
-    marginTop: 80,
+    marginTop: 100,
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
   },

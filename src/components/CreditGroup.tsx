@@ -4,39 +4,68 @@ import React, {FC} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {AppRoute} from '../enums/routes';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
-import {Cast, Crew} from '../models';
+import {MovieCast, MovieCrew, PersonCast, PersonCrew} from '../models';
 import {RootStackNavigatorParams} from '../navigation/RootStackNavigator';
-import MovieCreditCard from './MovieCreditCard';
+import CreditCard from './CreditCard';
 
-type MovieScreenProp = StackNavigationProp<
+type RootScreenProp = StackNavigationProp<
   RootStackNavigatorParams,
   AppRoute.FULL_CREDITS
 >;
 
-interface MovieCreditGroupProps {
+interface CreditGroupProps {
   groupName: string;
-  items: Cast[] | Crew[];
+  items: MovieCast[] | MovieCrew[] | PersonCast[] | PersonCrew[];
   itemsDisplayLimit?: number;
 }
 
-const MovieCreditGroup: FC<MovieCreditGroupProps> = ({
+const CreditGroup: FC<CreditGroupProps> = ({
   groupName,
   items,
   itemsDisplayLimit,
 }) => {
-  const navigation = useNavigation<MovieScreenProp>();
+  const navigation = useNavigation<RootScreenProp>();
   const {accentVariantColorForegroundStyle, foregroundVariantStyle} =
     useColorTheme();
 
-  const getRole = (credit: Cast | Crew): string => {
+  const getRole = (
+    credit: MovieCast | MovieCrew | PersonCast | PersonCrew,
+  ): string => {
     if ('job' in credit) {
       return credit.job;
     }
     return credit.character;
   };
 
+  const getType = (
+    credit: MovieCast | MovieCrew | PersonCast | PersonCrew,
+  ): 'person' | 'movie' => {
+    if ('name' in credit) {
+      return 'person';
+    }
+    return 'movie';
+  };
+
+  const getName = (
+    credit: MovieCast | MovieCrew | PersonCast | PersonCrew,
+  ): string => {
+    if ('name' in credit) {
+      return credit.name;
+    }
+    return credit.title;
+  };
+
+  const getPicture = (
+    credit: MovieCast | MovieCrew | PersonCast | PersonCrew,
+  ): string => {
+    if ('profile_path' in credit) {
+      return credit.profile_path;
+    }
+    return credit.poster_path;
+  };
+
   const goToFullCreditsList = () => {
-    navigation.navigate(AppRoute.FULL_CREDITS, {
+    navigation.push(AppRoute.FULL_CREDITS, {
       items: items,
       groupName: groupName,
     });
@@ -44,14 +73,18 @@ const MovieCreditGroup: FC<MovieCreditGroupProps> = ({
 
   const movieCreditCards = items.slice(0, itemsDisplayLimit).map(credit => {
     return (
-      <MovieCreditCard
+      <CreditCard
         key={credit.credit_id}
-        name={credit.name}
-        picture={credit.profile_path}
+        id={credit.id}
+        type={getType(credit)}
+        name={getName(credit)}
+        picture={getPicture(credit)}
         role={getRole(credit)}
       />
     );
   });
+
+  if (items.length <= 0) return null;
 
   return (
     <>
@@ -72,7 +105,7 @@ const MovieCreditGroup: FC<MovieCreditGroupProps> = ({
   );
 };
 
-export default MovieCreditGroup;
+export default CreditGroup;
 
 const styles = StyleSheet.create({
   titleContainer: {

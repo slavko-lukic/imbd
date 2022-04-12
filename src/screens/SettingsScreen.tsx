@@ -22,7 +22,7 @@ const SettingsScreen: FC<SettingsScreenProps> = ({navigation}) => {
   const {colorTheme, backgroundStyle} = useColorTheme();
 
   const goBack = () => {
-    navigation.goBack();
+    navigation.pop();
   };
 
   const onSelectThemePressHandler = () => {

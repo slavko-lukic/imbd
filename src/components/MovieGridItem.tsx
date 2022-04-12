@@ -1,13 +1,11 @@
-import React, {FC, memo, useCallback, useState} from 'react';
+import React, {FC, memo} from 'react';
 import {
-  Alert,
   Dimensions,
   ImageBackground,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
-
 import {IMAGE_BASE_URL} from '../constants/api';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
 import {
@@ -21,14 +19,8 @@ import {randomIntFromInterval} from '../utilities/misc';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RootStackNavigatorParams} from '../navigation/RootStackNavigator';
 import {AppRoute} from '../enums/routes';
-import {useNavigation} from '@react-navigation/native';
 import LoadingOverlay from './LoadingOverlay';
-import {composeDetailedMovie} from '../utilities/movies';
-
-type MovieScreenProp = StackNavigationProp<
-  RootStackNavigatorParams,
-  AppRoute.MOVIE
->;
+import {useMovieCollectionItem} from '../hooks/movies/useMovieCollectionItem';
 
 interface MovieGridItemProps {
   movie: Movie;
@@ -37,31 +29,12 @@ interface MovieGridItemProps {
 const MovieGridItem: FC<MovieGridItemProps> = ({movie}) => {
   const {colorTheme, surfaceVariantStyle} = useColorTheme();
 
-  const [loading, setLoading] = useState(false);
-
-  const navigation = useNavigation<MovieScreenProp>();
-
-  const goToMovie = useCallback(async () => {
-    setLoading(true);
-
-    const detailedMovie = await composeDetailedMovie(movie.id);
-
-    if (!detailedMovie) {
-      setLoading(false);
-      Alert.alert(
-        'Network Error',
-        'Failed to fetch movied details. Check your internet connection.',
-      );
-      return;
-    }
-
-    navigation.navigate(AppRoute.MOVIE, detailedMovie);
-    setLoading(false);
-  }, [movie]);
+  const {goToMovie, showAlert, loading} = useMovieCollectionItem(movie);
 
   return (
     <FadeInView
       onPress={() => goToMovie()}
+      onLongPress={showAlert}
       activeOpacity={
         colorTheme.type === 'dark' ? ACTIVE_OPACITY_WEAK : ACTIVE_OPACITY_STRONG
       }
