@@ -31,7 +31,6 @@ const PersonScreen: FC<PersonScreenProps> = ({route, navigation}) => {
   const person = route.params;
 
   const {
-    surfaceVariantStyle,
     surfaceStyle,
     primaryVariantColorForegroundStyle,
     colorTheme,
@@ -48,7 +47,11 @@ const PersonScreen: FC<PersonScreenProps> = ({route, navigation}) => {
   const scrollY = useSharedValue(0);
 
   const goBack = () => {
-    navigation.goBack();
+    navigation.pop();
+  };
+
+  const goGome = () => {
+    navigation.popToTop();
   };
 
   useEffect(() => {
@@ -80,6 +83,16 @@ const PersonScreen: FC<PersonScreenProps> = ({route, navigation}) => {
     />
   );
 
+  const headerRightButton: JSX.Element = (
+    <Ionicons
+      key={'home'}
+      name="home-sharp"
+      color={colorTheme.foreground}
+      size={HEADER_ICON_SIZE}
+      onPress={goGome}
+    />
+  );
+
   const headerMiddleElement: JSX.Element = (
     <Animated.Text
       numberOfLines={1}
@@ -97,6 +110,7 @@ const PersonScreen: FC<PersonScreenProps> = ({route, navigation}) => {
       <MainHeader
         middleElement={headerMiddleElement}
         leftButton={headerLeftButton}
+        rightButtons={[headerRightButton]}
       />
       <Animated.ScrollView
         contentContainerStyle={{padding: 20}}

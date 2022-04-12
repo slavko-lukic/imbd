@@ -23,7 +23,7 @@ const ColorThemeScreen: FC<ColorThemeScreenProps> = ({navigation}) => {
   const {colorTheme, backgroundStyle, setColorTheme} = useColorTheme();
 
   const goBack = () => {
-    navigation.goBack();
+    navigation.pop();
   };
 
   const mapDarkThemes = () => {

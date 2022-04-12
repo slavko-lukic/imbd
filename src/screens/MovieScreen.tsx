@@ -37,6 +37,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import {addToWatched, addToWatchlist} from '../store/actions/moviesActions';
 import {RootState} from '../store/reducers/rootReducer';
 import YoutubeEmbedVideoView from '../components/YoutubeEmbedVideoView';
+import {useSimilarMovies} from '../hooks/api/useSimilarMovies';
+import HorizontalMovieList from '../components/HorizontalMovieList';
 
 type MovieScreenProps = StackScreenProps<
   RootStackNavigatorParams,
@@ -48,6 +50,8 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
   const [isHeaderTitleShown, setIsHeaderTitleShown] = useState(false);
 
   const dispatch = useDispatch();
+
+  const similarMovies = useSimilarMovies(movie.id);
 
   const isInWatched = useSelector((state: RootState) =>
     state.movies.watched.some(e => e.id === movie.id),
@@ -64,7 +68,11 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
   } = useColorTheme();
 
   const goBack = () => {
-    navigation.goBack();
+    navigation.pop();
+  };
+
+  const goGome = () => {
+    navigation.popToTop();
   };
 
   const headerTitleOpacity = useSharedValue(0);
@@ -128,21 +136,34 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
     />
   );
 
+  const headerMiddleElement: JSX.Element = (
+    <Animated.Text
+      numberOfLines={1}
+      style={[
+        {fontSize: 17},
+        primaryVariantColorForegroundStyle,
+        headerAnimatedStyle,
+      ]}>
+      {movie.title} ({moment(movie.release_date).year()})
+    </Animated.Text>
+  );
+
+  const headerRightButton: JSX.Element = (
+    <Ionicons
+      key={'home'}
+      name="home-sharp"
+      color={colorTheme.foreground}
+      size={HEADER_ICON_SIZE}
+      onPress={goGome}
+    />
+  );
+
   return (
     <SafeAreaView edges={['top']} style={[styles.screenContaner, surfaceStyle]}>
       <MainHeader
-        middleElement={
-          <Animated.Text
-            numberOfLines={1}
-            style={[
-              {fontSize: 17},
-              primaryVariantColorForegroundStyle,
-              headerAnimatedStyle,
-            ]}>
-            {movie.title} ({moment(movie.release_date).year()})
-          </Animated.Text>
-        }
+        middleElement={headerMiddleElement}
         leftButton={headerLeftButton}
+        rightButtons={[headerRightButton]}
       />
 
       {/* reflected image */}
@@ -221,6 +242,17 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
               <Text style={[{fontSize: 16}, foregroundStyle]}>
                 {movie.overview}
               </Text>
+            </View>
+
+            <View style={styles.similarMoviesContainer}>
+              <Text
+                style={[primaryVariantColorForegroundStyle, {fontSize: 16}]}>
+                Similar Movies:
+              </Text>
+              <HorizontalMovieList
+                movies={similarMovies}
+                currentMovieId={movie.id}
+              />
             </View>
 
             {/* cast */}
@@ -308,5 +340,8 @@ const styles = StyleSheet.create({
   },
   embeddedPlayer: {
     marginTop: 20,
+  },
+  similarMoviesContainer: {
+    marginTop: 15,
   },
 });
