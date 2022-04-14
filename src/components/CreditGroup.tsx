@@ -1,6 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import React, {FC} from 'react';
+import {useTranslation} from 'react-i18next';
 import {StyleSheet, Text, View} from 'react-native';
 import {AppRoute} from '../enums/routes';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
@@ -27,6 +28,7 @@ const CreditGroup: FC<CreditGroupProps> = ({
   const navigation = useNavigation<RootScreenProp>();
   const {accentVariantColorForegroundStyle, foregroundVariantStyle} =
     useColorTheme();
+  const {t} = useTranslation();
 
   const getRole = (
     credit: MovieCast | MovieCrew | PersonCast | PersonCrew,
@@ -96,7 +98,7 @@ const CreditGroup: FC<CreditGroupProps> = ({
           <Text
             onPress={goToFullCreditsList}
             style={[accentVariantColorForegroundStyle]}>
-            View All
+            {t('viewAll')}
           </Text>
         ) : null}
       </View>

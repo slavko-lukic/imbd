@@ -13,6 +13,7 @@ import {useColorTheme} from '../../hooks/styles/useColorTheme';
 import {ColorTheme} from '../../models';
 import {SettingsStackNavigatorParams} from '../../navigation/SettingsNavigator';
 import RadioButton from '../../components/RadioButton';
+import {useTranslation} from 'react-i18next';
 
 type ColorThemeScreenProps = StackScreenProps<
   SettingsStackNavigatorParams,
@@ -21,6 +22,7 @@ type ColorThemeScreenProps = StackScreenProps<
 
 const ColorThemeScreen: FC<ColorThemeScreenProps> = ({navigation}) => {
   const {colorTheme, backgroundStyle, setColorTheme} = useColorTheme();
+  const {t} = useTranslation();
 
   const goBack = () => {
     navigation.pop();
@@ -57,12 +59,12 @@ const ColorThemeScreen: FC<ColorThemeScreenProps> = ({navigation}) => {
   };
 
   const darkThemesGroup = (
-    <RadioButtonGroup key={'dark'} title="Dark:">
+    <RadioButtonGroup key={'dark'} title={t('dark') + ':'}>
       {mapDarkThemes()}
     </RadioButtonGroup>
   );
   const lightThemesGroup = (
-    <RadioButtonGroup key={'light'} title="Light:">
+    <RadioButtonGroup key={'light'} title={t('light') + ':'}>
       {mapLightThemes()}
     </RadioButtonGroup>
   );
@@ -81,7 +83,7 @@ const ColorThemeScreen: FC<ColorThemeScreenProps> = ({navigation}) => {
       style={[styles.screenContainer, backgroundStyle]}>
       <MainHeader leftButton={headerLeftButton} />
       <SettingsGroup
-        title="Select color theme"
+        title={t('selectColorTheme')}
         items={[darkThemesGroup, lightThemesGroup]}
         hasBottomBorder={false}
       />

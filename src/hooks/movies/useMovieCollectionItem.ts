@@ -2,6 +2,7 @@ import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import moment from 'moment';
 import {useCallback, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {Alert, AlertButton} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppRoute} from '../../enums/routes';
@@ -19,7 +20,7 @@ type RootScreenProp = StackNavigationProp<
 export const useMovieCollectionItem = (movie: Movie) => {
   const navigation = useNavigation<RootScreenProp>();
   const dispatch = useDispatch();
-
+  const {t} = useTranslation();
   const isInWatched = useSelector((state: RootState) =>
     state.movies.watched.some(e => e.id === movie.id),
   );
@@ -47,17 +48,17 @@ export const useMovieCollectionItem = (movie: Movie) => {
   }, [movie]);
 
   const watchlistAlertButton: AlertButton = {
-    text: isInWatchist ? 'Remove from watchlist' : 'Add to watchlist',
+    text: isInWatchist ? t('removeFromWatchlist') : t('addToWatchlist'),
     onPress: () => dispatch(addToWatchlist(movie)),
   };
 
   const watchedAlertButton: AlertButton = {
-    text: isInWatched ? 'Remove from watched' : 'Add to watched',
+    text: isInWatched ? t('removeFromWatched') : t('addToWatched'),
     onPress: () => dispatch(addToWatched(movie)),
   };
 
   const cancelAlertButton: AlertButton = {
-    text: 'Cancel',
+    text: t('cancel'),
     style: 'destructive',
   };
 

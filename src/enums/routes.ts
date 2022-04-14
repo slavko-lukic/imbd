@@ -11,4 +11,5 @@ export enum AppRoute {
   CONFIGURE_MOVIES = 'Configure movies',
   LOADING = 'Loading',
   PERSON = 'Person',
+  CONFIGURE_LANGUAGE = 'Configure language',
 }
