@@ -1,4 +1,5 @@
 import React, {FC} from 'react';
+import {useTranslation} from 'react-i18next';
 import {StyleSheet, Text} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useColorTheme} from '../hooks/styles/useColorTheme';
@@ -14,14 +15,16 @@ const MovieListSelectorButton: FC<MovieListSelectorButtonProps> = ({
   title,
 }) => {
   const {colorTheme} = useColorTheme();
-
+  const {t} = useTranslation();
   return (
     <Neumorphling
       backgroundColor={colorTheme.surface}
       distance={7}
       onPress={onPress}
       style={[styles.button]}>
-      <Text style={{color: colorTheme.foreground, fontSize: 14}}>{title}</Text>
+      <Text style={{color: colorTheme.foreground, fontSize: 14}}>
+        {t(title)}
+      </Text>
       <Ionicons
         size={16}
         color={colorTheme.foreground}

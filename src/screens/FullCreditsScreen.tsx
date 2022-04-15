@@ -98,7 +98,7 @@ const FullCreditsScreen: FC<FullCreditsScreenProps> = ({route, navigation}) => {
     <Text
       numberOfLines={1}
       style={[{fontSize: 17}, primaryVariantColorForegroundStyle]}>
-      All {groupName} ({items.length})
+      {groupName} ({items.length})
     </Text>
   );
 

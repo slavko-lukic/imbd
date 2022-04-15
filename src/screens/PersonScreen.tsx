@@ -1,6 +1,7 @@
 import {StackScreenProps} from '@react-navigation/stack';
 import moment from 'moment';
 import React, {FC, useEffect, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import Animated, {
   runOnJS,
@@ -39,6 +40,8 @@ const PersonScreen: FC<PersonScreenProps> = ({route, navigation}) => {
     foregroundVariantStyle,
     primaryColorForegroundStyle,
   } = useColorTheme();
+
+  const {t} = useTranslation();
 
   const [isHeaderTitleShown, setIsHeaderTitleShown] = useState(false);
   const [isFullBio, setIsFullBio] = useState(false);
@@ -139,21 +142,21 @@ const PersonScreen: FC<PersonScreenProps> = ({route, navigation}) => {
 
             <Text style={[{marginTop: 5}, foregroundVariantStyle]}>
               <Text style={[accentVariantColorForegroundStyle]}>
-                Birthday:{' '}
+                {t('birthday')}:{' '}
               </Text>
               {moment(person.birthday).format('LL')}
             </Text>
 
             <Text style={[{marginTop: 5}, foregroundVariantStyle]}>
               <Text style={[accentVariantColorForegroundStyle]}>
-                Birthplace:{' '}
+                {t('birthplace')}:{' '}
               </Text>
               {person.place_of_birth}
             </Text>
 
             <Text style={[{marginTop: 5}, foregroundVariantStyle]}>
               <Text style={[accentVariantColorForegroundStyle]}>
-                Best known for:{' '}
+                {t('bestKnownFor')}:{' '}
               </Text>
               {person.known_for_department}
             </Text>
@@ -161,14 +164,16 @@ const PersonScreen: FC<PersonScreenProps> = ({route, navigation}) => {
             <Text
               numberOfLines={isFullBio ? undefined : 5}
               style={[{marginTop: 5}, foregroundStyle]}>
-              <Text style={[accentVariantColorForegroundStyle]}>Bio: </Text>
+              <Text style={[accentVariantColorForegroundStyle]}>
+                {t('bio')}:{' '}
+              </Text>
               {person.biography}
             </Text>
 
             <Text
               onPress={() => setIsFullBio(prev => !prev)}
               style={[{marginTop: 10}, primaryColorForegroundStyle]}>
-              {isFullBio ? 'Read less...' : 'Read more...'}
+              {isFullBio ? t('readLess') + '...' : t('readMore') + '...'}
             </Text>
           </View>
         </View>
@@ -177,7 +182,7 @@ const PersonScreen: FC<PersonScreenProps> = ({route, navigation}) => {
         <View style={styles.castMembersContainer}>
           <CreditGroup
             itemsDisplayLimit={8}
-            groupName="Cast"
+            groupName={t('asCast')}
             items={person.cast}
           />
         </View>
@@ -186,7 +191,7 @@ const PersonScreen: FC<PersonScreenProps> = ({route, navigation}) => {
         <View style={styles.crewMembersContainer}>
           <CreditGroup
             itemsDisplayLimit={6}
-            groupName="Crew"
+            groupName={t('asCrew')}
             items={person.crew}
           />
         </View>

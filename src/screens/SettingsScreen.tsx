@@ -1,5 +1,6 @@
 import {StackScreenProps} from '@react-navigation/stack';
 import React, {FC} from 'react';
+import {useTranslation} from 'react-i18next';
 import {ScrollView, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -20,6 +21,7 @@ type SettingsScreenProps = StackScreenProps<
 
 const SettingsScreen: FC<SettingsScreenProps> = ({navigation}) => {
   const {colorTheme, backgroundStyle} = useColorTheme();
+  const {t} = useTranslation();
 
   const goBack = () => {
     navigation.pop();
@@ -33,19 +35,27 @@ const SettingsScreen: FC<SettingsScreenProps> = ({navigation}) => {
     navigation.push(AppRoute.CONFIGURE_MOVIES);
   };
 
+  const onConfigureLanguagePressHandler = () => {
+    navigation.push(AppRoute.CONFIGURE_LANGUAGE);
+  };
+
   const generalSettingsItems: SettingsItem[] = [
     {
-      settingName: 'Select color theme',
+      settingName: t('selectColorTheme'),
       icon: 'color-palette',
       onPress: onSelectThemePressHandler,
     },
     {
-      settingName: 'Configure movies',
+      settingName: t('configureMovies'),
       icon: 'videocam',
       onPress: onConfigureMoviesPressHandler,
     },
+    {
+      settingName: t('configureLanguage'),
+      icon: 'language',
+      onPress: onConfigureLanguagePressHandler,
+    },
     {settingName: 'Saturn options', icon: 'planet'},
-    {settingName: 'Pizza setup', icon: 'pizza'},
   ];
 
   const someOtherSettingsItems: SettingsItem[] = [
@@ -91,7 +101,7 @@ const SettingsScreen: FC<SettingsScreenProps> = ({navigation}) => {
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}>
         <SettingsGroup
-          title="General Settings"
+          title={t('generalSettings')}
           items={mapSettingsListToUI(generalSettingsItems)}
         />
         <SettingsGroup

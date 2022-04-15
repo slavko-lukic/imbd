@@ -17,6 +17,11 @@ import {useBackgroundStateNotificationHandler} from './src/hooks/notifications/u
 import {composeDetailedMovie} from './src/utilities/movies';
 import {AppRoute} from './src/enums/routes';
 import {useBackgroundStateDynamicLinkHandler} from './src/hooks/dynamicLinks/useBackgroundStateDynamicLinkHandler';
+import i18next, {LanguageDetectorAsyncModule} from 'i18next';
+import {initReactI18next} from 'react-i18next';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {serbian} from './src/constants/languages/serbian';
+import {english} from './src/constants/languages/english';
 
 const queryClient = new QueryClient();
 
@@ -24,12 +29,43 @@ LogBox.ignoreLogs([
   "[react-native-gesture-handler] Seems like you're using an old API with gesture components, check out new Gestures system!",
 ]);
 
+const languageDetector: LanguageDetectorAsyncModule = {
+  init: () => {},
+  type: 'languageDetector',
+  async: true,
+  detect: async (
+    callback: (lng: string | readonly string[] | undefined) => void,
+  ) => {
+    let lng: string | null | undefined = await AsyncStorage.getItem('lang');
+    if (lng === null) lng = undefined;
+    callback(lng);
+  },
+  cacheUserLanguage: () => {},
+};
+
+i18next
+  .use(languageDetector)
+  .use(initReactI18next)
+  .init({
+    resources: {
+      English: english,
+      Serbian: serbian,
+    },
+    fallbackLng: 'English',
+    react: {
+      bindI18n: 'loaded languageChanged',
+      bindI18nStore: 'added',
+      useSuspense: true,
+    },
+  });
+
 const App = () => {
   const navigationRef = useNavigationContainerRef<RootStackNavigatorParams>();
 
   const goToMovie = async (movieId: number) => {
     const detailedMovie = await composeDetailedMovie(movieId);
-    if (detailedMovie) navigationRef.push(AppRoute.MOVIE, detailedMovie);
+
+    if (detailedMovie) navigationRef.navigate(AppRoute.MOVIE, detailedMovie);
   };
 
   useBackgroundStateNotificationHandler(remoteMessage => {
