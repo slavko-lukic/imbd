@@ -20,7 +20,6 @@ import {MovieViewTypes} from '../enums/movieViewTypes';
 import MovieViewTypeSwitch from '../components/MovieViewTypeSwitch';
 import MovieListItem from '../components/MovieListItem';
 import {usePopularMovies} from '../hooks/api/usePopularMovies';
-import {useTranslation} from 'react-i18next';
 
 type MoviesScreenProps = BottomTabScreenProps<
   BottomTabNavigatorParams,
@@ -29,7 +28,6 @@ type MoviesScreenProps = BottomTabScreenProps<
 
 const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
   const {colorTheme, backgroundStyle} = useColorTheme();
-  const {t} = useTranslation();
   const currentViewType = useSelector(
     (state: RootState) => state.settings.movieViewType,
   );
