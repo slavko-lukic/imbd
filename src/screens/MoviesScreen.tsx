@@ -1,4 +1,4 @@
-import React, {FC, useCallback, useMemo, useState} from 'react';
+import React, {FC, useCallback, useMemo, useRef, useState} from 'react';
 import {FlatList, ListRenderItem, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import MainHeader from '../components/MainHeader';
@@ -20,6 +20,8 @@ import {MovieViewTypes} from '../enums/movieViewTypes';
 import MovieViewTypeSwitch from '../components/MovieViewTypeSwitch';
 import MovieListItem from '../components/MovieListItem';
 import {usePopularMovies} from '../hooks/api/usePopularMovies';
+import GenreSelector from '../components/GenreSelector';
+import ScrollToTopButton from '../components/ScrollToTopButton';
 
 type MoviesScreenProps = BottomTabScreenProps<
   BottomTabNavigatorParams,
@@ -27,7 +29,9 @@ type MoviesScreenProps = BottomTabScreenProps<
 >;
 
 const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
-  const {colorTheme, backgroundStyle} = useColorTheme();
+  const {colorTheme, backgroundStyle, surfaceVariantStyle} = useColorTheme();
+
+  const flatListRef = useRef<FlatList>(null);
 
   const currentViewType = useSelector(
     (state: RootState) => state.settings.movieViewType,
@@ -35,6 +39,8 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
 
   const [currentDisplayedList, setCurrentDisplayedList] =
     useState<MovieListTypes>(MovieListTypes.POPULAR);
+
+  const [selectedGenreIds, setSelectedGenreIds] = useState<number[]>([]);
 
   const watched = useSelector((state: RootState) => state.movies.watched);
   const watchlist = useSelector((state: RootState) => state.movies.watchlist);
@@ -147,9 +153,24 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
         ListFooterComponent={
           currentViewType === MovieViewTypes.GRID ? null : listFooter
         }
-        data={listData}
+        data={listData.filter(movie => {
+          return selectedGenreIds.every(v => movie?.genre_ids?.includes(v));
+        })}
         renderItem={renderItem}
         onEndReached={loadMoreMovies}
+        ref={flatListRef}
+      />
+      <GenreSelector
+        style={styles.genreSelector}
+        onGenresChanged={genres => {
+          setSelectedGenreIds([...genres]);
+        }}
+      />
+      <ScrollToTopButton
+        onPress={() => {
+          flatListRef.current?.scrollToOffset({animated: true, offset: 0});
+        }}
+        style={styles.scrollToTop}
       />
     </SafeAreaView>
   );
@@ -161,5 +182,15 @@ const styles = StyleSheet.create({
   screenContaner: {
     flex: 1,
     height: '100%',
+  },
+  scrollToTop: {
+    position: 'absolute',
+    right: 15,
+    bottom: 15,
+  },
+  genreSelector: {
+    position: 'absolute',
+    left: 15,
+    bottom: 25,
   },
 });
