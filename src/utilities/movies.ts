@@ -42,7 +42,6 @@ export const composeDetailedMovie = async (movieId: number) => {
       cast: creditsResponse.data.cast,
       crew: movieCrew,
     };
-    console.log(detailedMovie);
     return detailedMovie;
   } catch (e: any) {
     console.log('Failed to fetch movie details.', e.message);
