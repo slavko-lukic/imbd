@@ -70,11 +70,11 @@ const MoviesScreen: FC<MoviesScreenProps> = ({navigation}) => {
   };
 
   const goToSettings = () => {
-    navigation.push(AppRoute.SETTINGS);
+    navigation.navigate(AppRoute.SETTINGS);
   };
 
   const goToSearch = () => {
-    navigation.push(AppRoute.SEARCH);
+    navigation.navigate(AppRoute.SEARCH);
   };
 
   const loadMoreMovies = () => {

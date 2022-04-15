@@ -20,7 +20,7 @@ const ProfileScreen: FC<ProfileScreenProps> = ({navigation}) => {
   const {colorTheme} = useColorTheme();
 
   const goToSettings = () => {
-    navigation.push(AppRoute.SETTINGS);
+    navigation.navigate(AppRoute.SETTINGS);
   };
 
   const headerRightButton: JSX.Element = (
