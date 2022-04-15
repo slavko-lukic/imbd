@@ -39,6 +39,7 @@ import {RootState} from '../store/reducers/rootReducer';
 import YoutubeEmbedVideoView from '../components/YoutubeEmbedVideoView';
 import {useSimilarMovies} from '../hooks/api/useSimilarMovies';
 import HorizontalMovieList from '../components/HorizontalMovieList';
+import {useTranslation} from 'react-i18next';
 
 type MovieScreenProps = StackScreenProps<
   RootStackNavigatorParams,
@@ -50,6 +51,8 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
   const [isHeaderTitleShown, setIsHeaderTitleShown] = useState(false);
 
   const dispatch = useDispatch();
+
+  const {t} = useTranslation();
 
   const similarMovies = useSimilarMovies(movie.id);
 
@@ -220,8 +223,8 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
                 rightOptionActive={isInWatched}
                 width={80}
                 height={22}
-                leftOptionText="watchlist"
-                rightOptionText="watched"
+                leftOptionText={t('watchlist')}
+                rightOptionText={t('watched')}
               />
               <BouncyHeartSwitch />
             </View>
@@ -247,7 +250,7 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
             <View style={styles.similarMoviesContainer}>
               <Text
                 style={[primaryVariantColorForegroundStyle, {fontSize: 16}]}>
-                Similar Movies:
+                {t('similarMovies')}:
               </Text>
               <HorizontalMovieList
                 movies={similarMovies}
@@ -259,7 +262,7 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
             <View style={styles.castMembersContainer}>
               <CreditGroup
                 itemsDisplayLimit={8}
-                groupName="Cast"
+                groupName={t('cast')}
                 items={movie.cast}
               />
             </View>
@@ -268,7 +271,7 @@ const MovieScreen: FC<MovieScreenProps> = ({route, navigation}) => {
             <View style={styles.crewMembersContainer}>
               <CreditGroup
                 itemsDisplayLimit={6}
-                groupName="Crew"
+                groupName={t('crew')}
                 items={movie.crew}
               />
             </View>

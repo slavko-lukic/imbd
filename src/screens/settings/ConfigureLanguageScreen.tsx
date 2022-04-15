@@ -1,64 +1,66 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {StackScreenProps} from '@react-navigation/stack';
-import React, {FC} from 'react';
+import i18next from 'i18next';
+import React, {FC, useEffect, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MainHeader from '../../components/MainHeader';
+import RadioButton from '../../components/RadioButton';
+import RadioButtonGroup from '../../components/RadioButtonGroup';
 import SettingsGroup from '../../components/SettingsGroup';
 import {HEADER_ICON_SIZE} from '../../constants/dimensions';
 import {AppRoute} from '../../enums/routes';
 import {useColorTheme} from '../../hooks/styles/useColorTheme';
 import {SettingsStackNavigatorParams} from '../../navigation/SettingsNavigator';
-import RadioButton from '../../components/RadioButton';
-import {useDispatch, useSelector} from 'react-redux';
-import {RootState} from '../../store/reducers/rootReducer';
-import {changeViewType} from '../../store/actions/settingsActions';
-import RadioButtonGroup from '../../components/RadioButtonGroup';
-import {MovieViewTypes} from '../../enums/movieViewTypes';
-import {useTranslation} from 'react-i18next';
 
-type ConfigureMoviesScreenProps = StackScreenProps<
+type ConfigureLanguageScreenProps = StackScreenProps<
   SettingsStackNavigatorParams,
-  AppRoute.CONFIGURE_MOVIES
+  AppRoute.CONFIGURE_LANGUAGE
 >;
 
-const ConfigureMoviesScreen: FC<ConfigureMoviesScreenProps> = ({
+const ConfigureLanguageScreen: FC<ConfigureLanguageScreenProps> = ({
   navigation,
 }) => {
-  const dispatch = useDispatch();
-  const {t} = useTranslation();
+  const [activeLanguage, setActiveLanguage] = useState<string | null>(null);
 
-  const currentViewType = useSelector(
-    (state: RootState) => state.settings.movieViewType,
-  );
-
-  const viewTypes: Array<MovieViewTypes> = [
-    MovieViewTypes.CARDS,
-    MovieViewTypes.GRID,
-    MovieViewTypes.LIST,
-  ];
+  const languages: Array<string> = ['English', 'Serbian'];
 
   const {colorTheme, backgroundStyle} = useColorTheme();
+
+  const {t} = useTranslation();
 
   const goBack = () => {
     navigation.pop();
   };
 
-  const mappedViewTypes = viewTypes.map((viewType, index) => {
+  useEffect(() => {
+    setActiveLanguage(i18next.language);
+  }, []);
+
+  const onRadioButtonPress = (language: string) => {
+    AsyncStorage.setItem('lang', language).then(() => {
+      i18next.changeLanguage(language);
+      setActiveLanguage(language);
+    });
+  };
+
+  const mappedLanguages = languages.map((language, index) => {
     return (
       <RadioButton
-        key={viewType}
-        text={t(viewType)}
+        key={language}
+        text={language}
         index={index}
-        isCurrentlyActive={viewType === currentViewType}
-        onPressHandler={() => dispatch(changeViewType(viewType))}
+        isCurrentlyActive={activeLanguage === language}
+        onPressHandler={() => onRadioButtonPress(language)}
       />
     );
   });
 
-  const viewTypesGroup = (
-    <RadioButtonGroup key={'view-type'} title={t('selectViewType') + ':'}>
-      {mappedViewTypes}
+  const languagesGroup = (
+    <RadioButtonGroup key={'view-type'} title={t('selectLanguage') + ':'}>
+      {mappedLanguages}
     </RadioButtonGroup>
   );
 
@@ -76,15 +78,15 @@ const ConfigureMoviesScreen: FC<ConfigureMoviesScreenProps> = ({
       style={[styles.screenContainer, backgroundStyle]}>
       <MainHeader leftButton={headerLeftButton} />
       <SettingsGroup
-        title={t('configureMovies')}
-        items={[viewTypesGroup]}
+        title={t('configureLanguage')}
+        items={[languagesGroup]}
         hasBottomBorder={false}
       />
     </SafeAreaView>
   );
 };
 
-export default ConfigureMoviesScreen;
+export default ConfigureLanguageScreen;
 
 const styles = StyleSheet.create({
   screenContainer: {

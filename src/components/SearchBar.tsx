@@ -1,4 +1,5 @@
 import React, {FC, useEffect} from 'react';
+import {useTranslation} from 'react-i18next';
 import {StyleSheet, TextInput, View} from 'react-native';
 import Animated, {
   useAnimatedStyle,
@@ -19,7 +20,7 @@ const SearchBar: FC<SearchBarProps> = ({value, onChangeText}) => {
     colorTheme,
     foregroundStyle,
   } = useColorTheme();
-
+  const {t} = useTranslation();
   const searchBarWidthProgress = useSharedValue(0);
 
   useEffect(() => {
@@ -45,7 +46,7 @@ const SearchBar: FC<SearchBarProps> = ({value, onChangeText}) => {
           autoCorrect={false}
           onChangeText={onChangeText}
           value={value}
-          placeholder="Search..."
+          placeholder={t('search') + '...'}
           placeholderTextColor={colorTheme.foregroundVariant}
           style={[styles.inputField, foregroundStyle]}
         />
