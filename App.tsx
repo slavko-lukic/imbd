@@ -12,7 +12,7 @@ import RootStackNavigator, {
 import {persistor, store} from './src/store/storeConfig';
 import {PersistGate} from 'redux-persist/integration/react';
 import {QueryClient, QueryClientProvider} from 'react-query';
-import {AppState, AppStateStatus, LogBox, Text, View} from 'react-native';
+import {LogBox} from 'react-native';
 import {useBackgroundStateNotificationHandler} from './src/hooks/notifications/useBackgroundStateNotificationHandler';
 import {composeDetailedMovie} from './src/utilities/movies';
 import {AppRoute} from './src/enums/routes';
@@ -23,7 +23,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {serbian} from './src/constants/languages/serbian';
 import {english} from './src/constants/languages/english';
 import SecureScreenOverlay from './src/components/SecureScreenOverlay';
-import {useAppState} from './src/hooks/misc/useAppState';
 
 const queryClient = new QueryClient();
 
@@ -62,8 +61,6 @@ i18next
   });
 
 const App = () => {
-  const appState = useAppState();
-
   const navigationRef = useNavigationContainerRef<RootStackNavigatorParams>();
 
   const goToMovie = async (movieId: number) => {
@@ -91,7 +88,7 @@ const App = () => {
           <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
               <RootStackNavigator />
-              {appState !== 'active' ? <SecureScreenOverlay /> : null}
+              <SecureScreenOverlay />
             </PersistGate>
           </Provider>
         </QueryClientProvider>
