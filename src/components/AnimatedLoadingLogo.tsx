@@ -12,6 +12,8 @@ import Animated, {
 import {nordicThemeColors} from '../constants/colors';
 
 const logo = require('../assets/images/logo.png');
+const incognito = require('../assets/images/incognito.png');
+
 const AnimatedImage = Animated.createAnimatedComponent(Image);
 
 interface AnimatedLoadingLogoProps {
@@ -20,9 +22,14 @@ interface AnimatedLoadingLogoProps {
    * defaults to 0ms
    */
   delay?: number;
+
+  image?: 'logo' | 'incognito';
 }
 
-const AnimatedLoadingLogo: FC<AnimatedLoadingLogoProps> = ({delay = 0}) => {
+const AnimatedLoadingLogo: FC<AnimatedLoadingLogoProps> = ({
+  delay = 0,
+  image = 'logo',
+}) => {
   const loadingProgress = useSharedValue(-1);
   const bounceProgress = useSharedValue(0);
   const opacityProgress = useSharedValue(0);
@@ -69,7 +76,7 @@ const AnimatedLoadingLogo: FC<AnimatedLoadingLogoProps> = ({delay = 0}) => {
       <AnimatedImage
         style={[styles.image, animatedShiveringImageStyle]}
         resizeMode={'cover'}
-        source={logo}
+        source={image === 'logo' ? logo : incognito}
       />
     </>
   );

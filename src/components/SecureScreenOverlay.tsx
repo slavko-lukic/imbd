@@ -13,7 +13,7 @@ const SecureScreenOverlay = () => {
 
   return (
     <View pointerEvents="none" style={[styles.overlay, backgroundStyle]}>
-      <AnimatedLoadingLogo />
+      <AnimatedLoadingLogo image="incognito" />
     </View>
   );
 };
