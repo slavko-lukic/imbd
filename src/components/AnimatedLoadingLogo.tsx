@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {FC, useEffect} from 'react';
 import {Image, StyleSheet} from 'react-native';
 import Animated, {
   Easing,
@@ -14,13 +14,21 @@ import {nordicThemeColors} from '../constants/colors';
 const logo = require('../assets/images/logo.png');
 const AnimatedImage = Animated.createAnimatedComponent(Image);
 
-const AnimatedLoadingLogo = () => {
+interface AnimatedLoadingLogoProps {
+  /**
+   * delayed time after which logo is shown
+   * defaults to 0ms
+   */
+  delay?: number;
+}
+
+const AnimatedLoadingLogo: FC<AnimatedLoadingLogoProps> = ({delay = 0}) => {
   const loadingProgress = useSharedValue(-1);
   const bounceProgress = useSharedValue(0);
   const opacityProgress = useSharedValue(0);
 
   useEffect(() => {
-    opacityProgress.value = withDelay(400, withTiming(1, {duration: 500}));
+    opacityProgress.value = withDelay(delay, withTiming(1, {duration: 500}));
     loadingProgress.value = withRepeat(
       withSequence(
         withTiming(1, {duration: 70, easing: Easing.bounce}),
