@@ -1,5 +1,4 @@
 import {useEffect, useState} from 'react';
-import {useQuery} from 'react-query';
 import {Movie} from '../../models';
 import {axiosGet} from '../../utilities/api';
 

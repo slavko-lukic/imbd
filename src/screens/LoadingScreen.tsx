@@ -111,7 +111,7 @@ const LoadingScreen: FC<LoadingScreenProps> = ({navigation}) => {
       <StatusBar
         barStyle={colorTheme.type === 'dark' ? 'light-content' : 'dark-content'}
       />
-      <AnimatedLoadingLogo />
+      <AnimatedLoadingLogo delay={500} />
     </SafeAreaView>
   );
 };

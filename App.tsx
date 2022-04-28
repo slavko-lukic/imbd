@@ -22,6 +22,7 @@ import {initReactI18next} from 'react-i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {serbian} from './src/constants/languages/serbian';
 import {english} from './src/constants/languages/english';
+import SecureScreenOverlay from './src/components/SecureScreenOverlay';
 
 const queryClient = new QueryClient();
 
@@ -87,6 +88,7 @@ const App = () => {
           <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
               <RootStackNavigator />
+              <SecureScreenOverlay />
             </PersistGate>
           </Provider>
         </QueryClientProvider>

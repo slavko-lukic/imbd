@@ -1,4 +1,4 @@
-import {DetailedMovie, MovieCrew, Video} from '../models';
+import {DetailedMovie, Genre, MovieCrew, Video} from '../models';
 import {axiosGet} from './api';
 
 const params = {
@@ -29,6 +29,9 @@ export const composeDetailedMovie = async (movieId: number) => {
     const detailedMovie: DetailedMovie = {
       id: detailsResponse.data.id,
       title: detailsResponse.data.title,
+      genre_ids: detailsResponse.data.genres.map((e: Genre) => {
+        return e.id;
+      }),
       release_date: detailsResponse.data.release_date,
       overview: detailsResponse.data.overview,
       poster_path: detailsResponse.data.poster_path,

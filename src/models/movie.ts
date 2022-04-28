@@ -4,6 +4,7 @@ import {MovieCrew} from './Crew';
 export interface Movie {
   id: number;
   title: string;
+  genre_ids: number[];
   release_date: string;
   overview: string;
   poster_path: string;
